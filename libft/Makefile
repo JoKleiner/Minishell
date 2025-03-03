@@ -10,9 +10,7 @@ MEMO_DIR	= ft_memo
 STR_DIR		= ft_str
 CONV_DIR	= ft_convert
 FURTH_DIR	= ft_further
-
 OBJ_DIR		= obj
-HEADER		= libft.h
 
 SRCS_PRINTF = $(addprefix $(PRINTF_DIR)/, ft_printf.c ft_case_xx.c ft_case_p_u.c)
 SRCS_GNL    = $(addprefix $(GNL_DIR)/, get_next_line.c get_next_line_utils.c)
@@ -31,14 +29,16 @@ OBJS            = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 all: $(NAME)
 
 
-$(OBJ_DIR)/%.o: %.c $(HEADER)
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
 $(NAME): $(OBJS)
 	@printf "Objects libft... \033[0;32mcreated\033[0m\n"
 	@ar rcs $(NAME) $(OBJS)
 	@printf "\033[0;32m$(NAME) successfully built!\033[0m\n"
+
+
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 
 clean:
 	@if [ -d "$(OBJ_DIR)" ]; then \

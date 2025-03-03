@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/01/29 19:12:15 by joklein          ###   ########.fr       */
+/*   Updated: 2025/02/28 14:10:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef struct s_list
 {
-	long			num;
+	void			*cont;
 	struct s_list	*next;
 	struct s_list	*prev;
 }					t_list;
@@ -57,7 +57,7 @@ void				*ft_memmove(void *dst, const void *src, size_t len);
 void				ft_memfree(char **wordptr, size_t i);
 
 // Linked List
-t_list				*ft_lstnew(long number);
+t_list				*ft_lstnew(void *content);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstclear(t_list **lst);

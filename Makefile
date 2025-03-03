@@ -1,61 +1,73 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/12/04 17:14:53 by mpoplow           #+#    #+#              #
-#    Updated: 2025/02/24 14:41:07 by mpoplow          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 NAME	:= minishell
-
-CFLAGS	:= -Wall -Wextra -Werror -MMD
+CC		:= cc
+CFLAGS	:= -Wall -Wextra -Werror
 # -fsanitize=address -g
+
+
+# *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
+# 	Directories																	#
+# *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
+
+LIBFT_DIR   	= libft
+SRC_DIR         = src
+INPUT_DIR		= $(SRC_DIR)/input
+EXECUTE_DIR		= $(SRC_DIR)/execute
+OBJ_D_DIR		= obj_d
+
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 # 	FILES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
-CFILES	:= $(addprefix src/, \
-		test.c )
+CFILES_SRCS		= $(addprefix $(SRC_DIR)/, minishell_main.c)
+CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c)
+CFILES_EXE		= $(addprefix $(EXECUTE_DIR)/, )
 
-OFILES	= $(addprefix src/O_D_FILES/, $(notdir $(CFILES:.c=.o)))
-DFILES	= $(addprefix src/O_D_FILES/, $(notdir $(CFILES:.c=.d)))
+SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_EXE)
+OFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.o))
+DFILES	= $(OFILES:.o=.d)
+
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 # 	RULES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
+
 all: $(NAME)
 
+
 $(NAME): $(OFILES) $(DFILES)
-	@make all -sC libft
-	@$(CC) $(OFILES) libft/libft.a -o $(NAME)
+	@make -sC $(LIBFT_DIR)
+	@$(CC) $(OFILES) $(LIBFT_DIR)/libft.a -o $(NAME) -lreadline -lhistory -ltermcap
 	@echo "\033[1;32mCREATE PROGRAM: $(NAME)\033[0m"
 
-src/O_D_FILES/%.o: src/%.c | src/O_D_FILES
+
+$(OBJ_D_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -MMD -MP -g -c $< -o $@
 
-src/O_D_FILES:
-	@mkdir -p $@
 
 clean:
-	@echo "\033[1;33mCLEAN $(NAME)\033[0m"
-	@make fclean -C libft
-	@rm -f $(OFILES) $(DFILES)
-	@rm -rf src/O_D_Files
+	@make clean -C $(LIBFT_DIR)
+	@if [ -d "src/O_D_FILES" ]; then \
+		echo "\033[1;33mCLEAN $(NAME)\033[0m"; \
+		rm -f $(OFILES) $(DFILES); \
+		rm -rf src/O_D_FILES; \
+	fi
 
 fclean: clean
-	@echo "\033[1;33mREMOVE PROGRAM: $(NAME)\033[0m"
-	@rm -f $(NAME)
+	@make fclean -C libft
+	@if [ -f "$(NAME)" ]; then \
+		echo "\033[1;33mREMOVE PROGRAM: $(NAME)\033[0m"; \
+		rm -f $(NAME); \
+	fi
 
 re: clean all
 
 prep: fclean all
 	make clean
+	clear
 
 .SILENT:  $(OFILES) $(DFILES)
 .PHONY: all clean fclean re prep

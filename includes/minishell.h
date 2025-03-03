@@ -1,17 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
+/*   Updated: 2025/02/28 14:41:28 by joklein          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// ~-~-~-~-~-~-~-~-~	Includes	~-~-~-~-~-~-~-~-~ //
 
-// ~-~-~-~-~-~-~-~-~	Includes	~-~-~-~-~-~-~-~-~ //																
+# include "../libft/libft.h"
+# include <fcntl.h>
+# include <stdio.h>
+# include <sys/wait.h>
+# include <unistd.h>
+//
+# include <readline/history.h>
+# include <readline/readline.h>
 
+# define RD_OUT 0
+# define WR_IN 1
+# define TOKEN ((t_token *)stream->cont)
 
-#include "../libft/libft.h"
+// // ~-~-~-~-~-~-~-~-~	Structs 	~-~-~-~-~-~-~-~-~ //
 
+//
+typedef struct s_token
+{
+	int input;      // 1 für std_input, 2 für Pipe, 3 für File
+	int output;     // 1 für std_out, 2 für Pipe, 3 für File
+	char *in_file;  // input File
+	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
+	char *cmd;      // cat, echo, grep, ...?
+	char **arg;     // die argumente
+	int add;        // 1 wenn ">>": Erweiterungsbefehl,wenn in file geschrieben wird.
+}					t_token;
 
+// ~-~-~-~-~-~-~-~-~	Functions	~-~-~-~-~-~-~-~-~ //
 
-// ~-~-~-~-~-~-~-~-~	Functions	~-~-~-~-~-~-~-~-~ //														
-
-
-
+char				**input_handle(char *input, t_list *stream);
 
 #endif
