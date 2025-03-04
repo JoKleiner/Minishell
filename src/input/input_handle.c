@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/03 17:27:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/04 12:48:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	add_arg(char *str, char ***args)
 		return (1);
 	while (*args && (*args)[i])
 		i++;
-	args_temp = (char **)malloc((i + 2) * sizeof(char *));
+	args_temp = malloc((i + 2) * sizeof(char *));
 	if (!args_temp)
 		return (free(str), 1);
 	u = 0;
@@ -48,8 +48,8 @@ int	add_arg(char *str, char ***args)
 		args_temp[u] = (*args)[u];
 		u++;
 	}
-	args_temp[i] = str;
-	args_temp[i + 1] = NULL;
+	args_temp[u] = str;
+	args_temp[u + 1] = NULL;
 	free(*args);
 	*args = args_temp;
 	return (0);
@@ -62,17 +62,33 @@ int	creat_args(char *input, int i, char ***args)
 	char	*str;
 
 	i_temp = i;
-	u = 0;
 	while (!wh_space(input[i]) && !wr_symbol(input[i]) && input[i])
 	{
+		if (input[i] == '\'')
+		{
+			i++;
+			while (input[i] != '\'' && input[i])
+				i++;
+		}
+		if (input[i] == '\"')
+		{
+			i++;
+			while (input[i] != '\"' && input[i])
+			{
+				if (input[i] == '$')
+				{
+					//
+				}
+				i++;
+			}
+		}
 		i++;
-		u++;
 	}
 	if (wr_symbol(input[i]))
 	{
 		//
 	}
-	str = (char *)malloc(u + 1);
+	str = malloc((i - i_temp) + 1);
 	if (!str)
 		return (-1);
 	u = 0;
@@ -102,10 +118,12 @@ char	**input_handle(char *input, t_list *stream_one)
 	int		i;
 	t_list	*stream;
 	char	**args;
+	char	**args_temp;
 
 	i = 0;
 	stream = stream_one;
 	args = NULL;
+	args_temp = NULL;
 	while (input[i])
 	{
 		while (wh_space(input[i]))
@@ -120,19 +138,27 @@ char	**input_handle(char *input, t_list *stream_one)
 		}
 		else if (input[i] == '|')
 		{
+			TOKEN->arg = args;
+			TOKEN->cmd = args[0];
 			stream = new_stream(stream, stream_one);
+			args = args_temp;
+			i++;
 		}
 		else if (input[i] == '$')
 		{
 			//
 		}
-		else
+		else if (input[i])
 		{
-			i = creat_args(&input[i], i, &args);
+			i = creat_args(input, i, &args);
 		}
 		if (i == -1)
 			return (NULL);
-		i++;
+	}
+	if (args)
+	{
+		TOKEN->arg = args;
+		TOKEN->cmd = args[0];
 	}
 	return (args);
 }
