@@ -21,7 +21,7 @@ OBJ_D_DIR		= obj_d
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
 CFILES_SRCS		= $(addprefix $(SRC_DIR)/, minishell_main.c)
-CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c)
+CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c)
 CFILES_EXE		= $(addprefix $(EXECUTE_DIR)/, )
 
 SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_EXE)
@@ -50,10 +50,10 @@ $(OBJ_D_DIR)/%.o: %.c
 
 clean:
 	@make clean -C $(LIBFT_DIR)
-	@if [ -d "src/O_D_FILES" ]; then \
+	@if [ -d $(OBJ_D_DIR) ]; then \
 		echo "\033[1;33mCLEAN $(NAME)\033[0m"; \
 		rm -f $(OFILES) $(DFILES); \
-		rm -rf src/O_D_FILES; \
+		rm -rf $(OBJ_D_DIR); \
 	fi
 
 fclean: clean

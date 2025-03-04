@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/02/28 14:41:28 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/03 17:13:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,16 @@ typedef struct s_token
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
 	char *cmd;      // cat, echo, grep, ...?
 	char **arg;     // die argumente
-	int add;        // 1 wenn ">>": Erweiterungsbefehl,wenn in file geschrieben wird.
-}					t_token;
+	int add;       	// 1 wenn ">>": Erweiterungsbefehl,wenn in file geschrieben wird.
+}		t_token;
 
 // ~-~-~-~-~-~-~-~-~	Functions	~-~-~-~-~-~-~-~-~ //
 
-char				**input_handle(char *input, t_list *stream);
+char	**input_handle(char *input, t_list *stream);
+int		wh_space(char input);
+int		wr_symbol(char input);
+t_list	*init_stream(t_list *stream_one);
+int		redirect_out(char *input, int i, t_list *stream);
+int		redirect_in(char *input, int i, t_list *stream);
 
 #endif

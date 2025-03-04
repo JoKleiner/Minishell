@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/03 11:08:11 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/03 17:27:01 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,106 +21,118 @@ int	wh_space(char input)
 
 int	wr_symbol(char input)
 {
-	if (input == '|' || input == '&' || input == ';')
+	if (input == '<' || input == '>')
 		return (1);
-	if (input == '(' || input == ')' || input == '<')
-		return (1);
-	if (input == '>' || input == '*')
+	if (input == '|' || input == '$')
 		return (1);
 	return (0);
 }
 
-int	creat_file(char *input, int i, t_list *stream)
+int	add_arg(char *str, char ***args)
 {
-	int		num_letter;
+	int		i;
+	int		u;
+	char	**args_temp;
+
+	i = 0;
+	if (!str || !args)
+		return (1);
+	while (*args && (*args)[i])
+		i++;
+	args_temp = (char **)malloc((i + 2) * sizeof(char *));
+	if (!args_temp)
+		return (free(str), 1);
+	u = 0;
+	while (u < i)
+	{
+		args_temp[u] = (*args)[u];
+		u++;
+	}
+	args_temp[i] = str;
+	args_temp[i + 1] = NULL;
+	free(*args);
+	*args = args_temp;
+	return (0);
+}
+
+int	creat_args(char *input, int i, char ***args)
+{
 	int		i_temp;
 	int		u;
 	char	*str;
-	FILE	*file;
 
-	num_letter = 0;
 	i_temp = i;
+	u = 0;
 	while (!wh_space(input[i]) && !wr_symbol(input[i]) && input[i])
 	{
 		i++;
-		num_letter++;
+		u++;
 	}
-	
 	if (wr_symbol(input[i]))
-		return (-1);
-	str = (char *)malloc(num_letter + 1);
-	if (!str)
-        return (-1);
-	i = i_temp;
-	u = 0;
-	while (i < i_temp + num_letter)
 	{
-		str[u] = input[i];
-		i++;
+		//
+	}
+	str = (char *)malloc(u + 1);
+	if (!str)
+		return (-1);
+	u = 0;
+	while (i_temp < i)
+	{
+		str[u] = input[i_temp];
+		i_temp++;
 		u++;
 	}
 	str[u] = '\0';
-	TOKEN->out_file = str;
-	TOKEN->output = 3;
-	file = fopen(str, "w");
-	if (!file)
-	{
-		free(str);
-		return (-1);
-	}
-	fclose(file);
+	if (add_arg(str, args) == 1)
+		return (free(str), -1);
 	return (i);
 }
 
-int	redirect(char *input, int i, t_list *stream)
+t_list	*new_stream(t_list *stream, t_list *stream_one)
 {
-	i++;
-	if (input[i] == '>')
-	{
-		TOKEN->add = 1;
-		i++;
-	}
-	while (wh_space(input[i]))
-		i++;
-	if (wr_symbol(input[i]))
-		return (-1);
-	i = creat_file(input, i, stream);
-	if (i == -1)
-		return (-1);
-	return (i);
+	if (TOKEN->output == 1)
+		TOKEN->output = 2;
+	stream = init_stream(stream_one);
+	TOKEN->input = 2;
+	return (stream);
 }
 
-char	**input_handle(char *input, t_list *stream)
+char	**input_handle(char *input, t_list *stream_one)
 {
-	int	i;
+	int		i;
+	t_list	*stream;
+	char	**args;
 
-	// char	**args;
-	// char	*token;
 	i = 0;
-	
+	stream = stream_one;
+	args = NULL;
 	while (input[i])
 	{
-		
 		while (wh_space(input[i]))
 			i++;
-		
 		if (input[i] == '>')
 		{
-			i = redirect(input, i, stream);
-			if (i == -1)
-				return (NULL);
+			i = redirect_out(input, i, stream);
 		}
+		else if (input[i] == '<')
+		{
+			i = redirect_in(input, i, stream);
+		}
+		else if (input[i] == '|')
+		{
+			stream = new_stream(stream, stream_one);
+		}
+		else if (input[i] == '$')
+		{
+			//
+		}
+		else
+		{
+			i = creat_args(&input[i], i, &args);
+		}
+		if (i == -1)
+			return (NULL);
 		i++;
 	}
-	// args = malloc(sizeof(char *));
-	// i = 0;
-	// token = strtok(input, " \t\n");
-	// while (token != NULL)
-	// {
-	// 	args[i++] = token;
-	// 	token = strtok(NULL, " \t\n");
-	// }
-	// args[i] = NULL;
-	// return (args);
-	return (NULL);
+	return (args);
 }

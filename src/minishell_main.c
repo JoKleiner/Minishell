@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/03 11:04:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/03 17:09:06 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@
 // 	execve("/bin/cat", args, NULL);
 // }
 
-t_list	*init_stream(t_token *stream_info)
+t_list	*init_stream(t_list *stream_one)
 {
 	t_list	*stream;
+	t_token	*stream_info;
 
 	stream_info = (t_token *)malloc(sizeof(t_token));
 	if (!stream_info)
@@ -66,42 +67,47 @@ t_list	*init_stream(t_token *stream_info)
 	TOKEN->cmd = NULL;
 	TOKEN->arg = NULL;
 	TOKEN->add = 0;
+	ft_lstadd_back(&stream_one, stream);
 	return (stream);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
-	t_list	*stream;
-	t_token	*stream_info;
+	t_list	*stream_one;
+	char	**args;
+	int		i;
 
-	// char	**args;
 	(void)argc;
 	(void)argv;
 	(void)envp;
+	stream_one = NULL;
 	while (1)
 	{
 		input = readline("minishell> ");
 		if (!input)
-			return(free(input), 0);
+			return (free(input), write(1, "exit", 4), 0);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
 		add_history(input);
-		stream_info = NULL;
-		stream = init_stream(stream_info);
-		if (stream == NULL)
-			return (0);
-		// args =
-		input_handle(input, stream);
-		// if (strcmp(args[0], "exit") == 0)
-		// {
-		// 	free(input);
-		// 	free(args);
-		// 	break ;
-		// }
+		stream_one = init_stream(stream_one);
+		if (stream_one == NULL)
+			return (free(input), 0);
+		args = input_handle(input, stream_one);
+		if (args)
+		{
+			if (args[0] && ft_strncmp(args[0], "exit", 4) == 0)
+				return (write(1, "exit", 4), 0);
+			i = 0;
+			while (args[i])
+			{
+				ft_printf("%s", args[i]);
+				i++;
+			}
+		}
 		// execute_command(args);
 		// free(input);
 		// free(args);
