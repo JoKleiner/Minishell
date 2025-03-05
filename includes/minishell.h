@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 11:49:14 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 10:25:37 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int		wr_symbol(char input);
 t_list	*init_stream(t_list *stream_one);
 int		redirect_out(char *input, int i, t_list *stream);
 int		redirect_in(char *input, int i, t_list *stream);
-void	myfree(char **args);
+void	ft_execute_command(t_list *stream_one, char **envp);
 
 #endif

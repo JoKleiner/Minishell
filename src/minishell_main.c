@@ -3,53 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 12:50:50 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/04 17:53:14 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// int	main(void)
-// {
-// 	int		pi_fds[2];
-// 	pid_t	pid;
-// 	char	buff[2];
-// 	int		fd;
-
-// 	pipe(pi_fds);
-// 	pid = fork();
-// 	if (pid == 0)   // pid == 0 rechte Seite der Pipe
-// 	{
-// 		close(pi_fds[WR_IN]);
-// 		fd = open("text.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 		dup2(fd, 1);
-// 		while (read(pi_fds[RD_OUT], buff, 1))
-// 		{
-// 			write(1, buff, 1);
-// 		}
-// 		close(pi_fds[RD_OUT]);
-// 	}
-// 	else
-// 	{
-// 		close(pi_fds[RD_OUT]);
-// 		write(pi_fds[WR_IN], "servus\n", 7);
-// 		close(pi_fds[WR_IN]);
-// 	}
-// 	waitpid(pid, 0, 0);
-// 	return (0);
-// }
-
-// void	execute_command(char **args)
-// {
-// 	ft_printf("%s\n", args[0]);
-// 	ft_printf("%s\n", args[1]);
-// 	ft_printf("%s\n", args[2]);
-// 	char **args={"a", NULL};
-// 	execve("/bin/cat", args, NULL);
-// }
 
 t_list	*init_stream(t_list *stream_one)
 {
@@ -120,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 			stream = stream->next;
 			u++;
 		}
-		// execute_command(stream_one);
+		execute_command(stream_one, envp);
 		free(input);
 		free(args);
 	}
