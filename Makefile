@@ -9,11 +9,11 @@ CFLAGS	:= -Wall -Wextra -Werror
 # 	Directories																	#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
-LIBFT_DIR   	= libft
-SRC_DIR         = src
-INPUT_DIR		= $(SRC_DIR)/input
-EXECUTE_DIR		= $(SRC_DIR)/execute
-OBJ_D_DIR		= obj_d
+LIBFT_DIR   	:= libft
+SRC_DIR         := src
+INPUT_DIR		:= $(SRC_DIR)/input
+COMMANDS_DIR	:= $(SRC_DIR)/commands
+OBJ_D_DIR		:= obj_d
 
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
@@ -22,17 +22,15 @@ OBJ_D_DIR		= obj_d
 
 CFILES_SRCS		= $(addprefix $(SRC_DIR)/, minishell_main.c)
 CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c)
-CFILES_EXE		= $(addprefix $(EXECUTE_DIR)/, )
+CFILES_EXE		= $(addprefix $(EXECUTE_DIR)/, exe_commands.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
 
-SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_EXE)
+SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_CMD)
 OFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.o))
 DFILES	= $(OFILES:.o=.d)
-
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 # 	RULES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
-
 
 all: $(NAME)
 

@@ -6,50 +6,27 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 15:45:56 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 14:31:45 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// int	main(void)
-// {
-// 	int		pi_fds[2];
-// 	pid_t	pid;
-// 	char	buff[2];
-// 	int		fd;
+int	wh_space(char input)
+{
+	if (input == ' ' || input == '\t' || input == '\n')
+		return (1);
+	return (0);
+}
 
-// 	pipe(pi_fds);
-// 	pid = fork();
-// 	if (pid == 0)   // pid == 0 rechte Seite der Pipe
-// 	{
-// 		close(pi_fds[WR_IN]);
-// 		fd = open("text.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 		dup2(fd, 1);
-// 		while (read(pi_fds[RD_OUT], buff, 1))
-// 		{
-// 			write(1, buff, 1);
-// 		}
-// 		close(pi_fds[RD_OUT]);
-// 	}
-// 	else
-// 	{
-// 		close(pi_fds[RD_OUT]);
-// 		write(pi_fds[WR_IN], "servus\n", 7);
-// 		close(pi_fds[WR_IN]);
-// 	}
-// 	waitpid(pid, 0, 0);
-// 	return (0);
-// }
-
-// void	execute_command(char **args)
-// {
-// 	ft_printf("%s\n", args[0]);
-// 	ft_printf("%s\n", args[1]);
-// 	ft_printf("%s\n", args[2]);
-// 	char **args={"a", NULL};
-// 	execve("/bin/cat", args, NULL);
-// }
+int	wr_symbol(char input)
+{
+	if (input == '<' || input == '>')
+		return (1);
+	if (input == '|' || input == '$')
+		return (1);
+	return (0);
+}
 
 t_list	*init_stream(t_list *stream_one)
 {
@@ -121,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 			stream = stream->next;
 			u++;
 		}
-		// execute_command(stream_one);
+		//execute_command(stream_one, envp);
 		free(input);
 	}
 	return (0);

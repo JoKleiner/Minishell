@@ -6,27 +6,11 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 17:15:11 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 14:31:38 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	wh_space(char input)
-{
-	if (input == ' ' || input == '\t' || input == '\n')
-		return (1);
-	return (0);
-}
-
-int	wr_symbol(char input)
-{
-	if (input == '<' || input == '>')
-		return (1);
-	if (input == '|' || input == '$')
-		return (1);
-	return (0);
-}
 
 int	add_arg(char *str, char ***args)
 {

@@ -1,0 +1,199 @@
+
+
+bash-3.2$ echo HI > a | grep h | wc
+
+                 node 1 AST               node 2 AST
+                   |                           |
+         /                   \         /                \ 
+    echo HI > a             grep h                      wc
+    input = std_in          input =  PIPE1              input = PIPE2
+    output = 2              output = PIPE2              output = std_out
+    out_file   = a          out_file = 0                out_file = 0
+    cmd = echo              cmd = grep                  cmd = wc
+    arg[0] = "HI"           arg[0] = "h"                arg[0] = ""
+    add = 0                 add = 0                     add = 0
+
+
+
+bash-3.2$ echo klo  po|ca t
+
+echo klo  po                    ca t
+input = std_in                  input = PIPE1
+cmd = echo                      cmd = Error
+arg[0] = "klo"                  arg[0] = ""
+arg[1] = "po"                   
+output = PIPE1                  output = std_out
+add = 0                         add = 0
+
+==> zsh: command not found: ca
+
+
+bash-3.2$ echo klo  po|cat
+
+echo klo  po                    cat
+input = std_in                  input = PIPE1
+cmd = echo                      cmd = cat
+arg[0] = "klo"                  arg[0] = ""
+arg[1] = "po"                   
+output = PIPE1                  output = std_out
+add = 0                         add = 0
+
+==> klo po
+
+bash-3.2$ echo klo po '|'
+
+echo klo  po   
+input = std_in  
+cmd = echo   
+arg[0] = "klo"  
+arg[1] = "po"
+arg[2] = "|"                 
+output = std_out     
+add = 0   
+
+==> klo po
+
+
+bash-3.2$ echo klo >a po|cat
+
+echo klo  po                    cat
+input = std_in                  input = PIPE1
+cmd = echo                      cmd = cat
+arg[0] = "klo"                  arg[0] = ""
+arg[1] = "po"                   
+output = a                      output = std_out
+add = 0                         add = 0
+
+==> in a: klo po
+        (keine weitere Ausgabe)
+
+
+bash-3.2$ echo >a klo >b > c
+
+echo >a klo >b > c
+input = std_in    
+cmd = echo     
+arg[0] = "klo"                 
+output = c                    
+add = 0
+
+==> ich erstelle a und b erstellt, aber leer
+==> in c: klo
+
+
+#---- cat
+
+Datei a inhalt: klo
+Datei b inhalt: po
+
+
+bash-3.2$ cat a
+
+cat a
+input = std_in
+cmd = cat     
+arg[0] = "a"                 
+output = std_out                   
+add = 0
+
+==> klo
+
+
+bash-3.2$ cat a <a
+
+cat a <a
+input = std_in    
+cmd = cat     
+arg[0] = "a"                 
+output = std_out                   
+add = 0
+==> klo
+
+
+bash-3.2$ cat a b
+
+cat a b
+input = std_in    
+cmd = cat     
+arg[0] = "a"
+arg[1] = "b"               
+output = std_out                   
+add = 0
+==> klopo
+
+
+bash-3.2$ cat <a b
+
+cat <a b
+input = std_in    
+cmd = cat     
+arg[0] = "b"             
+output = std_out                   
+add = 0
+==> po
+
+
+bash-3.2$ cat <a <b
+
+cat <a <b
+input = std_in    
+cmd = cat     
+arg[0] = "b"             
+output = std_out                   
+add = 0
+==> po
+
+
+bash-3.2$ cat a <b
+
+cat a <b
+input = std_in    
+cmd = cat     
+arg[0] = "a"             
+output = std_out                   
+add = 0 
+==> klo
+     
+
+bash-3.2$ Hallo echo
+bash: Hallo: command not found
+bash-3.2$ echo Hallo
+Hallo
+bash-3.2$ cat Hallo
+cat: Hallo: No such file or directory
+bash-3.2$ Hallo cat
+bash: Hallo: command not found
+bash-3.2$ echo Hallo | cat
+Hallo
+bash-3.2$ echo Hallo | cat | cat
+Hallo
+bash-3.2$ echo Hallo | cat | echo
+
+bash-3.2$ echo Hallo | echo | cat
+
+bash-3.2$
+
+
+
+execve(path, arg, envp);
+Führt den befehl in path aus (pfad inklusive Befehl), weitere argumente (ls -l), Pointer zu env
+Beendet das Programm (wenns klappt)
+
+
+access(path, X_OK)
+Überprüft, ob path inclusive command vorhanden ist (Bsp.: /usr/bin/cat)
+
+PATH=/Users/joklein/.brew/bin:/Users/joklein/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/joklein/.brew/bin:/Users/joklein/local/bin
+
+PATH=
+/Users/joklein/.brew/bin
+/Users/joklein/local/bin
+/usr/local/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+/usr/local/munki
+/Library/Apple/usr/bin
+/Users/joklein/.brew/bin
+/Users/joklein/local/bin

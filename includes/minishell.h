@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 10:52:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 14:32:08 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 # define WR_IN 1
 # define TOKEN ((t_token *)stream->cont)
 
+
 // // ~-~-~-~-~-~-~-~-~	Structs 	~-~-~-~-~-~-~-~-~ //
 
-//
 typedef struct s_token
 {
 	int input;      // 1 für std_input, 2 für Pipe, 3 für File
@@ -39,17 +39,31 @@ typedef struct s_token
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
 	char *cmd;      // cat, echo, grep, ...?
 	char **arg;     // die argumente
-	int add;        // 1 wenn ">>": Erweiterungsbefehl,wenn in file geschrieben wird.
+	int	add;		// 1 wenn ">>": Erweiterungsbefehl,wenn in file geschrieben wird.
 }		t_token;
+
 
 // ~-~-~-~-~-~-~-~-~	Functions	~-~-~-~-~-~-~-~-~ //
 
-int		input_handle(char *input, t_list *stream);
-int		wh_space(char input);
-int		wr_symbol(char input);
+// ---	Main		--- //
 t_list	*init_stream(t_list *stream_one);
-int		redirect_out(char *input, int i, t_list *stream);
+int	wh_space(char input);
+int	wr_symbol(char input);
+
+// ---	Commands	--- //
+void	ft_execute_command(t_list *stream_one, char **envp);
+void	ft_exe_cd(char **arglist);
+void	ft_exe_echo(char **arglist);
+void	ft_exe_env(char **arglist);
+void	ft_exe_exit(char **arglist);
+void	ft_exe_export(char **arglist);
+void	ft_exe_pwd(char **arglist);
+void	ft_exe_unset(char **arglist);
+
+// ---	Inputhandle	--- //
+int		input_handle(char *input, t_list *stream_one);
 int		redirect_in(char *input, int i, t_list *stream);
+int		redirect_out(char *input, int i, t_list *stream);
 int		heredoc(int i, char *input, t_list *stream);
 
 #endif
