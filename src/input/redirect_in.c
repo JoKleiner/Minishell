@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 16:07:48 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 11:14:52 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	redir_in2(char *input, int i, t_list *stream)
 	}
 	if (wr_symbol(input[i]))
 		return (-1);
+	if(TOKEN->in_file)
+		free(TOKEN->in_file);
 	str = ft_strndup(&input[i_temp], num_letter);
 	if (!str)
 		return (-1);
@@ -40,13 +42,18 @@ int	redirect_in(char *input, int i, t_list *stream)
 	i++;
 	if (input[i] == '<')
 	{
-        //
 		i++;
+		i = heredoc(i, input, stream);
+		if (i == -1)
+			return (-1);
 	}
+	else
+	{
 	while (wh_space(input[i]))
 		i++;
 	i = redir_in2(input, i, stream);
 	if (i == -1)
 		return (-1);
+	}
 	return (i);
 }

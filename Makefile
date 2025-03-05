@@ -21,7 +21,7 @@ OBJ_D_DIR		= obj_d
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
 CFILES_SRCS		= $(addprefix $(SRC_DIR)/, minishell_main.c)
-CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c)
+CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c)
 CFILES_EXE		= $(addprefix $(EXECUTE_DIR)/, )
 
 SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_EXE)

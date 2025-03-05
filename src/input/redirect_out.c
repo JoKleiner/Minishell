@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 16:07:55 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 11:06:26 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	creat_file(char *str)
 {
-	FILE	*file;
+	int fd;
 
-	file = fopen(str, "w");
-	if (!file)
+	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
 	{
 		free(str);
 		return (-1);
 	}
-	fclose(file);
+	close(fd);
 	return (0);
 }
 
