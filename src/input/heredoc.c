@@ -6,57 +6,74 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 11:54:56 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 12:45:47 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	create_hd_file(char *str)
+char	*create_hd_file(t_list *stream)
 {
-	int fd;
+	int		fd;
+	char	*here_doc;
+	int		i;
 
-	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (TOKEN->input != 3)
+	{
+		i = 1;
+		here_doc = ft_strjoin(".heredoc", ft_itoa(i));
+		while (!access(here_doc, F_OK))
+		{
+			i++;
+			free(here_doc);
+			here_doc = ft_strjoin(".heredoc", ft_itoa(i));
+		}
+	}
+	else
+		here_doc = TOKEN->in_file;
+	fd = open(here_doc, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (-1);
+		return (NULL);
 	close(fd);
-	return (0);
+	return (here_doc);
 }
 
-int append_in_file(char *input, char *str)
+int	append_in_file(char *input, char *str)
 {
-	int fd;
+	int	fd;
 
 	fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		return (-1);
-    write(fd, input, ft_strlen(input));
-    write(fd, "\n", 1);
+	write(fd, input, ft_strlen(input));
+	write(fd, "\n", 1);
 	close(fd);
-    return(0);
+	return (0);
 }
 
 int	create_heredoc(char *str, t_list *stream)
 {
 	char	*input;
+	char	*here_doc;
 
-	if (create_hd_file(".heredoc") == -1)
+	here_doc = create_hd_file(stream);
+	if (!here_doc)
 		return (-1);
 	input = readline("> ");
 	if (!input)
 		return (free(input), write(1, "exit", 4), -1);
 	while (ft_strncmp(input, str, ft_strlen(str)) != 0)
 	{
-        if(append_in_file(input, ".heredoc") == -1)
-            return(free(input), -1);
+		if (append_in_file(input, here_doc) == -1)
+			return (free(input), -1);
 		free(input);
 		input = readline("> ");
 		if (!input)
 			return (free(input), write(1, "exit", 4), -1);
 	}
-    TOKEN->in_file = ".heredoc";
-    TOKEN->input = 3;
-    free(input);
+	TOKEN->in_file = here_doc;
+	TOKEN->input = 3;
+	free(input);
 	return (0);
 }
 
@@ -81,7 +98,7 @@ int	heredoc(int i, char *input, t_list *stream)
 	{
 		str[u] = input[i_temp];
 		i_temp++;
-        u++;
+		u++;
 	}
 	str[u] = '\0';
 	if (create_heredoc(str, stream) == -1)
