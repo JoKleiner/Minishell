@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 11:49:14 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/04 17:52:28 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ typedef struct s_token
 
 // ~-~-~-~-~-~-~-~-~	Functions	~-~-~-~-~-~-~-~-~ //
 
-char	**input_handle(char *input, t_list *stream);
+int		input_handle(char *input, t_list *stream);
 int		wh_space(char input);
 int		wr_symbol(char input);
 t_list	*init_stream(t_list *stream_one);
 int		redirect_out(char *input, int i, t_list *stream);
 int		redirect_in(char *input, int i, t_list *stream);
-void	myfree(char **args);
 
 #endif

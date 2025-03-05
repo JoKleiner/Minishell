@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/04 12:50:50 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/04 15:45:56 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	t_list	*stream_one;
 	t_list	*stream;
-	char	**args;
 	int		i;
 	int		u;
 
@@ -98,31 +97,32 @@ int	main(int argc, char **argv, char **envp)
 		stream_one = init_stream(stream_one);
 		if (stream_one == NULL)
 			return (free(input), 0);
-		args = input_handle(input, stream_one);
+		i = input_handle(input, stream_one);
+		if (i == 1)
+			return (1);
 		stream = stream_one;
 		u = 1;
 		while (stream)
 		{
-			if (args)
+			if (TOKEN->arg)
 			{
 				ft_printf("\n");
 				i = 0;
-				ft_printf("Stream: %d\ninput:%d\noutput:%d\ninfile:%s\noutfile:%s\ncmd:%s\nadd:%d\n", u,
-					TOKEN->input, TOKEN->output, TOKEN->in_file,
-					TOKEN->out_file, TOKEN->cmd, TOKEN->add);
+				ft_printf("Stream: %d\ninput: %d\noutput:%d\ninfile:%s\noutfile: %s\ncmd: %s\nadd: %d\n", u,
+					TOKEN->input, TOKEN->output, TOKEN->in_file,TOKEN->out_file, TOKEN->cmd, TOKEN->add);
 				while (TOKEN->arg[i])
 				{
 					ft_printf("arg[%d]:%s\n", i, TOKEN->arg[i]);
 					i++;
 				}
 				ft_printf("\n");
+				
 			}
 			stream = stream->next;
 			u++;
 		}
 		// execute_command(stream_one);
 		free(input);
-		free(args);
 	}
 	return (0);
 }
