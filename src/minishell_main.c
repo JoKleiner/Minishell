@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 14:31:45 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/06 12:28:37 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	wr_symbol(char input)
 	return (0);
 }
 
-t_list	*init_stream(t_list *stream_one)
+t_list	*init_stream(t_list *stream_one, char **envp)
 {
 	t_list	*stream;
 	t_token	*stream_info;
@@ -44,6 +44,7 @@ t_list	*init_stream(t_list *stream_one)
 	TOKEN->cmd = NULL;
 	TOKEN->arg = NULL;
 	TOKEN->add = 0;
+	TOKEN->envp = envp;
 	ft_lstadd_back(&stream_one, stream);
 	return (stream);
 }
@@ -58,20 +59,19 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
 	stream_one = NULL;
 	while (1)
 	{
 		input = readline("minishell> ");
 		if (!input)
-			return (free(input), write(1, "exit", 4), 0);
+			return (free(input), write(1, "exit\n", 5), 0);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
 		add_history(input);
-		stream_one = init_stream(stream_one);
+		stream_one = init_stream(stream_one, envp);
 		if (stream_one == NULL)
 			return (free(input), 0);
 		i = input_handle(input, stream_one);
@@ -98,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 			stream = stream->next;
 			u++;
 		}
-		//execute_command(stream_one, envp);
+		//ft_execute_command(stream_one, envp);
 		free(input);
 	}
 	return (0);

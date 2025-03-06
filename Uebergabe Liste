@@ -197,3 +197,9 @@ PATH=
 /Library/Apple/usr/bin
 /Users/joklein/.brew/bin
 /Users/joklein/local/bin
+
+
+bash-3.2$ cat <<joklein | cat
+> $USER
+> joklein
+joklein

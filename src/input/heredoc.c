@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 12:45:47 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/05 17:32:09 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ int	append_in_file(char *input, char *str)
 	return (0);
 }
 
+void check_doll()
+{
+	//
+}
+
 int	create_heredoc(char *str, t_list *stream)
 {
 	char	*input;
@@ -74,6 +79,7 @@ int	create_heredoc(char *str, t_list *stream)
 	TOKEN->in_file = here_doc;
 	TOKEN->input = 3;
 	free(input);
+	check_doll();
 	return (0);
 }
 

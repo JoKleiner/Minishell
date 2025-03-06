@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 14:32:08 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/06 12:27:00 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,22 @@ typedef struct s_token
 	char *cmd;      // cat, echo, grep, ...?
 	char **arg;     // die argumente
 	int	add;		// 1 wenn ">>": Erweiterungsbefehl,wenn in file geschrieben wird.
+	char **envp;	// envp
 }		t_token;
 
 
 // ~-~-~-~-~-~-~-~-~	Functions	~-~-~-~-~-~-~-~-~ //
 
+
 // ---	Main		--- //
-t_list	*init_stream(t_list *stream_one);
+
+t_list	*init_stream(t_list *stream_one, char **envp);
 int	wh_space(char input);
 int	wr_symbol(char input);
 
+
 // ---	Commands	--- //
+
 void	ft_execute_command(t_list *stream_one, char **envp);
 void	ft_exe_cd(char **arglist);
 void	ft_exe_echo(char **arglist);
@@ -60,10 +65,13 @@ void	ft_exe_export(char **arglist);
 void	ft_exe_pwd(char **arglist);
 void	ft_exe_unset(char **arglist);
 
+
 // ---	Inputhandle	--- //
+
 int		input_handle(char *input, t_list *stream_one);
 int		redirect_in(char *input, int i, t_list *stream);
 int		redirect_out(char *input, int i, t_list *stream);
 int		heredoc(int i, char *input, t_list *stream);
+char 	*dollar_handle(char *input, t_list *stream);
 
 #endif
