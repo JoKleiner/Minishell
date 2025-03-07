@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/06 12:27:00 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 09:55:00 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <stdbool.h>
 //
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -28,19 +29,20 @@
 # define WR_IN 1
 # define TOKEN ((t_token *)stream->cont)
 
+extern char     **environ;
+volatile int    g_sig;
 
 // // ~-~-~-~-~-~-~-~-~	Structs 	~-~-~-~-~-~-~-~-~ //
 
 typedef struct s_token
 {
-	int input;      // 1 für std_input, 2 für Pipe, 3 für File
-	int output;     // 1 für std_out, 2 für Pipe, 3 für File
+	int stream_num;	//stream_num
+	int fd_in;      // 1 für std_input, 2 für Pipe, 3 für File
+	int fd_out;     // 1 für std_out, 2 für Pipe, 3 für File
 	char *in_file;  // input File
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
-	char *cmd;      // cat, echo, grep, ...?
 	char **arg;     // die argumente
-	int	add;		// 1 wenn ">>": Erweiterungsbefehl,wenn in file geschrieben wird.
-	char **envp;	// envp
+	bool add;		// true (1) wenn ">>"
 }		t_token;
 
 
@@ -49,7 +51,7 @@ typedef struct s_token
 
 // ---	Main		--- //
 
-t_list	*init_stream(t_list *stream_one, char **envp);
+t_list	*init_stream(t_list *stream_one);
 int	wh_space(char input);
 int	wr_symbol(char input);
 

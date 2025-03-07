@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/06 12:27:58 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 09:56:06 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,11 @@ int creat_args(char *input, int i, char ***args)
 
 t_list  *new_stream(t_list *stream, t_list *stream_one)
 {
-    if (TOKEN->output == 1)
-        TOKEN->output = 2;
+    if (TOKEN->fd_out == 1)
+        TOKEN->fd_out = 2;
     stream = stream_one;
-    stream = init_stream(stream_one, TOKEN->envp);
-    TOKEN->input = 2;
+    stream = init_stream(stream_one);
+    TOKEN->fd_in = 2;
     return (stream);
 }
 
@@ -161,7 +161,6 @@ int pipe_doll(int i, char *input, t_list *stream_one, char ***args)
     if (input[i] == '|')
     {
         TOKEN->arg = *args;
-        TOKEN->cmd = *args[0];
         stream = new_stream(stream, stream_one);
         *args = args_temp;
         i++;
@@ -183,7 +182,7 @@ int input_handle(char *input, t_list *stream_one)
     stream = stream_one;
     args = malloc(sizeof(char **));
     args = NULL;
-    //input = dollar_handle(input, stream);
+    input = dollar_handle(input, stream);
     while (input[i])
     {
         while (wh_space(input[i]) && input[i])
@@ -206,7 +205,6 @@ int input_handle(char *input, t_list *stream_one)
     if (args)
     {
         TOKEN->arg = args;
-        TOKEN->cmd = args[0];
     }
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/02/28 14:10:44 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/06 16:25:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char				*ft_strjoin(char const *str1, char const *str2);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstlen);
 char				**ft_split(char const *str, char cha);
 int					ft_putstr_rev(char *str);
+int					ft_strstr_num(const char *src, const char *search);
 
 // Further Functions
 int					ft_putchar(char cha);

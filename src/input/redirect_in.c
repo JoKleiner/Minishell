@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 12:53:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 09:47:07 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	file_in(char *input, int i, t_list *stream)
 	if (!str)
 		return (-1);
 	TOKEN->in_file = str;
-	TOKEN->input = 3;
+	TOKEN->fd_in = 3;
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 17:32:09 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 09:47:07 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*create_hd_file(t_list *stream)
 	char	*here_doc;
 	int		i;
 
-	if (TOKEN->input != 3)
+	if (TOKEN->fd_in != 3)
 	{
 		i = 1;
 		here_doc = ft_strjoin(".heredoc", ft_itoa(i));
@@ -77,7 +77,7 @@ int	create_heredoc(char *str, t_list *stream)
 			return (free(input), write(1, "exit", 4), -1);
 	}
 	TOKEN->in_file = here_doc;
-	TOKEN->input = 3;
+	TOKEN->fd_in = 3;
 	free(input);
 	check_doll();
 	return (0);

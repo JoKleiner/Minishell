@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/06 12:28:37 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 10:05:41 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,35 @@ int	wr_symbol(char input)
 	return (0);
 }
 
-t_list	*init_stream(t_list *stream_one, char **envp)
+t_list	*init_stream(t_list *stream_one)
 {
 	t_list	*stream;
 	t_token	*stream_info;
+	int		i;
 
 	stream_info = (t_token *)malloc(sizeof(t_token));
 	if (!stream_info)
 		return (NULL);
 	stream = ft_lstnew(stream_info);
-	TOKEN->input = 1;
-	TOKEN->output = 1;
+	ft_lstadd_back(&stream_one, stream);
+	i = 1;
+	stream = stream_one;
+	while (stream->next)
+	{
+		i++;
+		stream = stream->next;
+	}
+	TOKEN->stream_num = i;
+	TOKEN->fd_in = 1;
+	TOKEN->fd_out = 1;
 	TOKEN->in_file = NULL;
 	TOKEN->out_file = NULL;
-	TOKEN->cmd = NULL;
 	TOKEN->arg = NULL;
-	TOKEN->add = 0;
-	TOKEN->envp = envp;
-	ft_lstadd_back(&stream_one, stream);
+	TOKEN->add = false;
 	return (stream);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(void)
 {
 	char	*input;
 	t_list	*stream_one;
@@ -57,11 +64,9 @@ int	main(int argc, char **argv, char **envp)
 	int		i;
 	int		u;
 
-	(void)argc;
-	(void)argv;
-	stream_one = NULL;
 	while (1)
 	{
+		stream_one = NULL;
 		input = readline("minishell> ");
 		if (!input)
 			return (free(input), write(1, "exit\n", 5), 0);
@@ -71,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		add_history(input);
-		stream_one = init_stream(stream_one, envp);
+		stream_one = init_stream(stream_one);
 		if (stream_one == NULL)
 			return (free(input), 0);
 		i = input_handle(input, stream_one);
@@ -85,20 +90,20 @@ int	main(int argc, char **argv, char **envp)
 			{
 				ft_printf("\n");
 				i = 0;
-				ft_printf("Stream: %d\ninput: %d\noutput:%d\ninfile:%s\noutfile: %s\ncmd: %s\nadd: %d\n", u,
-					TOKEN->input, TOKEN->output, TOKEN->in_file,TOKEN->out_file, TOKEN->cmd, TOKEN->add);
+				ft_printf("Stream: %d\nfd_in: %d\nfd_out:%d\ninfile:%s\noutfile:%s\nadd: %d\n",
+						TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out,
+						TOKEN->in_file,TOKEN->out_file,TOKEN->add);
 				while (TOKEN->arg[i])
 				{
 					ft_printf("arg[%d]:%s\n", i, TOKEN->arg[i]);
 					i++;
 				}
 				ft_printf("\n");
-				
 			}
 			stream = stream->next;
 			u++;
 		}
-		//ft_execute_command(stream_one, envp);
+		// ft_execute_command(stream_one);
 		free(input);
 	}
 	return (0);

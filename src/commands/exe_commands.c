@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/05 12:33:47 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 10:06:32 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 static bool	ft_selfmade_cmd(char *cmd, char **arglist)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0)
-		return (ft_exe_echo(**arglist), true);
+		return (ft_exe_echo(arglist), true);
 	else if (ft_strncmp(cmd, "cd", 2) == 0)
-		return (ft_exe_cd(**arglist), true);
+		return (ft_exe_cd(arglist), true);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
-		return (ft_exe_pwd(**arglist), true);
+		return (ft_exe_pwd(arglist), true);
 	else if (ft_strncmp(cmd, "export", 7) == 0)
-		return (ft_exe_export(**arglist), true);
+		return (ft_exe_export(arglist), true);
 	else if (ft_strncmp(cmd, "unset", 5) == 0)
-		return (ft_exe_unset(**arglist), true);
+		return (ft_exe_unset(arglist), true);
 	else if (ft_strncmp(cmd, "env", 3) == 0)
-		return (ft_exe_env(**arglist), true);
+		return (ft_exe_env(arglist), true);
 	else if (ft_strncmp(cmd, "exit", 4) == 0)
-		return (ft_exe_exit(**arglist), true);
+		return (ft_exe_exit(arglist), true);
 	return (false);
 }
 
