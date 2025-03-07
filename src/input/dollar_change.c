@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 15:36:03 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:40:13 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*change_input(char *input, char *str, char *env_arg)
 	int		pos;
 	char	*str_temp;
 
-	(void)env_arg;
 	pos = ft_strstr_num(input, str);
 	str_temp = ft_strndup(input, pos - 1);
 	str_temp = ft_strjoin_free(str_temp, env_arg);
@@ -62,6 +61,7 @@ char	*dollar_found(int i, char *input)
 
 	u = 0;
 	i_temp = i;
+	env_arg = NULL;
 	while (input[i + 1] && env_char(input[i + 1]) && !wh_space(input[i + 1]))
 	{
 		i++;
@@ -71,15 +71,9 @@ char	*dollar_found(int i, char *input)
 	str = ft_strjoin_free(str, "=");
 	u = find_envp(str);
 	if (environ[u])
-	{
 		env_arg = ft_strdup(&environ[u][ft_strlen(str)]);
-		str[ft_strlen(str) - 1] = '\0';
-		input = change_input(input, str, env_arg);
-	}
-	else
-	{
-		
-	}
+	str[ft_strlen(str) - 1] = '\0';
+	input = change_input(input, str, env_arg);
 	// input = kill_str_input(input, str);
 	return (input);
 }

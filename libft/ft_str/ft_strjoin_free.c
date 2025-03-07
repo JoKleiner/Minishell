@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:16:42 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 12:31:36 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:48:34 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 char	*ft_strjoin_free(char *s1, char const *s2)
 {
 	size_t	i;
-	size_t	s1len;
 	char	*dest;
 
-	s1len = ft_strlen(s1);
-	dest = malloc(s1len + ft_strlen(s2) + 1);
-	if (!dest)
-		return (NULL);
+	if (!s2)
+		return ((char *)s1);
 	if (!s1)
 		return ((char *)s2);
+	dest = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!dest)
+		return (NULL);
 	i = 0;
 	while (s1[i])
 	{
@@ -34,10 +34,10 @@ char	*ft_strjoin_free(char *s1, char const *s2)
 	i = 0;
 	while (s2[i])
 	{
-		dest[s1len + i] = s2[i];
+		dest[ft_strlen(s1) + i] = s2[i];
 		i++;
 	}
-	dest[s1len + i] = '\0';
+	dest[ft_strlen(s1) + i] = '\0';
 	free(s1);
 	return (dest);
 }
