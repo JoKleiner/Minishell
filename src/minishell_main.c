@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 11:41:03 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 11:59:26 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	main(void)
 			stream = stream->next;
 			u++;
 		}
-		// ft_execute_command(stream_one);
+		ft_execute_command(stream_one);
 		free(input);
 	}
 	return (0);

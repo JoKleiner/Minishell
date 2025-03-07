@@ -6,13 +6,13 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:41 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/05 12:54:42 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 11:44:35 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_exe_echo(char **arglist)
+void ft_exe_echo(t_list *stream)
 {
-	(void)arglist;
+	(void)stream;
 }

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 11:30:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 12:00:22 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 # include "../libft/libft.h"
 # include <fcntl.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <stdbool.h>
 //
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -48,8 +48,8 @@ typedef struct s_token
 
 typedef struct s_data
 {
-	char	*path;
-	char	**try_paths;
+	char		*path;
+	char		**try_paths;
 }				t_data;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -62,14 +62,14 @@ int				wr_symbol(char input);
 
 // ---  Commands    --- //
 
-void			ft_execute_command(t_list *stream_one, char **envp);
-void			ft_exe_cd(char **arglist);
-void			ft_exe_echo(char **arglist);
-void			ft_exe_env(char **arglist);
-void			ft_exe_exit(char **arglist);
-void			ft_exe_export(char **arglist);
-void			ft_exe_pwd(char **arglist);
-void			ft_exe_unset(char **arglist);
+void			ft_exe_cd(t_list *stream);
+void			ft_execute_command(t_list *stream);
+void			ft_exe_echo(t_list *stream);
+void			ft_exe_env(t_list *stream);
+void			ft_exe_exit(t_list *stream);
+void			ft_exe_export(t_list *stream);
+void			ft_exe_pwd(t_list *stream);
+void			ft_exe_unset(t_list *stream);
 
 // ---  Inputhandle --- //
 
