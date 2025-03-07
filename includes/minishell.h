@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 15:25:02 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:53:10 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int				input_handle(char *input, t_list *stream_one);
 int				redirect_in(char *input, int i, t_list *stream);
 int				redirect_out(char *input, int i, t_list *stream);
 int				heredoc(int i, char *input, t_list *stream);
-char			*dollar_handle(char *input, t_list *stream);
+char			*dollar_handle(char *input);
 
 
 // ---	Errors		 --- //

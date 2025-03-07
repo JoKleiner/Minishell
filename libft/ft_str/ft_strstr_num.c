@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:22:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/06 16:28:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 14:28:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	ft_strstr_num(const char *src, const char *search)
 	while (src[i] != '\0')
 	{
 		u = 0;
-		while (src[i + u] == search[u])
-		{
-			if (search[u + 1] == '\0')
-				return (u + 1 - ft_strlen(search));
+		while (src[i + u] && search[u] && src[i + u] == search[u])
 			u++;
-		}
+		if (search[u] == '\0')
+			return (i);
 		i++;
 	}
+	if (search[u] == '\0')
+			return (i);
 	return (0);
 }

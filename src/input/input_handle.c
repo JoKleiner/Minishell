@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:18:57 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:35:49 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int pipe_doll(int i, char *input, t_list *stream_one, char ***args)
     }
     else if (input[i] == '$')
     {
-        //i = dollar_change(i, input, stream);
+        i++;
     }
     return (i);
 }
@@ -177,12 +177,18 @@ int input_handle(char *input, t_list *stream_one)
     int     i;
     t_list  *stream;
     char    **args;
+    char    *input_temp;
 
     i = 0;
     stream = stream_one;
     args = malloc(sizeof(char **));
     args = NULL;
-    input = dollar_handle(input, stream);
+    input_temp = dollar_handle(input);
+    if(input_temp)
+    {
+        free(input);
+        input = input_temp;
+    }
     while (input[i])
     {
         while (wh_space(input[i]) && input[i])
