@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:16:42 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/01/03 15:30:15 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 12:31:36 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 // exactly like ft_strjoin, but frees s1 before returning.
 char	*ft_strjoin_free(char *s1, char const *s2)

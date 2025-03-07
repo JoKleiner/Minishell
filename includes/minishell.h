@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 12:00:22 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:17:52 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ int				input_handle(char *input, t_list *stream_one);
 int				redirect_in(char *input, int i, t_list *stream);
 int				redirect_out(char *input, int i, t_list *stream);
 int				heredoc(int i, char *input, t_list *stream);
-char			*dollar_handle(char *input, t_list *stream);
+char			*dollar_handle(char *input);
 #endif

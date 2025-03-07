@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 12:21:27 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 12:31:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*ft_cmd_exists(t_list *stream)
 void	ft_execute_command(t_list *stream)
 {
 	char	*path;
-	int		fork_val;
+	//int		fork_val;
 
 	if (ft_selfmade_cmd(stream) == false)
 	{
