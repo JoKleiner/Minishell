@@ -3,81 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 10:06:32 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 10:20:47 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdbool.h>
 
-//Cheks if the command is a self-made command
-static bool	ft_selfmade_cmd(char *cmd, char **arglist)
+// Checks if the command is a self-made command
+static bool	ft_selfmade_cmd(t_data *data, t_list	*stream)
 {
-	if (ft_strncmp(cmd, "echo", 4) == 0)
+	if (ft_strncmp(TOKEN->arg[0], "echo", 4) == 0)
 		return (ft_exe_echo(arglist), true);
-	else if (ft_strncmp(cmd, "cd", 2) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "cd", 2) == 0)
 		return (ft_exe_cd(arglist), true);
-	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "pwd", 3) == 0)
 		return (ft_exe_pwd(arglist), true);
-	else if (ft_strncmp(cmd, "export", 7) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "export", 7) == 0)
 		return (ft_exe_export(arglist), true);
-	else if (ft_strncmp(cmd, "unset", 5) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "unset", 5) == 0)
 		return (ft_exe_unset(arglist), true);
-	else if (ft_strncmp(cmd, "env", 3) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "env", 3) == 0)
 		return (ft_exe_env(arglist), true);
-	else if (ft_strncmp(cmd, "exit", 4) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "exit", 4) == 0)
 		return (ft_exe_exit(arglist), true);
 	return (false);
 }
 
-//Checks if the command is in the evnp PATH.
-static char	*ft_cmd_exists(t_list *stream, char **envp)
+// Checks if the command is in the evnp PATH.
+static char	*ft_cmd_exists(t_data *data, t_list *stream)
 {
-	char	**possible_paths;
-	char	*path;
 	int		i;
 
-	possible_paths = ft_split(envp[4], ':');
-	if (!possible_paths)
+	data->try_paths = ft_split(environ[4], ':');
+	if (!data->try_paths)
 		exit(1);
 	i = 0;
-	while (possible_paths[i])
+	while (data->try_paths[i])
 	{
-		path = ft_strjoin(possible_paths[i], TOKEN->arg[0]);
-		if (!path)
+		data->path = ft_strjoin(data->try_paths[i], TOKEN->arg[0]);
+		if (!data->path)
 			exit(1);
-		if (access(path, F_OK) == 0)
+		if (access(data->path, F_OK) == 0)
 			break ;
 		i++;
-		free(path);
-	}
+		free(data->path);
+	} 
 	i = 0;
-	while (possible_paths[i])
-		free(possible_paths[i++]);
-	free(possible_paths);
-	if (!path)
-		return (NULL);
-	return (path);
+	while (data->try_paths[i])
+		free(data->try_paths[i++]);
+	free(data->try_paths);
+	return (data->path);
 }
 
-void	ft_execute_command(t_list *stream_one, char **envp)
+// Executes self-made and builtin commands.
+// Error if command does not exist.
+void	ft_execute_command(t_list	*stream)
 {
-	char	*path;
-	t_list	*stream;
-
-	stream = stream_one;
-	if (ft_selfmade_cmd(TOKEN->arg[0], TOKEN->arg) == false)
+	t_data data;
+		
+	if (ft_selfmade_cmd(&data, stream) == false)
 	{
-		path = ft_cmd_exists(stream, envp);
-		if (path != NULL)
+		data.path = ft_cmd_exists(&data, stream);
+		if (data.path != NULL)
 		{
-			execve(path, TOKEN->arg, envp);
+			execve(data.path, TOKEN->arg, environ);
+			free(data.path);
 		}
 		else
 			printf("Error\nCommand not found\n");
-		free(path);
 	}
 }

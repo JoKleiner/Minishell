@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:05:41 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 10:20:28 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	wh_space(char input)
+int wh_space(char input)
 {
-	if (input == ' ' || input == '\t' || input == '\n')
-		return (1);
-	return (0);
+    if (input == ' ' || input == '\t' || input == '\n')
+        return (1);
+    return (0);
 }
-
-int	wr_symbol(char input)
+int wr_symbol(char input)
 {
-	if (input == '<' || input == '>')
-		return (1);
-	if (input == '|' || input == '$')
-		return (1);
-	return (0);
+    if (input == '<' || input == '>')
+        return (1);
+    if (input == '|' || input == '$')
+        return (1);
+    return (0);
 }
 
 t_list	*init_stream(t_list *stream_one)
