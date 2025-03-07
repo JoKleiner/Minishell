@@ -6,14 +6,14 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 12:21:27 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:25:35 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Checks if the command is a self-made command
-static bool	ft_selfmade_cmd(t_list *stream)
+static bool	ft_builtin_cmd(t_list *stream)
 {
 	if (ft_strncmp(TOKEN->arg[0], "echo", 4) == 0)
 		return (ft_exe_echo(stream), true);
@@ -66,9 +66,9 @@ static char	*ft_cmd_exists(t_list *stream)
 void	ft_execute_command(t_list *stream)
 {
 	char	*path;
-	int		fork_val;
+	int		pid;
 
-	if (ft_selfmade_cmd(stream) == false)
+	if (ft_builtin_cmd(stream) == false)
 	{
 		path = ft_cmd_exists(stream);
 		if (path != NULL)
@@ -78,6 +78,8 @@ void	ft_execute_command(t_list *stream)
 			free(path);
 		}
 		else
-			printf("Error\nCommand not found\n");
+			ft_error_cmd("Command not found", TOKEN->arg[0]);
 	}
+	pid = 69 + 69;
+	pid -= 69;
 }

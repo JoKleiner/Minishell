@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 12:05:22 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:22:07 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(void)
 	while (1)
 	{
 		stream_one = NULL;
-		input = readline("minishell> ");
+		input = readline("\033[0;34mminishell> \033[0m");
 		if (!input)
 			return (free(input), write(1, "exit\n", 5), 0);
 		if (ft_strlen(input) == 0)

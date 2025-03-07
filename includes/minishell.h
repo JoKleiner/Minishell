@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 12:00:22 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 15:25:02 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,16 @@ typedef struct s_token
 	char **arg;     	// die argumente
 }				t_token;
 
-typedef struct s_data
-{
-	char		*path;
-	char		**try_paths;
-}				t_data;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
+
 
 // ---  Main        --- //
 
 t_list			*init_stream(t_list *stream_one);
 int				wh_space(char input);
 int				wr_symbol(char input);
+
 
 // ---  Commands    --- //
 
@@ -71,6 +68,7 @@ void			ft_exe_export(t_list *stream);
 void			ft_exe_pwd(t_list *stream);
 void			ft_exe_unset(t_list *stream);
 
+
 // ---  Inputhandle --- //
 
 int				input_handle(char *input, t_list *stream_one);
@@ -78,4 +76,10 @@ int				redirect_in(char *input, int i, t_list *stream);
 int				redirect_out(char *input, int i, t_list *stream);
 int				heredoc(int i, char *input, t_list *stream);
 char			*dollar_handle(char *input, t_list *stream);
+
+
+// ---	Errors		 --- //
+
+void ft_error_cmd(char *message, char *input_name);
+
 #endif
