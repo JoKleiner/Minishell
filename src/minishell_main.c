@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:20:28 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 11:47:29 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	main(void)
 			stream = stream->next;
 			u++;
 		}
-		// ft_execute_command(stream_one);
+		ft_execute_command(stream_one);
 		free(input);
 	}
 	return (0);
