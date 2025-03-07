@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 12:00:52 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 12:21:27 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static bool	ft_selfmade_cmd(t_list *stream)
 // Checks if the command is in the evnp PATH.
 static char	*ft_cmd_exists(t_list *stream)
 {
-	int	i;
-	char		*path;
-	char		**try_paths;
+	int		i;
+	char	*path;
+	char	**try_paths;
 
 	try_paths = ft_split(environ[4], ':');
 	if (!try_paths)
@@ -52,7 +52,7 @@ static char	*ft_cmd_exists(t_list *stream)
 			break ;
 		free(path);
 		path = NULL;
-			i++;
+		i++;
 	}
 	i = 0;
 	while (try_paths[i])
@@ -65,7 +65,8 @@ static char	*ft_cmd_exists(t_list *stream)
 // Error if command does not exist.
 void	ft_execute_command(t_list *stream)
 {
-	char		*path;
+	char	*path;
+	int		fork_val;
 
 	if (ft_selfmade_cmd(stream) == false)
 	{

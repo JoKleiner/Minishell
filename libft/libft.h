@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/06 16:25:17 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 12:26:03 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char				*ft_itoa(int n);
 size_t				ft_strlen(const char *str);
 char				*ft_strdup(const char *str);
 char				*ft_strndup(const char *str, size_t len);
+char				*ft_strjoin_free(char *s1, char const *s2);
 char				*ft_strjoin(char const *str1, char const *str2);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstlen);
 char				**ft_split(char const *str, char cha);

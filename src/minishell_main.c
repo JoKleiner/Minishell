@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 11:59:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 12:05:22 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	main(void)
 }
 
 
-// Nicht loeschen. für pipe verständnis
+// Nicht löschen. für pipe verständnis
 // int	main(void)
 
 // {
