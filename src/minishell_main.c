@@ -3,27 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:20:28 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 11:41:03 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-int wh_space(char input)
+
+int	wh_space(char input)
 {
-    if (input == ' ' || input == '\t' || input == '\n')
-        return (1);
-    return (0);
+	if (input == ' ' || input == '\t' || input == '\n')
+		return (1);
+	return (0);
 }
-int wr_symbol(char input)
+int	wr_symbol(char input)
 {
-    if (input == '<' || input == '>')
-        return (1);
-    if (input == '|' || input == '$')
-        return (1);
-    return (0);
+	if (input == '<' || input == '>')
+		return (1);
+	if (input == '|' || input == '$')
+		return (1);
+	return (0);
 }
 
 t_list	*init_stream(t_list *stream_one)
@@ -37,12 +38,11 @@ t_list	*init_stream(t_list *stream_one)
 		return (NULL);
 	stream = ft_lstnew(stream_info);
 	ft_lstadd_back(&stream_one, stream);
-	i = 1;
-	stream = stream_one;
-	while (stream->next)
+	i = 0;
+	while (stream_one->next)
 	{
 		i++;
-		stream = stream->next;
+		stream_one = stream_one->next;
 	}
 	TOKEN->stream_num = i;
 	TOKEN->fd_in = 1;
@@ -50,7 +50,7 @@ t_list	*init_stream(t_list *stream_one)
 	TOKEN->in_file = NULL;
 	TOKEN->out_file = NULL;
 	TOKEN->arg = NULL;
-	TOKEN->add = false;
+	TOKEN->hd_file = NULL;
 	return (stream);
 }
 
@@ -88,9 +88,9 @@ int	main(void)
 			{
 				ft_printf("\n");
 				i = 0;
-				ft_printf("Stream: %d\nfd_in: %d\nfd_out:%d\ninfile:%s\noutfile:%s\nadd: %d\n",
-						TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out,
-						TOKEN->in_file,TOKEN->out_file,TOKEN->add);
+				ft_printf("stream_num: %d\nfd_in:%d\nfd_out: %d\ninfile: %s\noutfile: %s\nhd_file: %s\n",
+							TOKEN->stream_num,TOKEN->fd_in,TOKEN->fd_out,
+							TOKEN->in_file,TOKEN->out_file,TOKEN->hd_file);
 				while (TOKEN->arg[i])
 				{
 					ft_printf("arg[%d]:%s\n", i, TOKEN->arg[i]);
@@ -106,3 +106,35 @@ int	main(void)
 	}
 	return (0);
 }
+
+
+// Nicht loeschen. für pipe verständnis
+// int	main(void)
+
+// {
+// 	int fds[2];
+// 	int pid;
+// 	char buff[2];
+// 	int fd;
+
+// 	pipe(fds);
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		close(fds[1]);
+// 		fd = open("baum", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 		dup2(fd, 1);
+// 		while (read(fds[0], buff, 1))
+// 		{
+// 			write(1, buff, 1);
+// 		}
+// 		close(fds[0]);
+// 	}
+// 	else
+// 	{
+// 		close(fds[0]);
+// 		write(fds[1], "servus\n", 7);
+// 		close(fds[1]);
+// 	}
+// 	waitpid(pid, 0, 0);
+// }

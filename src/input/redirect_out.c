@@ -3,30 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:19:39 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 11:13:25 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	creat_file(char *str)
+int	creat_file(char *str, t_list *stream, bool add)
 {
 	int fd;
 
-	fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if(TOKEN->fd_out != 1)
+		close(TOKEN->fd_out);
+	if(add == true)
+		fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-	{
-		free(str);
-		return (-1);
-	}
-	close(fd);
+		return (free(str), -1);
+	TOKEN->fd_out = fd;
 	return (0);
 }
 
-int	redir_out2(char *input, int i, t_list *stream)
+int	redir_out2(char *input, int i, t_list *stream, bool add)
 {
 	int		num_letter;
 	int		i_temp;
@@ -46,24 +48,23 @@ int	redir_out2(char *input, int i, t_list *stream)
 		return (-1);
 	TOKEN->out_file = str;
 	TOKEN->fd_out = 3;
-	if (creat_file(str) == -1)
+	if (creat_file(str, stream, add) == -1)
 		return (-1);
 	return (i);
 }
 
 int	redirect_out(char *input, int i, t_list *stream)
 {
+	bool add;
 	i++;
 	if (input[i] == '>')
 	{
-		TOKEN->add = true;
+		add = true;
 		i++;
 	}
-	else
-		TOKEN->add = 0;
 	while (wh_space(input[i]))
 		i++;
-	i = redir_out2(input, i, stream);
+	i = redir_out2(input, i, stream, add);
 	if (i == -1)
 		return (-1);
 	return (i);

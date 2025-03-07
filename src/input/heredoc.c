@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:18:43 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 11:53:48 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,11 @@ int	heredoc(int i, char *input, t_list *stream)
 	i_temp = i;
 	while (input[i] && !wh_space(input[i]))
 	{
+		if(input[i] == '\'')
+		{
+			i++;
+			continue;
+		}
 		i++;
 		u++;
 	}
@@ -102,6 +107,11 @@ int	heredoc(int i, char *input, t_list *stream)
 	u = 0;
 	while (i_temp < i)
 	{
+		if(input[i] == '\'')
+		{
+			i_temp++;
+			continue;
+		}
 		str[u] = input[i_temp];
 		i_temp++;
 		u++;

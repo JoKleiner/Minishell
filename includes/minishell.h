@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:16:18 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 11:30:01 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ volatile int	g_sig;
 
 typedef struct s_token
 {
-	int stream_num;	//stream_num
-	int fd_in;      // 1 für std_input, 2 für Pipe, 3 für File
-	int fd_out;     // 1 für std_out, 2 für Pipe, 3 für File
-	char *in_file;  // input File
-	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
-	char **arg;     // die argumente
-	bool add;       	// 1 wenn ">>"
+	int stream_num;		//stream_num
+	int fd_in;      	// 1 für std_input, 2 für Pipe, 3 für File, 4 for heredoc
+	int fd_out;     	// fd output
+	char *in_file;  	// input File
+	char *out_file; 	// File in das der Comand schreibt/ausgeführt wird.
+	char *hd_file;		// heredoc file
+	char **arg;     	// die argumente
 }				t_token;
 
 typedef struct s_data

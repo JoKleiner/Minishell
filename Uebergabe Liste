@@ -203,3 +203,13 @@ bash-3.2$ cat <<joklein | cat
 > $USER
 > joklein
 joklein
+
+
+bash-3.2$ cat <<her'$USER'
+> asd
+> her'$USER'
+> herjoklein
+> her$USER
+asd
+her'$USER'
+herjoklein
