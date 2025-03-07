@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/05 11:06:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/07 09:46:13 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	redir_out2(char *input, int i, t_list *stream)
 	if (!str)
 		return (-1);
 	TOKEN->out_file = str;
-	TOKEN->output = 3;
+	TOKEN->fd_out = 3;
 	if (creat_file(str) == -1)
 		return (-1);
 	return (i);
