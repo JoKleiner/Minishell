@@ -6,13 +6,16 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 11:44:30 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/07 16:50:34 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_exe_cd(t_list *stream)
+void	ft_exe_cd(t_list *stream)
 {
-	(void)stream;
+	if (TOKEN->arg[1] != NULL && TOKEN->arg[2] != NULL)
+		return (ft_error_cmd("Too many arguments!", "cd"));
+	if (chdir(TOKEN->arg[1]) == -1)
+		return(ft_error_cmd("Couldn't change directory.", "cd"));
 }
