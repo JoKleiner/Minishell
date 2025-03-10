@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 14:29:58 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:35:34 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,5 @@ char	*dollar_handle(char *input)
 			i = doppel_quote(i, &input);
 		i++;
 	}
-	ft_printf("%s\n", input);
 	return (input);
 }
