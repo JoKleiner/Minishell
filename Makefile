@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
+#    Updated: 2025/03/09 16:13:11 by mpoplow          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME	:= minishell
 CC		:= cc
@@ -26,7 +37,7 @@ CFILES_CMD		= $(addprefix $(COMMANDS_DIR)/, exe_commands.c error_cmd.c cd.c echo
 
 SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_CMD)
 OFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.o))
-DFILES	= $(OFILES:.o=.d)
+DFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.d))
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 # 	RULES																		#

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 16:25:51 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/10 10:51:46 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ char			*dollar_handle(char *input);
 // ---	Errors			--- //
 
 void			ft_error_cmd(char *message, char *input_name);
+void			free_strstr(char **str);
 
 #endif

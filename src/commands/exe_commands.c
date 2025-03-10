@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 16:34:36 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/10 11:41:17 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,7 @@ static char	*ft_cmd_exists(t_list *stream)
 		free(path);
 		path = NULL;
 		i++;
-	}
-	i = 0;
-	while (try_paths[i])
-		free(try_paths[i++]);
-	free(try_paths);
+	}	
 	return (path);
 }
 
