@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 15:53:41 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/10 11:41:17 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,7 @@ static char	*ft_cmd_exists(t_list *stream)
 		free(path);
 		path = NULL;
 		i++;
-	}
-	i = 0;
-	while (try_paths[i])
-		free(try_paths[i++]);
-	free(try_paths);
+	}	
 	return (path);
 }
 
@@ -68,7 +64,12 @@ void	ft_execute_command(t_list *stream)
 	char	*path;
 	int		pid;
 
-	if (ft_builtin_cmd(stream) == false)
+	if (ft_builtin_cmd(stream) == true)
+	{
+		if (TOKEN->fd_out != 1)
+			close(TOKEN->fd_out);
+	}
+	else
 	{
 		path = ft_cmd_exists(stream);
 		if (path != NULL)
@@ -80,6 +81,5 @@ void	ft_execute_command(t_list *stream)
 		else
 			ft_error_cmd("Command not found", TOKEN->arg[0]);
 	}
-	pid = 69 + 69;
-	pid -= 69;
+	(void)pid;
 }

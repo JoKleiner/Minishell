@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 14:32:40 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/10 14:49:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
 //
@@ -77,5 +78,6 @@ char			*dollar_handle(char *input);
 // ---	Errors			--- //
 
 void			ft_error_cmd(char *message, char *input_name);
+void			free_strstr(char **str);
 
 #endif
