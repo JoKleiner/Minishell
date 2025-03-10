@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 10:19:08 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/10 11:26:11 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	file_in(char *input, int i, t_list *stream)
 
 	num_letter = 0;
 	i_temp = i;
-	while (!wh_space(input[i]) && !wr_symbol(input[i]) && input[i])
+	while (!wh_space(input[i]) && !spez_char(input[i]) && input[i])
 	{
 		i++;
 		num_letter++;
 	}
-	if (wr_symbol(input[i]))
+	if (spez_char(input[i]))
 		return (-1);
 	if (TOKEN->in_file)
 		free(TOKEN->in_file);

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 11:13:25 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/10 11:26:14 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	redir_out2(char *input, int i, t_list *stream, bool add)
 
 	num_letter = 0;
 	i_temp = i;
-	while (!wh_space(input[i]) && !wr_symbol(input[i]) && input[i])
+	while (!wh_space(input[i]) && !spez_char(input[i]) && input[i])
 	{
 		i++;
 		num_letter++;
 	}
-	if (wr_symbol(input[i]))
+	if (spez_char(input[i]))
 		return (-1);
 	str = ft_strndup(&input[i_temp], num_letter);
 	if (!str)

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 15:40:13 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/10 14:29:58 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ char	*change_input(char *input, char *str, char *env_arg)
 	char	*str_temp;
 
 	pos = ft_strstr_num(input, str);
-	str_temp = ft_strndup(input, pos - 1);
+	str_temp = ft_strndup(input, pos-1);
 	str_temp = ft_strjoin_free(str_temp, env_arg);
 	str_temp = ft_strjoin_free(str_temp, &input[pos + ft_strlen(str)]);
+	free(input);
 	input = str_temp;
 	return (input);
 }
@@ -67,14 +68,13 @@ char	*dollar_found(int i, char *input)
 		i++;
 		u++;
 	}
-	str = ft_strndup(&input[i_temp + 1], u);
+	str = ft_strndup(&input[i_temp+1], u);
 	str = ft_strjoin_free(str, "=");
 	u = find_envp(str);
 	if (environ[u])
 		env_arg = ft_strdup(&environ[u][ft_strlen(str)]);
 	str[ft_strlen(str) - 1] = '\0';
 	input = change_input(input, str, env_arg);
-	// input = kill_str_input(input, str);
 	return (input);
 }
 
@@ -101,14 +101,19 @@ int	skip_single_quote(int i, char *input)
 	return (i);
 }
 
-int	doppel_qute(int i, char **input)
+int	doppel_quote(int i, char **input)
 {
+	int i_temp;
+	
 	i++;
 	while ((*input)[i] && (*input)[i] != '$' && (*input)[i] != '\"')
 		i++;
+	i_temp = i;
 	if ((*input)[i] == '$')
 	{
-		if (if_heredoc(i, *input))
+		while ((*input)[i_temp] && (*input)[i_temp] != '\"')
+			i_temp--;
+		if (if_heredoc(i_temp, *input))
 			while ((*input)[i] && !wh_space((*input)[i]))
 			{
 				i++;
@@ -129,24 +134,26 @@ char	*dollar_handle(char *input)
 	i = 0;
 	while (input[i])
 	{
-		while (input[i] && input[i] != '$' && input[i] != '\''
-			&& input[i] != '\"')
-			i++;
 		if (input[i] == '$')
 		{
 			if (if_heredoc(i, input))
+			{
 				while (input[i] && !wh_space(input[i]))
-				{
 					i++;
-					continue ;
-				}
-			input = dollar_found(i, input);
-			i++;
+				continue ;
+			}
+			if (env_char(input[i + 1]))
+			{
+				input = dollar_found(i, input);
+				continue ;
+			}
 		}
 		if (input[i] == '\'')
 			i = skip_single_quote(i, input);
 		if (input[i] == '\"')
-			i = doppel_qute(i, &input);
+			i = doppel_quote(i, &input);
+		i++;
 	}
+	ft_printf("%s\n", input);
 	return (input);
 }

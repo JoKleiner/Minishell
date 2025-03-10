@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 15:54:01 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/10 14:32:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,20 @@ int	wh_space(char input)
 		return (1);
 	return (0);
 }
-int	wr_symbol(char input)
+int	spez_char(char input)
 {
 	if (input == '<' || input == '>')
 		return (1);
 	if (input == '|' || input == '$')
+		return (1);
+	return (0);
+}
+
+int	spez_char_wo_dol(char input)
+{
+	if (input == '<' || input == '>')
+		return (1);
+	if (input == '|')
 		return (1);
 	return (0);
 }
@@ -79,7 +88,7 @@ int	main(void)
 			return (free(input), 0);
 		i = input_handle(input, stream_one);
 		if (i == 1)
-			return (1);
+			return (free(input) ,write(1, "Error\n",6), 1);
 		stream = stream_one;
 		u = 1;
 		while (stream)
