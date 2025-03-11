@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 11:53:48 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:01:39 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*create_hd_file(t_list *stream)
 	char	*here_doc;
 	int		i;
 
-	if (TOKEN->fd_in != 3)
+	if (TOKEN->hd_file == NULL)
 	{
 		i = 1;
 		here_doc = ft_strjoin(".heredoc", ft_itoa(i));
@@ -30,7 +30,7 @@ char	*create_hd_file(t_list *stream)
 		}
 	}
 	else
-		here_doc = TOKEN->in_file;
+		here_doc = TOKEN->hd_file;
 	fd = open(here_doc, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (NULL);
@@ -51,11 +51,6 @@ int	append_in_file(char *input, char *str)
 	return (0);
 }
 
-void check_doll()
-{
-	//
-}
-
 int	create_heredoc(char *str, t_list *stream)
 {
 	char	*input;
@@ -69,6 +64,7 @@ int	create_heredoc(char *str, t_list *stream)
 		return (free(input), write(1, "exit", 4), -1);
 	while (ft_strncmp(input, str, ft_strlen(str)) != 0)
 	{
+		input = dollar_handle(input);
 		if (append_in_file(input, here_doc) == -1)
 			return (free(input), -1);
 		free(input);
@@ -76,10 +72,9 @@ int	create_heredoc(char *str, t_list *stream)
 		if (!input)
 			return (free(input), write(1, "exit", 4), -1);
 	}
-	TOKEN->in_file = here_doc;
-	TOKEN->fd_in = 3;
+	TOKEN->hd_file = here_doc;
+	TOKEN->fd_in = 4;
 	free(input);
-	check_doll();
 	return (0);
 }
 
@@ -93,10 +88,10 @@ int	heredoc(int i, char *input, t_list *stream)
 	i_temp = i;
 	while (input[i] && !wh_space(input[i]))
 	{
-		if(input[i] == '\'')
+		if (input[i] == '\'')
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		i++;
 		u++;
@@ -107,10 +102,10 @@ int	heredoc(int i, char *input, t_list *stream)
 	u = 0;
 	while (i_temp < i)
 	{
-		if(input[i] == '\'')
+		if (input[i] == '\'')
 		{
 			i_temp++;
-			continue;
+			continue ;
 		}
 		str[u] = input[i_temp];
 		i_temp++;

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 16:05:07 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:14:10 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	creat_args(char *input, int i, char ***args)
 
 t_list	*new_stream(t_list *stream, t_list *stream_one)
 {
-	if (TOKEN->fd_out == 1)
+	if (TOKEN->fd_out == STDOUT_FILENO)
 		TOKEN->fd_out = 2;
 	stream = stream_one;
 	stream = init_stream(stream_one);

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 16:00:05 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:31:34 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_list	*init_stream(t_list *stream_one)
 	if (!stream_info)
 		return (NULL);
 	stream = ft_lstnew(stream_info);
+	if (!stream)
+		return (free(stream_info), (NULL));
 	ft_lstadd_back(&stream_one, stream);
 	i = 0;
 	while (stream_one->next)
@@ -54,8 +56,8 @@ t_list	*init_stream(t_list *stream_one)
 		stream_one = stream_one->next;
 	}
 	TOKEN->stream_num = i;
-	TOKEN->fd_in = 1;
-	TOKEN->fd_out = 1;
+	TOKEN->fd_in = STDIN_FILENO;
+	TOKEN->fd_out = STDOUT_FILENO;
 	TOKEN->in_file = NULL;
 	TOKEN->out_file = NULL;
 	TOKEN->arg = NULL;
@@ -69,7 +71,6 @@ int	main(void)
 	t_list	*stream_one;
 	t_list	*stream;
 	int		i;
-	int		u;
 
 	while (1)
 	{
@@ -86,20 +87,18 @@ int	main(void)
 		stream_one = init_stream(stream_one);
 		if (stream_one == NULL)
 			return (free(input), 0);
-		i = input_handle(input, stream_one);
-		if (i == 1)
-			return (free(input) ,write(1, "Error\n",6), 1);
+		if (input_handle(input, stream_one))
+			return (free_stream(stream_one), free(input), write(1, "Error\n", 6), 1);
 		stream = stream_one;
-		u = 1;
 		while (stream)
 		{
 			if (TOKEN->arg)
 			{
 				ft_printf("\n");
 				i = 0;
-				ft_printf("stream_num: %d\nfd_in:%d\nfd_out: %d\ninfile: %s\noutfile: %s\nhd_file: %s\n",
-							TOKEN->stream_num,TOKEN->fd_in,TOKEN->fd_out,
-							TOKEN->in_file,TOKEN->out_file,TOKEN->hd_file);
+				ft_printf("stream_num: %d\nfd_in:%d\nfd_out: %d\ninfile:%s\noutfile: %s\nhd_file: %s\n", TOKEN->stream_num,
+					TOKEN->fd_in, TOKEN->fd_out, TOKEN->in_file,
+					TOKEN->out_file, TOKEN->hd_file);
 				while (TOKEN->arg[i])
 				{
 					ft_printf("arg[%d]:%s\n", i, TOKEN->arg[i]);
@@ -108,14 +107,12 @@ int	main(void)
 				ft_printf("\n");
 			}
 			stream = stream->next;
-			u++;
 		}
 		ft_execute_command(stream_one);
-		//free(input);
+		// free(input);
 	}
 	return (0);
 }
-
 
 // Nicht löschen. für pipe verständnis
 // int	main(void)
