@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 14:49:17 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:35:42 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ volatile int	g_sig;
 typedef struct s_token
 {
 	int stream_num; // stream_num
-	int fd_in;      // 1 für std_input, 2 für Pipe, 3 für File, 4 for heredoc
-	int fd_out;     // fd output
+	int fd_in;      // 0 für std_input, 2 für Pipe, 3 für File, 4 for heredoc
+	int fd_out;     // fd output, 1 für std_output
 	char *in_file;  // input File
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
 	char *hd_file;  // heredoc file
@@ -79,5 +79,6 @@ char			*dollar_handle(char *input);
 
 void			ft_error_cmd(char *message, char *input_name);
 void			free_strstr(char **str);
+void			free_stream(t_list *stream);
 
 #endif

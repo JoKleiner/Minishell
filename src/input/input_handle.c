@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 14:54:02 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:43:57 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,8 @@ int	add_arg(char *str, char ***args)
 	i = 0;
 	if (!str || !args)
 		return (1);
-	if (*args)
-	{
-		while ((*args)[i])
-			i++;
-	}
+	while ((*args)[i])
+		i++;
 	args_temp = malloc((i + 2) * sizeof(char *));
 	if (!args_temp)
 		return (free(str), 1);
@@ -103,6 +100,7 @@ int	creat_args(char *input, int i, char ***args)
 				i_temp++;
 			}
 			i_temp++;
+			continue ;
 		}
 		str[u] = input[i_temp];
 		u++;
@@ -116,7 +114,7 @@ int	creat_args(char *input, int i, char ***args)
 
 t_list	*new_stream(t_list *stream, t_list *stream_one)
 {
-	if (TOKEN->fd_out == 1)
+	if (TOKEN->fd_out == STDOUT_FILENO)
 		TOKEN->fd_out = 2;
 	stream = stream_one;
 	stream = init_stream(stream_one);
@@ -144,12 +142,14 @@ int	pipe_found(int i, t_list *stream_one, char ***args)
 	t_list	*stream;
 	char	**args_temp;
 
-	args_temp = NULL;
+	args_temp = malloc(sizeof(char *));
+	if(!args_temp)
+		return(-1);
+	args_temp[0] = NULL;
 	stream = ft_lstlast(stream_one);
 	TOKEN->arg = *args;
 	stream = new_stream(stream, stream_one);
 	*args = args_temp;
-	i++;
 	return (i);
 }
 
@@ -162,10 +162,10 @@ int	input_handle(char *input, t_list *stream_one)
 	i = 0;
 	input = dollar_handle(input);
 	stream = stream_one;
-	args = malloc(sizeof(char **));
+	args = malloc(sizeof(char *));
 	if (!args)
 		return (1);
-	args = NULL;
+	*args = NULL;
 	while (input[i])
 	{
 		while (input[i] && wh_space(input[i]))
@@ -178,7 +178,9 @@ int	input_handle(char *input, t_list *stream_one)
 			stream = ft_lstlast(stream_one);
 		}
 		else if (input[i])
-			i = creat_args(input, i, &args);
+		{
+			i = creat_args(input, i, &args) - 1;
+		}
 		if (i == -1)
 			return (1);
 		i++;

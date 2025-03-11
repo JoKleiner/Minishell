@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 11:26:14 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:11:16 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	creat_file(char *str, t_list *stream, bool add)
 {
 	int fd;
 
-	if(TOKEN->fd_out != 1)
+	if(TOKEN->fd_out != STDOUT_FILENO)
 		close(TOKEN->fd_out);
 	if(add == true)
 		fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -47,7 +47,6 @@ int	redir_out2(char *input, int i, t_list *stream, bool add)
 	if (!str)
 		return (-1);
 	TOKEN->out_file = str;
-	TOKEN->fd_out = 3;
 	if (creat_file(str, stream, add) == -1)
 		return (-1);
 	return (i);
