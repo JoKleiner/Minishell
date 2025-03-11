@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 12:26:03 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:17:14 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stdarg.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -99,5 +100,6 @@ char				*ft_substr(char const *str, unsigned int start, size_t len);
 char				*ft_strtrim(char const *str, char const *set);
 char				*ft_strmapi(char const *str, char (*f)(unsigned int, char));
 void				ft_striteri(char *str, void (*f)(unsigned int, char *));
+bool				ft_str_same(char *s1, char *s2, int len);
 
 #endif

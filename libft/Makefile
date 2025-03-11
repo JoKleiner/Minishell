@@ -20,7 +20,7 @@ SRCS_STR    = $(addprefix $(STR_DIR)/, ft_putstr_rev.c ft_split.c ft_strdup.c ft
 SRCS_CONV   = $(addprefix $(CONV_DIR)/, ft_atoi.c ft_itoa.c)
 SRCS_FURTH  = $(addprefix $(FURTH_DIR)/, ft_isalnum.c ft_isdigit.c ft_putendl.c ft_strchr.c ft_strmapi.c ft_strrchr.c \
 			   ft_tolower.c ft_isalpha.c ft_isprint.c ft_putnbr.c ft_striteri.c ft_strncmp.c ft_strtrim.c ft_toupper.c \
-			   ft_isascii.c ft_putchar.c ft_putstr.c ft_strlcat.c ft_strnstr.c ft_substr.c)
+			   ft_isascii.c ft_putchar.c ft_putstr.c ft_strlcat.c ft_strnstr.c ft_substr.c ft_str_same.c)
 
 SRCS            = $(SRCS_PRINTF) $(SRCS_GNL) $(SRCS_LIST) $(SRCS_MEMO) $(SRCS_STR) $(SRCS_CONV) $(SRCS_FURTH) 
 OBJS            = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

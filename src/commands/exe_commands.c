@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/10 11:41:17 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/10 17:10:15 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 // Checks if the command is a self-made command
 static bool	ft_builtin_cmd(t_list *stream)
 {
-	if (ft_strncmp(TOKEN->arg[0], "echo", 4) == 0)
+	if (ft_strncmp(TOKEN->arg[0], "echo", 5) == 0)
 		return (ft_exe_echo(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "cd", 2) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "cd", 3) == 0)
 		return (ft_exe_cd(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "pwd", 3) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "pwd", 4) == 0)
 		return (ft_exe_pwd(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "export", 7) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "export", 8) == 0)
 		return (ft_exe_export(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "unset", 5) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "unset", 6) == 0)
 		return (ft_exe_unset(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "env", 3) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "env", 4) == 0)
 		return (ft_exe_env(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "exit", 4) == 0)
+	else if (ft_strncmp(TOKEN->arg[0], "exit", 5) == 0)
 		return (ft_exe_exit(stream), true);
 	return (false);
 }

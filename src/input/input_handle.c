@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 14:40:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/10 14:54:02 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int	handle_redir(int i, char *input, t_list *stream)
 	return (i);
 }
 
-int	pipe_found(int i, char *input, t_list *stream_one, char ***args)
+int	pipe_found(int i, t_list *stream_one, char ***args)
 {
 	t_list	*stream;
 	char	**args_temp;
@@ -174,7 +174,7 @@ int	input_handle(char *input, t_list *stream_one)
 			i = handle_redir(i, input, stream);
 		else if (input[i] && input[i] == '|')
 		{
-			i = pipe_found(i, input, stream_one, &args);
+			i = pipe_found(i, stream_one, &args);
 			stream = ft_lstlast(stream_one);
 		}
 		else if (input[i])

@@ -6,18 +6,16 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/10 14:42:21 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/11 10:36:48 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	**ft_sort_env(void)
+static char	**ft_copy_env(void)
 {
-	int		i;
-	bool	change;
 	char	**sorted_env;
-	char	*temp;
+	int		i;
 
 	i = 0;
 	while (environ[i])
@@ -31,7 +29,14 @@ static char	**ft_sort_env(void)
 			exit(0);
 		i++;
 	}
-	// hechsel
+	return (sorted_env);
+}
+static char	**ft_sort_env(char **sorted_env)
+{
+	int		i;
+	char	*temp;
+	bool	change;
+
 	change = true;
 	while (change == true)
 	{
@@ -59,16 +64,19 @@ void	ft_exe_export(t_list *stream)
 {
 	char	**sorted_env;
 	int		i;
+
 	if (!TOKEN->arg[1])
 	{
-		printf("schuppen\n");
-		sorted_env = ft_sort_env();
+		sorted_env = ft_copy_env();
+		sorted_env = ft_sort_env(sorted_env);
 		if (!sorted_env)
 			exit(0);
 		i = 0;
 		while (sorted_env[i])
 		{
-			printf("Ende: %s\n", sorted_env[i]);
+			if (ft_str_same("LINES=", sorted_env[i], 6) == false
+				&& ft_str_same("COLUMNS=", sorted_env[i], 8) == false)
+				printf("declare -x %s\n", sorted_env[i]);
 			i++;
 		}
 	}
