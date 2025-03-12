@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/10 11:26:11 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:06:52 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 
 int	file_in(char *input, int i, t_list *stream)
 {
-	int		num_letter;
 	int		i_temp;
 	char	*str;
 
-	num_letter = 0;
 	i_temp = i;
-	while (!wh_space(input[i]) && !spez_char(input[i]) && input[i])
+	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
 	{
+		if (input[i] == '\'')
+			i = skip_until_char(i, input, '\'');
+		if (input[i] == '\"')
+			i = skip_until_char(i, input, '\"');
 		i++;
-		num_letter++;
 	}
-	if (spez_char(input[i]))
+	str = str_quote_less(&input[i_temp], i - i_temp);
+	if (!str)
 		return (-1);
 	if (TOKEN->in_file)
 		free(TOKEN->in_file);
-	str = ft_strndup(&input[i_temp], num_letter);
-	if (!str)
-		return (-1);
 	TOKEN->in_file = str;
 	TOKEN->fd_in = 3;
 	return (i);
@@ -46,16 +45,12 @@ int	redirect_in(char *input, int i, t_list *stream)
 		while (wh_space(input[i]))
 			i++;
 		i = heredoc(i, input, stream);
-		if (i == -1)
-			return (-1);
 	}
 	else
 	{
 		while (wh_space(input[i]))
 			i++;
 		i = file_in(input, i, stream);
-		if (i == -1)
-			return (-1);
 	}
 	return (i);
 }

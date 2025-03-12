@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 10:01:39 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/12 16:16:15 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ char	*create_hd_file(t_list *stream)
 	{
 		i = 1;
 		here_doc = ft_strjoin(".heredoc", ft_itoa(i));
+		if (!here_doc)
+			return (NULL);
 		while (!access(here_doc, F_OK))
 		{
 			i++;
 			free(here_doc);
 			here_doc = ft_strjoin(".heredoc", ft_itoa(i));
+			if (!here_doc)
+				return (NULL);
 		}
 	}
 	else
@@ -34,8 +38,7 @@ char	*create_hd_file(t_list *stream)
 	fd = open(here_doc, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (NULL);
-	close(fd);
-	return (here_doc);
+	return (close(fd), here_doc);
 }
 
 int	append_in_file(char *input, char *str)
@@ -53,66 +56,52 @@ int	append_in_file(char *input, char *str)
 
 int	create_heredoc(char *str, t_list *stream)
 {
-	char	*input;
+	char	*here_input;
 	char	*here_doc;
 
 	here_doc = create_hd_file(stream);
 	if (!here_doc)
-		return (-1);
-	input = readline("> ");
-	if (!input)
-		return (free(input), write(1, "exit", 4), -1);
-	while (ft_strncmp(input, str, ft_strlen(str)) != 0)
+		return (free(str), -1);
+	here_input = readline("> ");
+	if (!here_input)
+		return (free(str), free(here_doc), -1);
+	while (ft_strncmp(here_input, str, ft_strlen(str)) != 0)
 	{
-		input = dollar_handle(input);
-		if (append_in_file(input, here_doc) == -1)
-			return (free(input), -1);
-		free(input);
-		input = readline("> ");
-		if (!input)
-			return (free(input), write(1, "exit", 4), -1);
+		here_input = dollar_handle(here_input);
+		if (append_in_file(here_input, here_doc) == -1)
+			return (free(str), free(here_doc), free(here_input), -1);
+		free(here_input);
+		here_input = readline("> ");
+		if (!here_input)
+			return (free(str), free(here_doc), -1);
 	}
+	free(here_input);
 	TOKEN->hd_file = here_doc;
 	TOKEN->fd_in = 4;
-	free(input);
+	free(str);
 	return (0);
 }
 
 int	heredoc(int i, char *input, t_list *stream)
 {
-	int		u;
 	int		i_temp;
 	char	*str;
 
-	u = 0;
 	i_temp = i;
-	while (input[i] && !wh_space(input[i]))
+	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
 	{
 		if (input[i] == '\'')
-		{
-			i++;
-			continue ;
-		}
+			i = skip_until_char(i, input, '\'');
+		if (input[i] == '\"')
+			i = skip_until_char(i, input, '\"');
 		i++;
-		u++;
 	}
-	str = malloc(u + 1);
+	str = str_quote_less(&input[i_temp], i - i_temp);
 	if (!str)
 		return (-1);
-	u = 0;
-	while (i_temp < i)
-	{
-		if (input[i] == '\'')
-		{
-			i_temp++;
-			continue ;
-		}
-		str[u] = input[i_temp];
-		i_temp++;
-		u++;
-	}
-	str[u] = '\0';
+	if (str[0] == '\0')
+		return (free(str), write(1, "syntax error\n", 13), -1);
 	if (create_heredoc(str, stream) == -1)
 		return (-1);
-	return (free(str), i);
+	return (i);
 }

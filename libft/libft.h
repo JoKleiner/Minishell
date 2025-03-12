@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 10:17:14 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/11 11:37:40 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ int					get_next_line_2(char **line, char *temp, char *buffer,
 char				*expand_line(char **line, char *buffer, int i);
 char				*init_temp(char *temp, char **line, char **buffer);
 void				free_str(char **str);
+size_t				ft_strlen_gnl(const char *str);
+char				*ft_strndup_gnl(const char *str, size_t len);
+char				*ft_strjoin_gnl(char const *str1, char const *str2);
+void				*ft_memcpy_gnl(void *dst, const void *src, size_t num);
 
 // Memory Functionos
 void				ft_bzero(void *str, size_t num);

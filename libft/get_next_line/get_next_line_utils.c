@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 15:05:01 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/07 15:03:28 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 11:35:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen_gnl(const char *str)
 {
 	size_t	strlen;
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *str)
 	return (strlen);
 }
 
-char	*ft_strndup(const char *str, size_t len)
+char	*ft_strndup_gnl(const char *str, size_t len)
 {
 	char	*dst;
 	size_t	i;
@@ -40,7 +40,7 @@ char	*ft_strndup(const char *str, size_t len)
 	return (dst);
 }
 
-char	*ft_strjoin(char const *str1, char const *str2)
+char	*ft_strjoin_gnl(char const *str1, char const *str2)
 {
 	char	*dst;
 	size_t	i;
@@ -48,7 +48,7 @@ char	*ft_strjoin(char const *str1, char const *str2)
 
 	i = 0;
 	u = 0;
-	dst = (char *)malloc(ft_strlen(str1) + ft_strlen(str2) + 1);
+	dst = (char *)malloc(ft_strlen_gnl(str1) + ft_strlen_gnl(str2) + 1);
 	if (dst == NULL)
 		return (NULL);
 	while (str1[i] != '\0')
@@ -75,7 +75,7 @@ void	free_str(char **str)
 	}
 }
 
-void	*ft_memcpy(void *dst, const void *src, size_t num)
+void	*ft_memcpy_gnl(void *dst, const void *src, size_t num)
 {
 	size_t		i;
 	char		*dstptr;

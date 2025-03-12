@@ -6,51 +6,46 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 10:04:32 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/12 16:15:14 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	env_char(char input)
-{
-	if (input >= 'a' && input <= 'z')
-		return (1);
-	if (input >= 'A' && input <= 'Z')
-		return (1);
-	if (input >= '0' && input <= '9')
-		return (1);
-	if (input == '_')
-		return (1);
-	return (0);
-}
-
-int	find_envp(char *str)
-{
-	int	u;
-
-	u = 0;
-	while (environ[u])
-	{
-		if (ft_strncmp(str, environ[u], ft_strlen(str)) == 0)
-			break ;
-		u++;
-	}
-	return (u);
-}
-
 char	*change_input(char *input, char *str, char *env_arg)
 {
 	int		pos;
+	
 	char	*str_temp;
 
 	pos = ft_strstr_num(input, str);
-	str_temp = ft_strndup(input, pos-1);
+	str_temp = ft_strndup(input, pos - 1);
+	if (!str_temp)
+		return (free(input), free(str), free(env_arg), NULL);
 	str_temp = ft_strjoin_free(str_temp, env_arg);
+	if (!str_temp)
+		return (free(input), free(str), free(env_arg), NULL);
 	str_temp = ft_strjoin_free(str_temp, &input[pos + ft_strlen(str)]);
+	if (!str_temp)
+		return (free(input), free(str), free(env_arg), NULL);
 	free(input);
 	input = str_temp;
+	free(str);
+	free(env_arg);
 	return (input);
+}
+
+char	*creat_str(int i, int i_temp, char *input)
+{
+	char	*str;
+
+	str = ft_strndup(&input[i_temp + 1], i - i_temp);
+	if (!str)
+		return (NULL);
+	str = ft_strjoin_free(str, "=");
+	if (!str)
+		return (NULL);
+	return (str);
 }
 
 char	*dollar_found(int i, char *input)
@@ -60,70 +55,75 @@ char	*dollar_found(int i, char *input)
 	char	*str;
 	char	*env_arg;
 
-	u = 0;
 	i_temp = i;
 	env_arg = NULL;
-	while (input[i + 1] && env_char(input[i + 1]) && !wh_space(input[i + 1]))
-	{
+	while (input[i + 1] && env_char(input[i + 1]))
 		i++;
-		u++;
-	}
-	str = ft_strndup(&input[i_temp+1], u);
-	str = ft_strjoin_free(str, "=");
+	str = creat_str(i, i_temp, input);
+	if (!str)
+		return (free(input), NULL);
 	u = find_envp(str);
 	if (environ[u])
+	{
 		env_arg = ft_strdup(&environ[u][ft_strlen(str)]);
+		if (!env_arg)
+			return (free(input), free(str), NULL);
+	}
 	str[ft_strlen(str) - 1] = '\0';
 	input = change_input(input, str, env_arg);
+	if (!input)
+		return (NULL);
 	return (input);
-}
-
-int	if_heredoc(int i, char *input)
-{
-	if (i >= 2)
-	{
-		while (i > 2 && input[i] != '<' && !wh_space(input[i]))
-			i--;
-		while (i > 2 && wh_space(input[i]))
-			i--;
-		if (input[i - 1] == '<' && input[i - 2] == '<')
-			return (1);
-	}
-	return (0);
-}
-
-int	skip_single_quote(int i, char *input)
-{
-	i++;
-	while (input[i] != '\'')
-		i++;
-	i++;
-	return (i);
 }
 
 int	double_quote(int i, char **input)
 {
-	int i_temp;
-	
+	int	i_temp;
+
 	i++;
-	while ((*input)[i] && (*input)[i] != '$' && (*input)[i] != '\"')
-		i++;
-	i_temp = i;
-	if ((*input)[i] == '$')
+	while ((*input)[i] && (*input)[i] != '\"')
 	{
-		while ((*input)[i_temp] && (*input)[i_temp] != '\"')
-			i_temp--;
-		if (if_heredoc(i_temp, *input))
-			while ((*input)[i] && !wh_space((*input)[i]))
+		if ((*input)[i] == '$')
+		{
+			i_temp = i;
+			while ((*input)[i_temp] != '\"')
+				i_temp--;
+			if (if_heredoc(i_temp, *input))
 			{
 				i++;
 				continue ;
 			}
-		*input = dollar_found(i, *input);
+			*input = dollar_found(i, *input);
+			if (!(*input))
+				return (-1);
+			i++;
+		}
 		i++;
 	}
-	if ((*input)[i] == '\"')
+	if ((*input)[i] == '\0')
+		i--;
+	return (i);
+}
+
+int	skip_heredoc(int i, char *input)
+{
+	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
+	{
+		if (input[i] == '\'')
+			i = skip_until_char(i, input, '\'');
+		if (input[i] == '\"')
+			i = skip_until_char(i, input, '\"');
 		i++;
+	}
+	return (i);
+}
+
+int	found_quote(int i, char *input)
+{
+	if (input[i] == '\'')
+		i = skip_until_char(i, input, '\'');
+	if (input[i] == '\"')
+		i = double_quote(i, &input);
 	return (i);
 }
 
@@ -137,23 +137,21 @@ char	*dollar_handle(char *input)
 		if (input[i] == '$')
 		{
 			if (if_heredoc(i, input))
-			{
-				while (input[i] && !wh_space(input[i]))
-					i++;
-				continue ;
-			}
-			if (env_char(input[i + 1]))
+				i = skip_heredoc(i, input);
+			else if (env_char(input[i + 1]))
 			{
 				input = dollar_found(i, input);
-				continue ;
+				if (!input)
+					return (NULL);
 			}
+			else
+				i++;
+			continue ;
 		}
-		if (input[i] == '\'')
-			i = skip_single_quote(i, input);
-		if (input[i] == '\"')
-			i = double_quote(i, &input);
+		i = found_quote(i, input);
+		if (i == -1)
+			return (NULL);
 		i++;
 	}
-	ft_printf("%s\n", input);
 	return (input);
 }

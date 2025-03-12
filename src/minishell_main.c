@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 10:31:34 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:07:07 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	wh_space(char input)
 		return (1);
 	return (0);
 }
-int	spez_char(char input)
+int	spec_char(char input)
 {
 	if (input == '<' || input == '>')
 		return (1);
@@ -27,7 +27,7 @@ int	spez_char(char input)
 	return (0);
 }
 
-int	spez_char_wo_dol(char input)
+int	spec_char_wo_dol(char input)
 {
 	if (input == '<' || input == '>')
 		return (1);
@@ -77,7 +77,7 @@ int	main(void)
 		stream_one = NULL;
 		input = readline("\033[0;34mminishell> \033[0m");
 		if (!input)
-			return (free(input), write(1, "exit\n", 5), 0);
+			return (write(1, "error\n", 6), 1);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
@@ -86,9 +86,9 @@ int	main(void)
 		add_history(input);
 		stream_one = init_stream(stream_one);
 		if (stream_one == NULL)
-			return (free(input), 0);
+			return (free(input), write(1, "error\n", 6), 1);
 		if (input_handle(input, stream_one))
-			return (free_stream(stream_one), free(input), write(1, "Error\n", 6), 1);
+			return (free_stream(stream_one), 1);
 		stream = stream_one;
 		while (stream)
 		{
@@ -96,20 +96,20 @@ int	main(void)
 			{
 				ft_printf("\n");
 				i = 0;
-				ft_printf("stream_num: %d\nfd_in:%d\nfd_out: %d\ninfile:%s\noutfile: %s\nhd_file: %s\n", TOKEN->stream_num,
-					TOKEN->fd_in, TOKEN->fd_out, TOKEN->in_file,
-					TOKEN->out_file, TOKEN->hd_file);
-				while (TOKEN->arg[i])
-				{
-					ft_printf("arg[%d]:%s\n", i, TOKEN->arg[i]);
-					i++;
-				}
+				ft_printf("stream_num: %d\nfd_in:%d\nfd_out:%d\ninfile:%s\noutfile: %s\nhd_file: %s\n",
+					TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out,
+					TOKEN->in_file, TOKEN->out_file, TOKEN->hd_file);
+				if (TOKEN->arg[0])
+					while (TOKEN->arg[i])
+					{
+						ft_printf("arg[%d]:%s\n", i, TOKEN->arg[i]);
+						i++;
+					}
 				ft_printf("\n");
 			}
 			stream = stream->next;
 		}
 		ft_execute_command(stream_one);
-		// free(input);
 	}
 	return (0);
 }

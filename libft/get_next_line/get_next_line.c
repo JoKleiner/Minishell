@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:29:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/01/22 15:24:17 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 11:36:14 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ char	*init_temp(char *temp, char **line, char **buffer)
 	i = 0;
 	while (temp[i] != '\n' && temp[i] != '\0')
 		i++;
-	*line = ft_strndup(temp, i + 1);
+	*line = ft_strndup_gnl(temp, i + 1);
 	if (*line == NULL)
 		return (free_str(buffer), NULL);
 	if (temp[i] == '\n')
 	{
-		temp = ft_memcpy(temp, &temp[i + 1], ft_strlen(temp) - i);
+		temp = ft_memcpy_gnl(temp, &temp[i + 1], ft_strlen_gnl(temp) - i);
 		return (free_str(buffer), *line);
 	}
 	if (temp[0] == '\0')
@@ -37,10 +37,10 @@ char	*expand_line(char **line, char *buffer, int i)
 	char	*temp2;
 	char	*line2;
 
-	temp2 = ft_strndup(buffer, i + 1);
+	temp2 = ft_strndup_gnl(buffer, i + 1);
 	if (temp2 == NULL)
 		return (NULL);
-	line2 = ft_strjoin(*line, temp2);
+	line2 = ft_strjoin_gnl(*line, temp2);
 	if (line2 == NULL)
 		return (free(temp2), NULL);
 	free(temp2);
@@ -63,13 +63,13 @@ int	get_next_line_2(char **line, char *temp, char *buffer, int bytes_num)
 		u++;
 	if (*line == NULL)
 	{
-		*line = ft_strndup(buffer, u);
+		*line = ft_strndup_gnl(buffer, u);
 		if (*line == NULL)
 			return (-1);
 	}
 	else if (expand_line(line, buffer, i) == NULL)
 		return (-1);
-	temp = ft_memcpy(temp, &buffer[i + 1], bytes_num - i);
+	temp = ft_memcpy_gnl(temp, &buffer[i + 1], bytes_num - i);
 	temp[bytes_num - i] = '\0';
 	return (i);
 }

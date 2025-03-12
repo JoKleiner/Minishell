@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 10:35:42 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/12 16:59:58 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ typedef struct s_token
 
 t_list			*init_stream(t_list *stream_one);
 int				wh_space(char input);
-int				spez_char(char input);
-int				spez_char_wo_dol(char input);
+int				spec_char(char input);
+int				spec_char_wo_dol(char input);
 
 // ---  Commands    --- //
 
@@ -74,6 +74,13 @@ int				redirect_in(char *input, int i, t_list *stream);
 int				redirect_out(char *input, int i, t_list *stream);
 int				heredoc(int i, char *input, t_list *stream);
 char			*dollar_handle(char *input);
+int				double_quote(int i, char **input);
+int				skip_until_char(int i, char *input, char cha);
+int				if_heredoc(int i, char *input);
+int				find_envp(char *str);
+int				env_char(char input);
+char			*str_quote_less(char *input, int len);
+int				creat_args(char *input, int i, t_list *stream);
 
 // ---	Errors			--- //
 
