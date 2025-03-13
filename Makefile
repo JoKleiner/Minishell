@@ -6,7 +6,7 @@
 #    By: joklein <joklein@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
-#    Updated: 2025/03/13 11:15:29 by joklein          ###   ########.fr        #
+#    Updated: 2025/03/13 12:46:41 by joklein          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ OBJ_D_DIR		:= obj_d
 # 	FILES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
-CFILES_SRCS		= $(addprefix $(SRC_DIR)/, minishell_main.c free_stream.c)
+CFILES_SRCS		= $(addprefix $(SRC_DIR)/, minishell_main.c free_stream.c double_pointer_utils.c)
 CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c dollar_utils.c creat_args.c dollar_quote.c)
 CFILES_CMD		= $(addprefix $(COMMANDS_DIR)/, exe_commands.c error_cmd.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
 

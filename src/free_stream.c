@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 14:54:45 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 12:48:33 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	free_strstr(char **sstr)
 	i = 0;
 	while (sstr[i])
 		free(sstr[i++]);
-	free(sstr);
+	if(sstr)
+		free(sstr);
 }
 
 void	free_content(t_list *stream)

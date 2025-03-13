@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 11:31:51 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 12:50:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,15 @@ t_list	*init_stream(t_list *stream_one)
 
 int	main(void)
 {
+	char	**copy_env;
 	char	*input;
 	t_list	*stream_one;
 	t_list	*stream;
 	int		i;
 
+	copy_env = ft_strstrdup(environ);
+	if(!copy_env)
+		return(ft_error_cmd("malloc failed!", "minishell"), 1);
 	while (1)
 	{
 		stream_one = NULL;
@@ -109,9 +113,10 @@ int	main(void)
 			}
 			stream = stream->next;
 		}
-		ft_execute_command(stream_one);
+		ft_execute_command(stream_one, &copy_env);
 	}
 	free_stream(stream_one);
+	free_strstr(copy_env);
 	rl_clear_history();
 	return (0);
 }

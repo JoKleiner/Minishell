@@ -6,13 +6,44 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:29 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 11:45:03 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/13 12:44:30 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_exe_unset(t_list *stream)
+static char	**ft_rm_envvar(char *arg, char **copy_env)
 {
-	(void)stream;
+	(void)arg;
+	(void)copy_env;
+}
+
+void	ft_exe_unset(t_list *stream, char ***copy_env)
+{
+	int		i;
+	int		j;
+	char	**temp;
+
+	if (!TOKEN->arg[1])
+		return ;
+	i = 1;
+	while (TOKEN->arg[i])
+	{
+		if(ft_strchr(TOKEN->arg[i], '='))
+			return(ft_error_cmd("", "unset"));
+		i++;
+	}
+	i = 1;
+	while (TOKEN->arg[i])
+	{
+		if (ft_env_exists(TOKEN->arg[i], copy_env))
+		{
+			temp = ft_rm_envvar(TOKEN->arg[i], *copy_env);
+			if (!(temp))
+				return (ft_error_cmd("Malloc failed.", "unset"));
+			free_strstr(*copy_env);
+			*copy_env = temp;
+		}
+		i++;
+	}
 }

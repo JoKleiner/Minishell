@@ -6,14 +6,14 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/10 17:10:15 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/13 11:00:46 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Checks if the command is a self-made command
-static bool	ft_builtin_cmd(t_list *stream)
+static bool	ft_builtin_cmd(t_list *stream, char ***copy_env)
 {
 	if (ft_strncmp(TOKEN->arg[0], "echo", 5) == 0)
 		return (ft_exe_echo(stream), true);
@@ -22,11 +22,11 @@ static bool	ft_builtin_cmd(t_list *stream)
 	else if (ft_strncmp(TOKEN->arg[0], "pwd", 4) == 0)
 		return (ft_exe_pwd(stream), true);
 	else if (ft_strncmp(TOKEN->arg[0], "export", 8) == 0)
-		return (ft_exe_export(stream), true);
+		return (ft_exe_export(stream, copy_env), true);
 	else if (ft_strncmp(TOKEN->arg[0], "unset", 6) == 0)
-		return (ft_exe_unset(stream), true);
+		return (ft_exe_unset(stream, copy_env), true);
 	else if (ft_strncmp(TOKEN->arg[0], "env", 4) == 0)
-		return (ft_exe_env(stream), true);
+		return (ft_exe_env(stream, *copy_env), true);
 	else if (ft_strncmp(TOKEN->arg[0], "exit", 5) == 0)
 		return (ft_exe_exit(stream), true);
 	return (false);
@@ -59,15 +59,16 @@ static char	*ft_cmd_exists(t_list *stream)
 
 // Executes self-made and builtin commands.
 // Error if command does not exist.
-void	ft_execute_command(t_list *stream)
+void	ft_execute_command(t_list *stream, char ***copy_env)
 {
 	char	*path;
 	int		pid;
 
-	if (ft_builtin_cmd(stream) == true)
+	if (ft_builtin_cmd(stream, copy_env) == true)
 	{
 		if (TOKEN->fd_out != 1)
 			close(TOKEN->fd_out);
+		return;
 	}
 	else
 	{
@@ -79,7 +80,7 @@ void	ft_execute_command(t_list *stream)
 			free(path);
 		}
 		else
-			ft_error_cmd("Command not found", TOKEN->arg[0]);
+			printf("Error: %s: Command not found", TOKEN->arg[0]);
 	}
 	(void)pid;
 }
