@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/13 11:00:46 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/13 13:11:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static bool	ft_builtin_cmd(t_list *stream, char ***copy_env)
 		return (ft_exe_pwd(stream), true);
 	else if (ft_strncmp(TOKEN->arg[0], "export", 8) == 0)
 		return (ft_exe_export(stream, copy_env), true);
-	else if (ft_strncmp(TOKEN->arg[0], "unset", 6) == 0)
-		return (ft_exe_unset(stream, copy_env), true);
+	// else if (ft_strncmp(TOKEN->arg[0], "unset", 6) == 0)
+	// 	return (ft_exe_unset(stream, copy_env), true);
 	else if (ft_strncmp(TOKEN->arg[0], "env", 4) == 0)
 		return (ft_exe_env(stream, *copy_env), true);
 	else if (ft_strncmp(TOKEN->arg[0], "exit", 5) == 0)

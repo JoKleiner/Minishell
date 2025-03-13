@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 08:52:33 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 12:58:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int	env_char(char input)
 	return (0);
 }
 
-int	find_envp(char *str)
+int	find_envp(char *str, char	**copy_env)
 {
 	int	u;
 
 	u = 0;
-	while (environ[u])
+	while (copy_env[u])
 	{
-		if (ft_strncmp(str, environ[u], ft_strlen(str)) == 0)
+		if (ft_strncmp(str, copy_env[u], ft_strlen(str)) == 0)
 			break ;
 		u++;
 	}

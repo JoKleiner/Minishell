@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/12 16:16:15 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 13:06:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	append_in_file(char *input, char *str)
 	return (0);
 }
 
-int	create_heredoc(char *str, t_list *stream)
+int	create_heredoc(char *str, t_list *stream, char **copy_env)
 {
 	char	*here_input;
 	char	*here_doc;
@@ -67,7 +67,7 @@ int	create_heredoc(char *str, t_list *stream)
 		return (free(str), free(here_doc), -1);
 	while (ft_strncmp(here_input, str, ft_strlen(str)) != 0)
 	{
-		here_input = dollar_handle(here_input);
+		here_input = dollar_handle(here_input, copy_env);
 		if (append_in_file(here_input, here_doc) == -1)
 			return (free(str), free(here_doc), free(here_input), -1);
 		free(here_input);
@@ -82,7 +82,7 @@ int	create_heredoc(char *str, t_list *stream)
 	return (0);
 }
 
-int	heredoc(int i, char *input, t_list *stream)
+int	heredoc(int i, char *input, t_list *stream, char **copy_env)
 {
 	int		i_temp;
 	char	*str;
@@ -101,7 +101,7 @@ int	heredoc(int i, char *input, t_list *stream)
 		return (-1);
 	if (str[0] == '\0')
 		return (free(str), write(1, "syntax error\n", 13), -1);
-	if (create_heredoc(str, stream) == -1)
+	if (create_heredoc(str, stream, copy_env) == -1)
 		return (-1);
 	return (i);
 }
