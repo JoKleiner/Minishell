@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 11:05:56 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 13:08:33 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,23 @@ int	pipe_found(int i, t_list *stream_one)
 	return (i);
 }
 
-int	handle_redir(int i, char *input, t_list *stream)
+int	handle_redir(int i, char *input, t_list *stream, char **copy_env)
 {
 	if (input[i] == '>')
 		i = redirect_out(input, i, stream);
 	else if (input[i] == '<')
 	{
-		i = redirect_in(input, i, stream);
+		i = redirect_in(input, i, stream, copy_env);
 	}
 	return (i);
 }
 
-int	input_handle(char *input, t_list *stream_one)
+int	input_handle(char *input, t_list *stream_one, char	**copy_env)
 {
 	int		i;
 	t_list	*stream;
 
-	input = dollar_handle(input);
+	input = dollar_handle(input, copy_env);
 	if (!input)
 		return (1);
 	stream = stream_one;
@@ -52,7 +52,7 @@ int	input_handle(char *input, t_list *stream_one)
 		if (wh_space(input[i]))
 			sleep(0);
 		else if (input[i] == '>' || input[i] == '<')
-			i = handle_redir(i, input, stream);
+			i = handle_redir(i, input, stream, copy_env);
 		else if (input[i] == '|')
 		{
 			i = pipe_found(i, stream_one);

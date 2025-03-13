@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 12:50:02 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 13:34:50 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(void)
 		stream_one = init_stream(stream_one);
 		if (stream_one == NULL)
 			return (free(input), write(1, "error\n", 6), 1);
-		if (input_handle(input, stream_one))
+		if (input_handle(input, stream_one, copy_env))
 			return (free_stream(stream_one), 1);
 		stream = stream_one;
 		while (stream)

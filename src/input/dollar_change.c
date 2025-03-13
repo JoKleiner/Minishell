@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 10:35:02 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 13:02:37 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*creat_str(int i, int i_temp, char *input)
 	return (str);
 }
 
-char	*dollar_found(int i, char *input)
+char	*dollar_found(int i, char *input, char **copy_env)
 {
 	int		i_temp;
 	int		u;
@@ -61,10 +61,10 @@ char	*dollar_found(int i, char *input)
 	str = creat_str(i, i_temp, input);
 	if (!str)
 		return (free(input), NULL);
-	u = find_envp(str);
-	if (environ[u])
+	u = find_envp(str, copy_env);
+	if (copy_env[u])
 	{
-		env_arg = ft_strdup(&environ[u][ft_strlen(str)]);
+		env_arg = ft_strdup(&copy_env[u][ft_strlen(str)]);
 		if (!env_arg)
 			return (free(input), free(str), NULL);
 	}
@@ -88,7 +88,7 @@ int	skip_heredoc(int i, char *input)
 	return (i);
 }
 
-char	*dollar_handle(char *input)
+char	*dollar_handle(char *input, char **copy_env)
 {
 	int	i;
 
@@ -101,7 +101,7 @@ char	*dollar_handle(char *input)
 				i = skip_heredoc(i, input);
 			else if (env_char(input[i + 1]))
 			{
-				input = dollar_found(i, input);
+				input = dollar_found(i, input, copy_env);
 				if (!input)
 					return (NULL);
 			}
@@ -109,7 +109,7 @@ char	*dollar_handle(char *input)
 				i++;
 			continue ;
 		}
-		i = found_quote(i, input);
+		i = found_quote(i, input, copy_env);
 		if (i == -1)
 			return (NULL);
 		i++;
