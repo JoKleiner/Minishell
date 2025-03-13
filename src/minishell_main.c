@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 10:18:34 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 11:31:51 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,17 @@ int	main(void)
 	t_list	*stream;
 	int		i;
 
-	// while (1)
-	// {
+	while (1)
+	{
 		stream_one = NULL;
 		input = readline("\033[0;34mminishell> \033[0m");
 		if (!input)
 			return (write(1, "error\n", 6), 1);
-		// if (ft_strlen(input) == 0)
-		// {
-		// 	free(input);
-		// 	continue ;
-		// }
+		if (ft_strlen(input) == 0)
+		{
+			free(input);
+			continue ;
+		}
 		add_history(input);
 		stream_one = init_stream(stream_one);
 		if (stream_one == NULL)
@@ -109,8 +109,8 @@ int	main(void)
 			}
 			stream = stream->next;
 		}
-		//ft_execute_command(stream_one);
-	// }
+		ft_execute_command(stream_one);
+	}
 	free_stream(stream_one);
 	rl_clear_history();
 	return (0);

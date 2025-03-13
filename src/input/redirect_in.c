@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 11:02:36 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 11:33:06 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	redirect_in(char *input, int i, t_list *stream)
 			i++;
 		i = file_in(input, i, stream);
 	}
-	if(input[i] == '\0')
+	if (input[i] == '\0')
 		i--;
 	return (i);
 }
