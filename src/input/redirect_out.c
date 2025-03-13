@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/12 15:06:52 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 08:58:40 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	creat_file(char *str, t_list *stream, bool add)
 		fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	
 	if (fd == -1)
 		return (free(str), -1);
 	TOKEN->fd_out = fd;

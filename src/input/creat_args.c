@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:59:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/12 17:04:30 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 08:58:19 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	creat_args(char *input, int i, t_list *stream)
 		if (!args)
 			return (-1);
 		args[0] = NULL;
-        TOKEN->arg = args;
+		TOKEN->arg = args;
 	}
 	i_temp = i;
 	u = 0;

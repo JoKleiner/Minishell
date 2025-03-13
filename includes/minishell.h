@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/12 16:59:58 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 11:23:37 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,18 @@ void			ft_exe_unset(t_list *stream);
 // ---  Inputhandle --- //
 
 int				input_handle(char *input, t_list *stream_one);
-int				redirect_in(char *input, int i, t_list *stream);
 int				redirect_out(char *input, int i, t_list *stream);
-int				heredoc(int i, char *input, t_list *stream);
+int				redirect_in(char *input, int i, t_list *stream);
 char			*dollar_handle(char *input);
-int				double_quote(int i, char **input);
-int				skip_until_char(int i, char *input, char cha);
-int				if_heredoc(int i, char *input);
-int				find_envp(char *str);
-int				env_char(char input);
-char			*str_quote_less(char *input, int len);
 int				creat_args(char *input, int i, t_list *stream);
+int				skip_until_char(int i, char *input, char cha);
+char			*str_quote_less(char *input, int len);
+int				heredoc(int i, char *input, t_list *stream);
+int				env_char(char input);
+int				find_envp(char *str);
+int				if_heredoc(int i, char *input);
+int				found_quote(int i, char *input);
+char			*dollar_found(int i, char *input);
 
 // ---	Errors			--- //
 

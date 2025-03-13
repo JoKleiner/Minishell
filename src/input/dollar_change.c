@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/12 16:15:14 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 10:35:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*change_input(char *input, char *str, char *env_arg)
 {
 	int		pos;
-	
 	char	*str_temp;
 
 	pos = ft_strstr_num(input, str);
@@ -76,35 +75,6 @@ char	*dollar_found(int i, char *input)
 	return (input);
 }
 
-int	double_quote(int i, char **input)
-{
-	int	i_temp;
-
-	i++;
-	while ((*input)[i] && (*input)[i] != '\"')
-	{
-		if ((*input)[i] == '$')
-		{
-			i_temp = i;
-			while ((*input)[i_temp] != '\"')
-				i_temp--;
-			if (if_heredoc(i_temp, *input))
-			{
-				i++;
-				continue ;
-			}
-			*input = dollar_found(i, *input);
-			if (!(*input))
-				return (-1);
-			i++;
-		}
-		i++;
-	}
-	if ((*input)[i] == '\0')
-		i--;
-	return (i);
-}
-
 int	skip_heredoc(int i, char *input)
 {
 	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
@@ -115,15 +85,6 @@ int	skip_heredoc(int i, char *input)
 			i = skip_until_char(i, input, '\"');
 		i++;
 	}
-	return (i);
-}
-
-int	found_quote(int i, char *input)
-{
-	if (input[i] == '\'')
-		i = skip_until_char(i, input, '\'');
-	if (input[i] == '\"')
-		i = double_quote(i, &input);
 	return (i);
 }
 

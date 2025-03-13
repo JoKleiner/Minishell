@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/12 17:15:45 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 11:05:56 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ int	input_handle(char *input, t_list *stream_one)
 		if (i == -1)
 			return (free(input), 1);
 	}
-	return (0);
+	return (free(input), 0);
 }
