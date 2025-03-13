@@ -6,26 +6,31 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:40 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/11 10:16:05 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/11 14:50:13 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Prints the environment.
-void	ft_exe_env(t_list *stream)
+void	ft_exe_env(t_list *stream, char **copy_env)
 {
 	int	i;
 
+	(void)copy_env;
 	if (TOKEN->arg[1] == NULL)
 	{
 		i = 0;
-		while (environ[i])
+		while (copy_env[i])
 		{
-			if (ft_str_same("LINES=", environ[i], 6) == false && ft_str_same("COLUMNS=", environ[i], 8) == false)
+			if (ft_str_same("LINES=", copy_env[i], 6) == false
+				&& ft_str_same("COLUMNS=", copy_env[i], 8) == false)
 			{
-				write(TOKEN->fd_out, environ[i], ft_strlen(environ[i]));
-				write(TOKEN->fd_out, "\n", 1);
+				if (ft_strstr_num(copy_env[i], "="))
+				{
+					write(TOKEN->fd_out, copy_env[i], ft_strlen(copy_env[i]));
+					write(TOKEN->fd_out, "\n", 1);
+				}
 			}
 			i++;
 		}

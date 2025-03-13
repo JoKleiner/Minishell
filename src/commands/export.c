@@ -6,78 +6,76 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/11 10:36:48 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/13 11:04:48 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	**ft_copy_env(void)
+static char	**ft_add_envvar(char *arg, char **copy_env)
 {
-	char	**sorted_env;
+	char	**dest;
 	int		i;
+	int		len;
 
-	i = 0;
-	while (environ[i])
-		i++;
-	sorted_env = (char **)malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (environ[i])
-	{
-		sorted_env[i] = ft_strdup(environ[i]);
-		if (!sorted_env[i])
-			exit(0);
-		i++;
-	}
-	return (sorted_env);
-}
-static char	**ft_sort_env(char **sorted_env)
-{
-	int		i;
-	char	*temp;
-	bool	change;
-
-	change = true;
-	while (change == true)
-	{
-		i = 1;
-		change = false;
-		while (sorted_env[i])
-		{
-			if (0 < ft_strncmp(sorted_env[i - 1], sorted_env[i],
-					ft_strlen(sorted_env[i])))
-			{
-				temp = sorted_env[i - 1];
-				sorted_env[i - 1] = sorted_env[i];
-				sorted_env[i] = temp;
-				change = true;
-			}
-			i++;
-		}
-	}
-	if (!sorted_env)
+	len = ft_strstrlen(copy_env);
+	dest = malloc(sizeof(char *) * (len + 2));
+	if (!dest)
 		return (NULL);
-	return (sorted_env);
+	i = 0;
+	while (i < len)
+	{
+		dest[i] = ft_strdup(copy_env[i]);
+		if (!dest[i])
+			return (free_strstr(dest), NULL);
+		i++;
+	}
+	dest[i] = ft_strdup(arg);
+	if (!dest[i])
+		return (free_strstr(dest), NULL);
+	dest[i + 1] = NULL;
+	printf("Da: %s\n", dest[i]);
+	printf("Dest: %d // copy_env: %d\n", ft_strstrlen(dest), len);
+	return (dest);
 }
 
-void	ft_exe_export(t_list *stream)
+static void	ft_export_empty(char ***copy_env)
 {
-	char	**sorted_env;
 	int		i;
+	char	**temp;
+
+	i = 0;
+	temp = ft_strstrdup_sort(*copy_env);
+	if (!temp)
+		return (ft_error_cmd("Malloc failed.", "export"));
+	while (temp[i])
+	{
+		if (ft_str_same("LINES=", temp[i], 6) == false
+			&& ft_str_same("COLUMNS=", temp[i], 8) == false)
+			printf("declare -x %s\n", temp[i]);
+		i++;
+	}
+	free_strstr(temp);
+}
+
+void	ft_exe_export(t_list *stream, char ***copy_env)
+{
+	int		i;
+	char	**temp;
 
 	if (!TOKEN->arg[1])
 	{
-		sorted_env = ft_copy_env();
-		sorted_env = ft_sort_env(sorted_env);
-		if (!sorted_env)
-			exit(0);
-		i = 0;
-		while (sorted_env[i])
-		{
-			if (ft_str_same("LINES=", sorted_env[i], 6) == false
-				&& ft_str_same("COLUMNS=", sorted_env[i], 8) == false)
-				printf("declare -x %s\n", sorted_env[i]);
-			i++;
-		}
+		ft_export_empty(copy_env);
+		return ;
+	}
+	i = 0;
+	while (TOKEN->arg[i + 1])
+	{
+		temp = ft_add_envvar(TOKEN->arg[i + 1], *copy_env);
+		if (!(temp))
+			return (ft_error_cmd("Malloc failed.", "export"));
+		free_strstr(*copy_env);
+		*copy_env = temp;
+		i++;
 	}
 }

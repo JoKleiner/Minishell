@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   free_stream.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 10:34:51 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/11 15:37:46 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	free_strstr(char **sstr)
+{
+	int	i;
+
+	i = 0;
+	while (sstr[i])
+		free(sstr[i++]);
+	if (sstr)
+		free(sstr);
+}
 
 void	free_stream(t_list *stream)
 {

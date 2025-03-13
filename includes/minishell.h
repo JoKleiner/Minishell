@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 10:35:42 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 11:50:19 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,23 @@ int				wh_space(char input);
 int				spez_char(char input);
 int				spez_char_wo_dol(char input);
 
+// ---  (?? Double Pointer ??)    --- //
+
+bool			ft_env_exists(char *arg, char **copy_env);
+char			**ft_strstrdup(char **sstr);
+char			**ft_strstrdup_sort(char **sstr);
+int				ft_strstrlen(char **sstr);
+
 // ---  Commands    --- //
 
 void			ft_exe_cd(t_list *stream);
-void			ft_execute_command(t_list *stream);
+void			ft_execute_command(t_list *stream, char ***copy_env);
 void			ft_exe_echo(t_list *stream);
-void			ft_exe_env(t_list *stream);
+void			ft_exe_env(t_list *stream, char **copy_env);
 void			ft_exe_exit(t_list *stream);
-void			ft_exe_export(t_list *stream);
+void			ft_exe_export(t_list *stream, char ***copy_env);
 void			ft_exe_pwd(t_list *stream);
-void			ft_exe_unset(t_list *stream);
+void			ft_exe_unset(t_list *stream, char ***copy_env);
 
 // ---  Inputhandle --- //
 
@@ -77,8 +84,8 @@ char			*dollar_handle(char *input);
 
 // ---	Errors			--- //
 
-void			ft_error_cmd(char *message, char *input_name);
-void			free_strstr(char **str);
+void			ft_error_cmd(char *message, char *name);
+void			free_strstr(char **sstr);
 void			free_stream(t_list *stream);
 
 #endif
