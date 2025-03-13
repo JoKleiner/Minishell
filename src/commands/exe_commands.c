@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/13 11:00:46 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/13 13:26:23 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_execute_command(t_list *stream, char ***copy_env)
 			free(path);
 		}
 		else
-			printf("Error: %s: Command not found", TOKEN->arg[0]);
+			printf("Error: %s: Command not found\n", TOKEN->arg[0]);
 	}
 	(void)pid;
 }

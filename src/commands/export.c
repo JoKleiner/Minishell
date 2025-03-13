@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/13 11:04:48 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/13 13:22:56 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static char	**ft_add_envvar(char *arg, char **copy_env)
 	if (!dest[i])
 		return (free_strstr(dest), NULL);
 	dest[i + 1] = NULL;
-	printf("Da: %s\n", dest[i]);
-	printf("Dest: %d // copy_env: %d\n", ft_strstrlen(dest), len);
 	return (dest);
 }
 
