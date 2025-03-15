@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/15 13:31:51 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 13:34:56 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,6 @@ int	env_char(char input)
 	if (input == '_')
 		return (1);
 	return (0);
-}
-
-
-// Returns position of the env in copy_env.
-int	find_envp(char *str, char	**copy_env)
-{
-	int	u;
-
-	u = 0;
-	while (copy_env[u])
-	{
-		if (ft_strncmp(str, copy_env[u], ft_strlen(str)) == 0)
-			break ;
-		u++;
-	}
-	return (u);
 }
 
 int	if_heredoc(int i, char *input)

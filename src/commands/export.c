@@ -6,36 +6,11 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/14 18:37:40 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:20:49 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static char	**ft_add_envvar(char *arg, char **copy_env)
-{
-	char	**dest;
-	int		i;
-	int		len;
-
-	len = ft_strstrlen(copy_env);
-	dest = malloc(sizeof(char *) * (len + 2));
-	if (!dest)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		dest[i] = ft_strdup(copy_env[i]);
-		if (!dest[i])
-			return (free_strstr(dest), NULL);
-		i++;
-	}
-	dest[i] = ft_strdup(arg);
-	if (!dest[i])
-		return (free_strstr(dest), NULL);
-	dest[i + 1] = NULL;
-	return (dest);
-}
 
 static void	ft_write_envvar(char *str, int fd_out)
 {
@@ -67,7 +42,7 @@ static void	ft_export_empty(t_list *stream, char ***copy_env)
 	char	**temp;
 
 	i = 0;
-	temp = ft_strstrdup_sort(*copy_env);
+	temp = ft_strarrdup_sort(*copy_env);
 	if (!temp)
 		return (ft_error_cmd("Malloc failed.", "export"));
 	while (temp[i])
@@ -79,7 +54,29 @@ static void	ft_export_empty(t_list *stream, char ***copy_env)
 		}
 		i++;
 	}
-	free_strstr(temp);
+	free_strarr(temp);
+}
+
+static char	**ft_exp_new(char *arg, char ***copy_env)
+{
+	char	**temp;
+
+	temp = ft_add_envvar(arg, *copy_env);
+	if (!(temp))
+		return (NULL);
+	free_strarr(*copy_env);
+	return(temp);
+}
+
+static char	**ft_exp_update(char *arg, char *name, char ***copy_env)
+{
+	char	**temp;
+
+	temp = ft_update_envvar(arg, name, *copy_env);
+	if (!(temp))
+		return (NULL);
+	free_strarr(*copy_env);
+	return(temp);
 }
 
 // Executes export
@@ -87,6 +84,7 @@ void	ft_exe_export(t_list *stream, char ***copy_env)
 {
 	int		i;
 	char	**temp;
+	char	**env_name;
 
 	if (!TOKEN->arg[1])
 	{
@@ -96,11 +94,17 @@ void	ft_exe_export(t_list *stream, char ***copy_env)
 	i = 0;
 	while (TOKEN->arg[i + 1])
 	{
-		temp = ft_add_envvar(TOKEN->arg[i + 1], *copy_env);
-		if (!(temp))
+		env_name = ft_split(TOKEN->arg[i + 1], '=');
+		if (!env_name)
 			return (ft_error_cmd("Malloc failed.", "export"));
-		free_strstr(*copy_env);
-		*copy_env = temp;
+		if (ft_env_exists(env_name[0], *copy_env) == false)
+			temp = ft_exp_new(TOKEN->arg[i + 1], copy_env);
+		else
+			temp = ft_exp_update(TOKEN->arg[i + 1], env_name[0], copy_env);
+		free_strarr(env_name);
+		if (!temp)
+			return (ft_error_cmd("Malloc failed.", "export"));
 		i++;
+		*copy_env = temp;
 	}
 }

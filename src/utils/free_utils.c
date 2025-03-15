@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_stream.c                                      :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 12:48:33 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:21:15 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	free_strstr(char **sstr)
+void	free_strarr(char **sstr)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ void	free_strstr(char **sstr)
 void	free_content(t_list *stream)
 {
 	if (TOKEN->arg)
-		free_strstr(TOKEN->arg);
+		free_strarr(TOKEN->arg);
 	if (TOKEN->in_file)
 		free(TOKEN->in_file);
 	if (TOKEN->out_file)

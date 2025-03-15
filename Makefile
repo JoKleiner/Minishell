@@ -6,7 +6,7 @@
 #    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
-#    Updated: 2025/03/14 20:27:29 by mpoplow          ###   ########.fr        #
+#    Updated: 2025/03/15 15:17:44 by mpoplow          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LIBFT_DIR   	:= libft
 SRC_DIR         := src
 INPUT_DIR		:= $(SRC_DIR)/input
 COMMANDS_DIR	:= $(SRC_DIR)/commands
+UTILS_DIR		:= $(SRC_DIR)/utils
 OBJ_D_DIR		:= obj_d
 
 
@@ -31,11 +32,12 @@ OBJ_D_DIR		:= obj_d
 # 	FILES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
-CFILES_SRCS		= $(addprefix $(SRC_DIR)/, minishell_main.c free_stream.c double_pointer_utils.c)
-CFILES_INPUT	= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c dollar_utils.c create_args.c dollar_quote.c)
-CFILES_CMD		= $(addprefix $(COMMANDS_DIR)/, exe_commands.c error_cmd.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
+CFILES_SRCS		:= $(addprefix $(SRC_DIR)/, minishell_main.c)
+CFILES_INPUT	:= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c create_args.c dollar_quote.c)
+CFILES_CMD		:= $(addprefix $(COMMANDS_DIR)/, exe_commands.c error_cmd.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
+CFILES_UTILS	:= $(addprefix $(UTILS_DIR)/, dollar_utils.c envp_utils.c free_utils.c str_array_utils.c)
 
-SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_CMD)
+SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_CMD) $(CFILES_UTILS)
 OFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.o))
 DFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.d))
 

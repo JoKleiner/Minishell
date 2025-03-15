@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double_pointer_utils.c                             :+:      :+:    :+:   */
+/*   str_array_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:29:49 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/14 19:03:26 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:21:19 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-
-// Returns true if the env is found in copy_env
-bool	ft_env_exists(char *arg, char **copy_env)
-{
-	int	i;
-
-	i = 0;
-	while (copy_env[i])
-	{
-		if (ft_str_same(arg, copy_env[i], ft_strlen(arg)) == true)
-			return(true);
-		i++;
-	}
-	return(false);
-}
+#include "../../includes/minishell.h"
 
 // Calculates the length of a double pointer char **sstr.
-int	ft_strstrlen(char **sstr)
+int	ft_strarrlen(char **sstr)
 {
 	int	sstrlen;
 
@@ -42,14 +26,14 @@ int	ft_strstrlen(char **sstr)
 }
 
 // Copies a char **sstr and return it.
-char	**ft_strstrdup(char **sstr)
+char	**ft_strarrdup(char **sstr)
 {
 	char	**copy_env;
 	int		i;
 
 	if (!sstr)
 		return (sstr);
-	i = ft_strstrlen(sstr);
+	i = ft_strarrlen(sstr);
 	copy_env = malloc(sizeof(char *) * (i + 1));
 	if (!copy_env)
 		return (NULL);
@@ -59,7 +43,7 @@ char	**ft_strstrdup(char **sstr)
 		copy_env[i] = ft_strdup(sstr[i]);
 		if (!copy_env[i])
 		{
-			free_strstr(copy_env);
+			free_strarr(copy_env);
 			return (NULL);
 		}
 		i++;
@@ -68,8 +52,8 @@ char	**ft_strstrdup(char **sstr)
 	return (copy_env);
 }
 
-// Uses ft_strstrdup and sorts the strings in alphabetical order.
-char	**ft_strstrdup_sort(char **sstr)
+// Uses ft_strarrdup and sorts the strings in alphabetical order.
+char	**ft_strarrdup_sort(char **sstr)
 {
 	int		i;
 	bool	change;
@@ -78,7 +62,7 @@ char	**ft_strstrdup_sort(char **sstr)
 
 	if (!sstr)
 		return (sstr);
-	sort_sstr = ft_strstrdup(sstr);
+	sort_sstr = ft_strarrdup(sstr);
 	if (!sort_sstr)
 		return (NULL);
 	change = true;

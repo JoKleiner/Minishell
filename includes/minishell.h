@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/14 19:07:38 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 14:32:50 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,19 @@ int				wh_space(char input);
 int				spec_char(char input);
 int				spec_char_wo_dol(char input);
 
-// ---  (?? Double Pointer ??)    --- //
+// ---  Environment    --- //
 
+char			**ft_add_envvar(char *arg, char **copy_env);
+char			**ft_rm_envvar(char *arg, char **copy_env);
+char			**ft_update_envvar(char *arg, char *name, char **copy_env);
 bool			ft_env_exists(char *arg, char **copy_env);
-char			**ft_strstrdup(char **sstr);
-char			**ft_strstrdup_sort(char **sstr);
-int				ft_strstrlen(char **sstr);
+int				find_envp(char *str, char **copy_env);
+
+// --- String arrays --- //
+
+char			**ft_strarrdup(char **sstr);
+char			**ft_strarrdup_sort(char **sstr);
+int				ft_strarrlen(char **sstr);
 
 // ---  Commands    --- //
 
@@ -86,7 +93,7 @@ int				skip_until_char(int i, char *input, char cha);
 char			*str_quote_less(char *input, int len);
 int				heredoc(int i, char *input, t_list *stream, char **copy_env);
 int				env_char(char input);
-int				find_envp(char *str, char **copy_env);
+;
 int				if_heredoc(int i, char *input);
 int				found_quote(int i, char *input, char **copy_env);
 char			*dollar_found(int i, char *input, char **copy_env);
@@ -94,7 +101,7 @@ char			*dollar_found(int i, char *input, char **copy_env);
 // ---	Errors			--- //
 
 void			ft_error_cmd(char *message, char *name);
-void			free_strstr(char **sstr);
+void			free_strarr(char **sstr);
 void			free_stream(t_list *stream);
 
 #endif

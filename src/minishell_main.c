@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 13:34:50 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 13:47:32 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(void)
 	t_list	*stream;
 	int		i;
 
-	copy_env = ft_strstrdup(environ);
+	copy_env = ft_strarrdup(environ);
 	if(!copy_env)
 		return(ft_error_cmd("malloc failed!", "minishell"), 1);
 	while (1)
@@ -116,7 +116,7 @@ int	main(void)
 		ft_execute_command(stream_one, &copy_env);
 	}
 	free_stream(stream_one);
-	free_strstr(copy_env);
+	free_strarr(copy_env);
 	rl_clear_history();
 	return (0);
 }
