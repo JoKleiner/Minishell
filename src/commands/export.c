@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/13 13:22:56 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/14 18:37:40 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,31 @@ static char	**ft_add_envvar(char *arg, char **copy_env)
 	return (dest);
 }
 
-static void	ft_export_empty(char ***copy_env)
+static void	ft_write_envvar(char *str, int fd_out)
+{
+	bool	equal_sign;
+	int		i;
+
+	write(fd_out, "declare -x ", 11);
+	i = 0;
+	equal_sign = false;
+	while (str[i])
+	{
+		write(fd_out, &str[i], 1);
+		if (str[i] == '=')
+		{
+			if (equal_sign == false)
+				write(fd_out, "\"", 1);
+			equal_sign = true;
+		}
+		i++;
+	}
+	if (equal_sign == true)
+		write(fd_out, "\"", 1);
+	write(fd_out, "\n", 1);
+}
+
+static void	ft_export_empty(t_list *stream, char ***copy_env)
 {
 	int		i;
 	char	**temp;
@@ -50,12 +74,15 @@ static void	ft_export_empty(char ***copy_env)
 	{
 		if (ft_str_same("LINES=", temp[i], 6) == false
 			&& ft_str_same("COLUMNS=", temp[i], 8) == false)
-			printf("declare -x %s\n", temp[i]);
+		{
+			ft_write_envvar(temp[i], TOKEN->fd_out);
+		}
 		i++;
 	}
 	free_strstr(temp);
 }
 
+// Executes export
 void	ft_exe_export(t_list *stream, char ***copy_env)
 {
 	int		i;
@@ -63,7 +90,7 @@ void	ft_exe_export(t_list *stream, char ***copy_env)
 
 	if (!TOKEN->arg[1])
 	{
-		ft_export_empty(copy_env);
+		ft_export_empty(stream, copy_env);
 		return ;
 	}
 	i = 0;

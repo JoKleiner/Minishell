@@ -6,12 +6,14 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:29:49 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/13 11:51:21 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/14 19:03:26 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+// Returns true if the env is found in copy_env
 bool	ft_env_exists(char *arg, char **copy_env)
 {
 	int	i;

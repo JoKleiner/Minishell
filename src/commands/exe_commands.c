@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/13 13:34:34 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/14 19:11:25 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static bool	ft_builtin_cmd(t_list *stream, char ***copy_env)
 	if (ft_strncmp(TOKEN->arg[0], "echo", 5) == 0)
 		return (ft_exe_echo(stream), true);
 	else if (ft_strncmp(TOKEN->arg[0], "cd", 3) == 0)
-		return (ft_exe_cd(stream), true);
+		return (ft_exe_cd(stream, *copy_env), true);
 	else if (ft_strncmp(TOKEN->arg[0], "pwd", 4) == 0)
 		return (ft_exe_pwd(stream), true);
 	else if (ft_strncmp(TOKEN->arg[0], "export", 8) == 0)
@@ -62,8 +62,7 @@ static char	*ft_cmd_exists(t_list *stream)
 void	ft_execute_command(t_list *stream, char ***copy_env)
 {
 	char	*path;
-	int		pid;
-
+	
 	if (ft_builtin_cmd(stream, copy_env) == true)
 	{
 		if (TOKEN->fd_out != 1)
@@ -82,5 +81,4 @@ void	ft_execute_command(t_list *stream, char ***copy_env)
 		else
 			printf("Error: %s: Command not found\n", TOKEN->arg[0]);
 	}
-	(void)pid;
 }

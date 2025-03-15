@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:29 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/13 13:34:12 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/14 10:37:13 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,27 @@ static char	**ft_rm_envvar(char *arg, char **copy_env)
 {
 	char	**dest;
 	int		i;
+	int		y;
 	int		len;
 
 	len = ft_strstrlen(copy_env);
-	dest = malloc(sizeof(char *) * len);
+	dest = malloc(sizeof(char *) * (len));
 	if (!dest)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	y = 0;
+	while (copy_env[i])
 	{
-		if (ft_str_same(copy_env[i], arg, arg[len]) == false)
+		if (ft_str_same(copy_env[i], arg, ft_strlen(arg)) == false)
 		{
-			dest[i] = ft_strdup(copy_env[i]);
-			if (!dest[i])
+			dest[y] = ft_strdup(copy_env[i]);
+			if (!dest[y])
 				return (free_strstr(dest), NULL);
+			y++;
 		}
 		i++;
 	}
-	dest[i] = NULL;
+	dest[y] = NULL;
 	return (dest);
 }
 
@@ -48,7 +51,7 @@ void	ft_exe_unset(t_list *stream, char ***copy_env)
 	while (TOKEN->arg[i])
 	{
 		if (ft_strchr(TOKEN->arg[i], '=') != 0)
-			printf("Error: unset: %s: not a valid identifier", TOKEN->arg[i]);
+			printf("Error: unset: %s: not a valid identifier\n", TOKEN->arg[i]);
 		else
 		{
 			if (ft_env_exists(TOKEN->arg[i], *copy_env) == true)

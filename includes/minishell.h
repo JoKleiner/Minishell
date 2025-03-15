@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 13:07:27 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/14 19:07:38 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int				ft_strstrlen(char **sstr);
 
 // ---  Commands    --- //
 
-void			ft_exe_cd(t_list *stream);
+void			ft_exe_cd(t_list *stream, char **copy_env);
 void			ft_execute_command(t_list *stream, char ***copy_env);
 void			ft_exe_echo(t_list *stream);
 void			ft_exe_env(t_list *stream, char **copy_env);
