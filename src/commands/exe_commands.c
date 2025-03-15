@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/14 19:11:25 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:58:24 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static bool	ft_builtin_cmd(t_list *stream, char ***copy_env)
 	if (ft_strncmp(TOKEN->arg[0], "echo", 5) == 0)
 		return (ft_exe_echo(stream), true);
 	else if (ft_strncmp(TOKEN->arg[0], "cd", 3) == 0)
-		return (ft_exe_cd(stream, *copy_env), true);
+		return (ft_exe_cd(stream, copy_env), true);
 	else if (ft_strncmp(TOKEN->arg[0], "pwd", 4) == 0)
 		return (ft_exe_pwd(stream), true);
 	else if (ft_strncmp(TOKEN->arg[0], "export", 8) == 0)

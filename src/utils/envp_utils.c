@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:33:30 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/15 15:21:11 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 16:54:47 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ char	**ft_update_envvar(char *arg, char *name, char **copy_env)
 			return (free_strarr(dest), NULL);
 		i++;
 	}
-	dest[i] = ft_strdup(arg);
-	if (!dest[i])
-		return (free_strarr(dest), NULL);
-	dest[i + 1] = NULL;
+	dest[i] = NULL;
 	return (dest);
 }
 

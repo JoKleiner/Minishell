@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/15 14:32:50 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 16:00:52 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int				ft_strarrlen(char **sstr);
 
 // ---  Commands    --- //
 
-void			ft_exe_cd(t_list *stream, char **copy_env);
+void			ft_exe_cd(t_list *stream, char ***copy_env);
 void			ft_execute_command(t_list *stream, char ***copy_env);
 void			ft_exe_echo(t_list *stream);
 void			ft_exe_env(t_list *stream, char **copy_env);
