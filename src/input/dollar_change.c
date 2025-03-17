@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 11:48:25 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/17 15:17:40 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,8 @@ int	skip_heredoc(int i, char *input)
 {
 	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
 	{
-		if (input[i] == '\'')
-			i = skip_until_char(i, input, '\'');
-		if (input[i] == '\"')
-			i = skip_until_char(i, input, '\"');
+		if (input[i] == '\'' || input[i] == '\"')
+			i = skip_until_char(i, input, input[i]);
 		i++;
 	}
 	return (i);
@@ -91,7 +89,7 @@ int	skip_heredoc(int i, char *input)
 char	*dollar_handle(char *input, char **copy_env)
 {
 	int	i;
-
+	
 	i = 0;
 	while (input[i])
 	{
@@ -100,18 +98,14 @@ char	*dollar_handle(char *input, char **copy_env)
 			if (if_heredoc(i, input))
 				i = skip_heredoc(i, input);
 			else if (if_redir_empty_file(i, input, copy_env))
-				return(&input[ft_strlen(input)]);
+				return (NULL);
 			else if (env_char(input[i + 1]))
 				input = dollar_found(i, input, copy_env);
-			else
-				i++;
-			if (!input)
-				return (NULL);
-			continue ;
 		}
-		if(input[i] == '|')
-			return(input);
-		i = found_quote(i, input, copy_env);
+		else if (!input || input[i] == '|')
+			return (input);
+		else
+			i = found_quote(i, &input, copy_env);
 		if (i == -1)
 			return (NULL);
 		i++;

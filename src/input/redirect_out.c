@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 11:11:06 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/17 12:48:06 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	creat_file(char *str, t_list *stream, bool add)
 	else
 		fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (free(str), -1);
+		return (ft_printf("%s: No such file or directory\n", str), free(str),
+			-1);
 	TOKEN->fd_out = fd;
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   creat_args.c                                       :+:      :+:    :+:   */
+/*   create_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:59:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/14 10:29:56 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/17 15:11:31 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,21 @@ int	count_arg_len(char *input, int i, int *q_count)
 char	*fill_str(char *str, int i, int i_temp, char *input)
 {
 	int	u;
+	char cha;
 
 	u = 0;
 	while (i_temp < i)
 	{
 		if (input[i_temp] == '\'' || input[i_temp] == '\"')
 		{
+			cha = input[i_temp];
+			i_temp++;
+			while(input[i_temp] != cha)
+			{
+				str[u] = input[i_temp];
+				i_temp++;
+				u++;
+			}
 			i_temp++;
 			continue ;
 		}

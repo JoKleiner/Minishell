@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 12:14:44 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/17 15:13:38 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ char	check_syntax(char *input)
 	syn_char = '\0';
 	while (input[i])
 	{
+		if(input[i] == '\'' || input[i] == '\"')
+			i = skip_until_char(i, input, input[i]);
 		if (input[i] == '>')
 		{
 			i++;
@@ -137,6 +139,20 @@ int	stream_handle(char *input, char **copy_env, t_list *stream)
 		ft_printf("\n");
 	}
 	ft_execute_command(stream, &copy_env);
+	return (0);
+}
+
+int	find_pipe(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '|')
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
@@ -184,33 +200,52 @@ int	main(void)
 		i = 0;
 		u = 0;
 		pipes = 0;
-		pid = fork();
-		if (pid == -1)
-			return (write(1, "error\n", 6));
-		if (pid == 0)
+		if (find_pipe(input))
 		{
-			stream_one = init_stream(NULL);
-			if (stream_one == NULL)
-				return (free(input), write(1, "error\n", 6), 1);
-			stream = stream_one;
-			while (i <= num_pipe)
+			pid = fork();
+			if (pid == -1)
+				return (write(1, "error\n", 6));
+			if (pid == 0)
 			{
-				if (pid == 0 && i != num_pipe)
+				stream_one = init_stream(NULL);
+				if (stream_one == NULL)
+					return (free(input), write(1, "error\n", 6), 1);
+				stream = stream_one;
+				while (i <= num_pipe)
 				{
-					pipe(fds);
-					pid = fork();
-					if (pid == 0)
+					if (pid == 0 && i != num_pipe)
 					{
-						close(fds[WR_IN]);
-						stream = init_stream(stream_one);
-						if (stream == NULL)
-							return (free(input), write(1, "errorasd\n", 16), 1);
-						TOKEN->fd_in = fds[RD_OUT];
+						pipe(fds);
+						pid = fork();
+						if (pid == 0)
+						{
+							close(fds[WR_IN]);
+							stream = init_stream(stream_one);
+							if (stream == NULL)
+								return (free(input), write(1, "errorasd\n", 16),
+									1);
+							TOKEN->fd_in = fds[RD_OUT];
+						}
+						else
+						{
+							close(fds[RD_OUT]);
+							TOKEN->fd_out = fds[WR_IN];
+							while (pipes < i)
+							{
+								if (input[u] == '|')
+									pipes++;
+								u++;
+							}
+							input = stream_input(input, u);
+							error_num = stream_handle(input, copy_env, stream);
+							if (error_num == 1)
+								return (1);
+							return (0);
+						}
+						waitpid(pid, 0, 0);
 					}
 					else
 					{
-						close(fds[RD_OUT]);
-						TOKEN->fd_out = fds[WR_IN];
 						while (pipes < i)
 						{
 							if (input[u] == '|')
@@ -223,29 +258,23 @@ int	main(void)
 							return (1);
 						return (0);
 					}
-					waitpid(pid, 0, 0);
+					i++;
 				}
-				else
-				{
-					while (pipes < i)
-					{
-						if (input[u] == '|')
-							pipes++;
-						u++;
-					}
-					input = stream_input(input, u);
-					error_num = stream_handle(input, copy_env, stream);
-					if (error_num == 1)
-						return (1);
-						
-					return (0);
-				}
-				i++;
 			}
-			
+			waitpid(pid, 0, 0);
 		}
-		waitpid(pid, 0, 0);
-		//free_stream(stream_one);
+		else
+		{
+			stream_one = init_stream(NULL);
+			if (stream_one == NULL)
+				return (free(input), write(1, "error\n", 6), 1);
+			stream = stream_one;
+			input = stream_input(input, u);
+			error_num = stream_handle(input, copy_env, stream);
+			if (error_num == 1)
+				return (1);
+		}
+		// free_stream(stream_one);
 	}
 	free_strarr(copy_env);
 	rl_clear_history();
