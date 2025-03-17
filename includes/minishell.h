@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/15 16:00:52 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/17 12:16:48 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 
 # include "../libft/libft.h"
 # include <fcntl.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <unistd.h>
 //
 # include <readline/history.h>
@@ -55,6 +57,10 @@ t_list			*init_stream(t_list *stream_one);
 int				wh_space(char input);
 int				spec_char(char input);
 int				spec_char_wo_dol(char input);
+
+// ---  Signal        --- //
+void            handle_cmd_c(int sig);
+void            setup_signals(void);
 
 // ---  Environment    --- //
 
@@ -97,6 +103,8 @@ int				env_char(char input);
 int				if_heredoc(int i, char *input);
 int				found_quote(int i, char *input, char **copy_env);
 char			*dollar_found(int i, char *input, char **copy_env);
+int				if_redir_empty_file(int i, char *input, char **copy_env);
+char			*creat_str(int i, int i_temp, char *input);
 
 // ---	Errors			--- //
 

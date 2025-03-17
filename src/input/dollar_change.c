@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 13:02:37 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/17 11:48:25 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,18 @@ char	*dollar_handle(char *input, char **copy_env)
 		{
 			if (if_heredoc(i, input))
 				i = skip_heredoc(i, input);
+			else if (if_redir_empty_file(i, input, copy_env))
+				return(&input[ft_strlen(input)]);
 			else if (env_char(input[i + 1]))
-			{
 				input = dollar_found(i, input, copy_env);
-				if (!input)
-					return (NULL);
-			}
 			else
 				i++;
+			if (!input)
+				return (NULL);
 			continue ;
 		}
+		if(input[i] == '|')
+			return(input);
 		i = found_quote(i, input, copy_env);
 		if (i == -1)
 			return (NULL);
