@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 12:16:48 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/17 14:29:36 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int				heredoc(int i, char *input, t_list *stream, char **copy_env);
 int				env_char(char input);
 ;
 int				if_heredoc(int i, char *input);
-int				found_quote(int i, char *input, char **copy_env);
+int				found_quote(int i, char **input, char **copy_env);
 char			*dollar_found(int i, char *input, char **copy_env);
 int				if_redir_empty_file(int i, char *input, char **copy_env);
 char			*creat_str(int i, int i_temp, char *input);
