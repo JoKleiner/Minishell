@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 13:07:27 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/13 15:15:37 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 
 # include "../libft/libft.h"
 # include <fcntl.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <unistd.h>
 //
 # include <readline/history.h>
@@ -56,6 +58,11 @@ int				wh_space(char input);
 int				spec_char(char input);
 int				spec_char_wo_dol(char input);
 
+// ---  Signal        --- //
+
+void			handle_cmd_c(int sig);
+void			setup_signals(void);
+
 // ---  (?? Double Pointer ??)    --- //
 
 bool			ft_env_exists(char *arg, char **copy_env);
@@ -90,6 +97,8 @@ int				find_envp(char *str, char **copy_env);
 int				if_heredoc(int i, char *input);
 int				found_quote(int i, char *input, char **copy_env);
 char			*dollar_found(int i, char *input, char **copy_env);
+int				if_redir_empty_file(int i, char *input, char **copy_env);
+char			*creat_str(int i, int i_temp, char *input);
 
 // ---	Errors			--- //
 

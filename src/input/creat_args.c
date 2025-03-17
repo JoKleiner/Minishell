@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:59:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 08:58:19 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/14 10:29:56 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,7 @@ char	*fill_str(char *str, int i, int i_temp, char *input)
 	u = 0;
 	while (i_temp < i)
 	{
-		if (input[i_temp] == '\'')
-		{
-			i_temp++;
-			continue ;
-		}
-		if (input[i_temp] == '\"')
+		if (input[i_temp] == '\'' || input[i_temp] == '\"')
 		{
 			i_temp++;
 			continue ;

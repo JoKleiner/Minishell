@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 13:08:33 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/17 10:10:56 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,13 @@ int	handle_redir(int i, char *input, t_list *stream, char **copy_env)
 	return (i);
 }
 
-int	input_handle(char *input, t_list *stream_one, char	**copy_env)
+int	input_handle(char *input, t_list *stream, char	**copy_env)
 {
 	int		i;
-	t_list	*stream;
 
 	input = dollar_handle(input, copy_env);
 	if (!input)
 		return (1);
-	stream = stream_one;
 	i = -1;
 	while (input[++i])
 	{
@@ -55,13 +53,12 @@ int	input_handle(char *input, t_list *stream_one, char	**copy_env)
 			i = handle_redir(i, input, stream, copy_env);
 		else if (input[i] == '|')
 		{
-			i = pipe_found(i, stream_one);
-			stream = ft_lstlast(stream_one);
+			return(0);
 		}
 		else
 			i = creat_args(input, i, stream);
 		if (i == -1)
 			return (free(input), 1);
 	}
-	return (free(input), 0);
+	return (0);
 }

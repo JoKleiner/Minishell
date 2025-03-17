@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 13:34:50 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/17 11:46:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,57 +65,187 @@ t_list	*init_stream(t_list *stream_one)
 	return (stream);
 }
 
+int	count_pipe(char *input)
+{
+	int	i;
+	int	num_pipe;
+
+	i = 0;
+	num_pipe = 0;
+	while (input[i])
+	{
+		if (input[i] == '|')
+			num_pipe++;
+		i++;
+	}
+	return (num_pipe);
+}
+
+char	*stream_input(char *input, int u)
+{
+	char	*input_new;
+
+	input_new = ft_strdup(&input[u]);
+	free(input);
+	return (input_new);
+}
+
+char	check_syntax(char *input)
+{
+	int		i;
+	char	syn_char;
+
+	// mus erweitert werden
+	i = 0;
+	syn_char = '\0';
+	while (input[i])
+	{
+		if (input[i] == '>')
+		{
+			i++;
+			while (input[i] && wh_space(input[i]))
+				i++;
+			if (input[i] == '>')
+				syn_char = input[i];
+			return (syn_char);
+		}
+		i++;
+	}
+	return (syn_char);
+}
+
+int	stream_handle(char *input, char **copy_env, t_list *stream)
+{
+	int	u;
+
+	if (input_handle(input, stream, copy_env))
+		return (1);
+	if (stream)
+	{
+		ft_printf("\n");
+		u = 0;
+		ft_printf("stream_num:%d\nfd_in:%d\nfd_out:%d\ninfile:%s\noutfile:%s\nhd_file:%s\n",
+			TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out, TOKEN->in_file,
+			TOKEN->out_file, TOKEN->hd_file);
+		if (TOKEN->arg[u])
+			while (TOKEN->arg[u])
+			{
+				ft_printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
+				u++;
+			}
+		ft_printf("\n");
+	}
+	ft_execute_command(stream, &copy_env);
+	return (0);
+}
+
 int	main(void)
 {
-	char	**copy_env;
-	char	*input;
 	t_list	*stream_one;
 	t_list	*stream;
+	char	**copy_env;
+	char	*input;
+	int		num_pipe;
+	char	syn_char;
+	int		pipes;
 	int		i;
+	int		u;
+	int		fds[2];
+	int		pid;
+	int		error_num;
 
+	setup_signals();
 	copy_env = ft_strstrdup(environ);
-	if(!copy_env)
-		return(ft_error_cmd("malloc failed!", "minishell"), 1);
+	if (!copy_env)
+		return (ft_error_cmd("malloc failed!", "minishell"), 1);
+	stream_one = NULL;
+	stream = stream_one;
 	while (1)
 	{
-		stream_one = NULL;
 		input = readline("\033[0;34mminishell> \033[0m");
 		if (!input)
-			return (write(1, "error\n", 6), 1);
+			return (free_strstr(copy_env), rl_clear_history(), write(1,
+					"exit\n", 5), 1);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
 		add_history(input);
-		stream_one = init_stream(stream_one);
-		if (stream_one == NULL)
-			return (free(input), write(1, "error\n", 6), 1);
-		if (input_handle(input, stream_one, copy_env))
-			return (free_stream(stream_one), 1);
-		stream = stream_one;
-		while (stream)
+		syn_char = check_syntax(input);
+		if (syn_char != '\0')
 		{
-			if (TOKEN->arg)
-			{
-				ft_printf("\n");
-				i = 0;
-				ft_printf("stream_num: %d\nfd_in:%d\nfd_out:%d\ninfile:%s\noutfile: %s\nhd_file: %s\n",
-					TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out,
-					TOKEN->in_file, TOKEN->out_file, TOKEN->hd_file);
-				if (TOKEN->arg[0])
-					while (TOKEN->arg[i])
-					{
-						ft_printf("arg[%d]:%s\n", i, TOKEN->arg[i]);
-						i++;
-					}
-				ft_printf("\n");
-			}
-			stream = stream->next;
+			ft_printf("syntax error near unexpected token `%c'", syn_char);
+			free(input);
+			continue ;
 		}
-		ft_execute_command(stream_one, &copy_env);
+		num_pipe = count_pipe(input);
+		i = 0;
+		u = 0;
+		pipes = 0;
+		pid = fork();
+		if (pid == -1)
+			return (write(1, "error\n", 6));
+		if (pid == 0)
+		{
+			stream_one = init_stream(NULL);
+			if (stream_one == NULL)
+				return (free(input), write(1, "error\n", 6), 1);
+			stream = stream_one;
+			while (i <= num_pipe)
+			{
+				if (pid == 0 && i != num_pipe)
+				{
+					pipe(fds);
+					pid = fork();
+					if (pid == 0)
+					{
+						close(fds[WR_IN]);
+						stream = init_stream(stream_one);
+						if (stream == NULL)
+							return (free(input), write(1, "errorasd\n", 16), 1);
+						TOKEN->fd_in = fds[RD_OUT];
+					}
+					else
+					{
+						close(fds[RD_OUT]);
+						TOKEN->fd_out = fds[WR_IN];
+						while (pipes < i)
+						{
+							if (input[u] == '|')
+								pipes++;
+							u++;
+						}
+						input = stream_input(input, u);
+						error_num = stream_handle(input, copy_env, stream);
+						if (error_num == 1)
+							return (1);
+						return (0);
+					}
+					waitpid(pid, 0, 0);
+				}
+				else
+				{
+					while (pipes < i)
+					{
+						if (input[u] == '|')
+							pipes++;
+						u++;
+					}
+					input = stream_input(input, u);
+					error_num = stream_handle(input, copy_env, stream);
+					if (error_num == 1)
+						return (1);
+						
+					return (0);
+				}
+				i++;
+			}
+			
+		}
+		waitpid(pid, 0, 0);
+		//free_stream(stream_one);
 	}
-	free_stream(stream_one);
 	free_strstr(copy_env);
 	rl_clear_history();
 	return (0);
