@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:29:49 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/15 15:21:19 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 17:43:48 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,20 @@ char	**ft_strarrdup(char **sstr)
 	return (copy_env);
 }
 
+static bool	ft_sort_helper(char **sort_sstr, int i)
+{
+	char	*temp;
+
+	temp = sort_sstr[i - 1];
+	sort_sstr[i - 1] = sort_sstr[i];
+	sort_sstr[i] = temp;
+	return (true);
+}
 // Uses ft_strarrdup and sorts the strings in alphabetical order.
 char	**ft_strarrdup_sort(char **sstr)
 {
 	int		i;
 	bool	change;
-	char	*temp;
 	char	**sort_sstr;
 
 	if (!sstr)
@@ -75,10 +83,7 @@ char	**ft_strarrdup_sort(char **sstr)
 			if (0 < ft_strncmp(sort_sstr[i - 1], sort_sstr[i],
 					ft_strlen(sort_sstr[i])))
 			{
-				temp = sort_sstr[i - 1];
-				sort_sstr[i - 1] = sort_sstr[i];
-				sort_sstr[i] = temp;
-				change = true;
+				change = ft_sort_helper(sort_sstr, i);
 			}
 			i++;
 		}

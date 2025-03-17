@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/15 13:47:32 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/15 17:35:34 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	wh_space(char input)
 		return (1);
 	return (0);
 }
+
 int	spec_char(char input)
 {
 	if (input == '<' || input == '>')
