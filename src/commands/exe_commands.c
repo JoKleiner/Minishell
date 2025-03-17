@@ -6,46 +6,51 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/15 15:58:24 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/17 15:18:07 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Checks if the command is a self-made command
-static bool	ft_builtin_cmd(t_list *stream, char ***copy_env)
+static bool	ft_builtin_cmd(char *name, t_list *stream, char ***copy_env)
 {
-	if (ft_strncmp(TOKEN->arg[0], "echo", 5) == 0)
+	if (ft_strncmp(name, "echo", 5) == 0)
 		return (ft_exe_echo(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "cd", 3) == 0)
+	else if (ft_strncmp(name, "cd", 3) == 0)
 		return (ft_exe_cd(stream, copy_env), true);
-	else if (ft_strncmp(TOKEN->arg[0], "pwd", 4) == 0)
+	else if (ft_strncmp(name, "pwd", 4) == 0)
 		return (ft_exe_pwd(stream), true);
-	else if (ft_strncmp(TOKEN->arg[0], "export", 8) == 0)
+	else if (ft_strncmp(name, "export", 8) == 0)
 		return (ft_exe_export(stream, copy_env), true);
-	else if (ft_strncmp(TOKEN->arg[0], "unset", 6) == 0)
+	else if (ft_strncmp(name, "unset", 6) == 0)
 		return (ft_exe_unset(stream, copy_env), true);
-	else if (ft_strncmp(TOKEN->arg[0], "env", 4) == 0)
+	else if (ft_strncmp(name, "env", 4) == 0)
 		return (ft_exe_env(stream, *copy_env), true);
-	else if (ft_strncmp(TOKEN->arg[0], "exit", 5) == 0)
+	else if (ft_strncmp(name, "exit", 5) == 0)
 		return (ft_exe_exit(stream), true);
 	return (false);
 }
 
 // Checks if the command is in the evnp PATH.
-static char	*ft_cmd_exists(t_list *stream)
+static char	*ft_cmd_exists(t_list *stream, char **copy_env)
 {
 	int		i;
 	char	*path;
 	char	**try_paths;
+	int		env_pos;
 
-	try_paths = ft_split(environ[4], ':');
+	if (ft_env_exists("PATH", copy_env) == false)
+		return (NULL);
+	env_pos = find_envp("PATH", copy_env);
+	try_paths = ft_split(&(copy_env[env_pos])[5], ':');
 	if (!try_paths)
-		exit(1);
+		return (NULL);
 	i = 0;
 	while (try_paths[i])
 	{
-		path = ft_strjoin(try_paths[i], TOKEN->arg[0]);
+		path = ft_strjoin_delimit(try_paths[i], '/', TOKEN->arg[0]);
+		printf("Schronk: %s\n", path);
 		if (!path)
 			exit(1);
 		if (access(path, F_OK) == 0)
@@ -53,32 +58,47 @@ static char	*ft_cmd_exists(t_list *stream)
 		free(path);
 		path = NULL;
 		i++;
-	}	
+	}
 	return (path);
 }
 
-// Executes self-made and builtin commands.
-// Error if command does not exist.
+static char	*ft_str_tolower(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_tolower(str[i]);
+		i++;
+	}
+	return (str);
+}
+
 void	ft_execute_command(t_list *stream, char ***copy_env)
 {
 	char	*path;
-	
-	if (ft_builtin_cmd(stream, copy_env) == true)
+
+	path = ft_strdup(TOKEN->arg[0]);
+	if (!path)
+		return (ft_error_cmd("Malloc failed.", "Error"));
+	path = ft_str_tolower(path);
+	if (ft_builtin_cmd(path, stream, copy_env) == true)
 	{
 		if (TOKEN->fd_out != 1)
 			close(TOKEN->fd_out);
-		return;
+		return (free(path));
 	}
 	else
 	{
-		path = ft_cmd_exists(stream);
-		if (path != NULL)
-		{
-			dup2(TOKEN->fd_out, 1);
-			execve(path, TOKEN->arg, environ);
-			free(path);
-		}
+		free(path);
+		path = ft_cmd_exists(stream, *copy_env);
+		if (!path)
+			ft_error_cmd("Command not found\n", TOKEN->arg[0]);
 		else
-			printf("Error: %s: Command not found\n", TOKEN->arg[0]);
+			execve(path, TOKEN->arg, *copy_env);
 	}
+	if (TOKEN->fd_out != 1)
+		close(TOKEN->fd_out);
+	return ;
 }

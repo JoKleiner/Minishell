@@ -16,7 +16,7 @@ SRCS_PRINTF = $(addprefix $(PRINTF_DIR)/, ft_printf.c ft_case_xx.c ft_case_p_u.c
 SRCS_GNL    = $(addprefix $(GNL_DIR)/, get_next_line.c get_next_line_utils.c)
 SRCS_LIST   = $(addprefix $(LIST_DIR)/, ft_lstnew.c ft_lstlast.c ft_lstclear.c ft_lstadd_back.c)
 SRCS_MEMO   = $(addprefix $(MEMO_DIR)/, ft_bzero.c ft_calloc.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_memfree.c)
-SRCS_STR    = $(addprefix $(STR_DIR)/, ft_putstr_rev.c ft_split.c ft_strdup.c ft_strjoin_free.c ft_strjoin.c ft_strlcpy.c ft_strlen.c ft_strndup.c ft_strstr_num.c)
+SRCS_STR    = $(addprefix $(STR_DIR)/, ft_putstr_rev.c ft_split.c ft_strdup.c ft_strjoin_free.c ft_strjoin.c ft_strlcpy.c ft_strlen.c ft_strndup.c ft_strstr_num.c ft_strjoin_delimit.c)
 SRCS_CONV   = $(addprefix $(CONV_DIR)/, ft_atoi.c ft_itoa.c)
 SRCS_FURTH  = $(addprefix $(FURTH_DIR)/, ft_isalnum.c ft_isdigit.c ft_putendl.c ft_strchr.c ft_strmapi.c ft_strrchr.c \
 			   ft_tolower.c ft_isalpha.c ft_isprint.c ft_putnbr.c ft_striteri.c ft_strncmp.c ft_strtrim.c ft_toupper.c \

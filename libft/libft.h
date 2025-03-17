@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/11 11:37:40 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/17 14:21:16 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char				*ft_strdup(const char *str);
 char				*ft_strndup(const char *str, size_t len);
 char				*ft_strjoin_free(char *s1, char const *s2);
 char				*ft_strjoin(char const *str1, char const *str2);
+char				*ft_strjoin_delimit(char *str1, char middle, char *str2);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstlen);
 char				**ft_split(char const *str, char cha);
 int					ft_putstr_rev(char *str);
