@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/18 16:11:39 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:41:47 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static char	*ft_cmd_exists(t_list *stream, char **copy_env)
 	while (try_paths[i])
 	{
 		path = ft_strjoin_delimit(try_paths[i], '/', TOKEN->arg[0]);
-		printf("Schronk: %s\n", path);
 		if (!path)
 			exit(1);
 		if (access(path, F_OK) == 0)
@@ -75,7 +74,7 @@ static char	*ft_str_tolower(char *str)
 	return (str);
 }
 
-static void	ft_execute_cmd_fork(char *path, char **arg, char ***copy_env)
+static void	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 {
 	int	pid;
 
@@ -83,7 +82,11 @@ static void	ft_execute_cmd_fork(char *path, char **arg, char ***copy_env)
 	if (pid == -1)
 		return ;
 	if (pid == 0)
-		execve(path, arg, *copy_env);
+	{
+		if (TOKEN->fd_out != STDOUT_FILENO)
+			dup2(TOKEN->fd_out, STDOUT_FILENO);
+		execve(path, TOKEN->arg, *copy_env);
+	}
 	waitpid(pid, 0, 0);
 }
 
@@ -110,7 +113,7 @@ void	ft_execute_command(t_list *stream, char ***copy_env)
 		if (!path)
 			ft_error_cmd("Command not found\n", TOKEN->arg[0]);
 		else
-			ft_execute_cmd_fork(path, TOKEN->arg, copy_env);
+			ft_execute_cmd_fork(path, stream, copy_env);
 	}
 	if (TOKEN->fd_out != 1)
 		close(TOKEN->fd_out);

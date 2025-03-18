@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 16:19:28 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/18 17:00:49 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int				spec_char(char input);
 int				spec_char_wo_dol(char input);
 
 // ---  Signal        --- //
-void            handle_cmd_c(int sig);
-void            setup_signals(void);
+void			handle_cmd_c(int sig);
+void			setup_signals(void);
 
 // ---  Environment    --- //
 

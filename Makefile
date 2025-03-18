@@ -6,7 +6,7 @@
 #    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
-#    Updated: 2025/03/17 12:13:54 by mpoplow          ###   ########.fr        #
+#    Updated: 2025/03/18 17:47:21 by mpoplow          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ OBJ_D_DIR		:= obj_d
 CFILES_SRCS		:= $(addprefix $(SRC_DIR)/, minishell_main.c signal.c)
 CFILES_INPUT	:= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c create_args.c dollar_quote.c)
 CFILES_CMD		:= $(addprefix $(COMMANDS_DIR)/, exe_commands.c error_cmd.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
-CFILES_UTILS	:= $(addprefix $(UTILS_DIR)/, dollar_utils.c envp_utils.c free_utils.c str_array_utils.c)
+CFILES_UTILS	:= $(addprefix $(UTILS_DIR)/, dollar_utils.c envp_check_utils.c envp_change_utils.c free_utils.c str_array_utils.c)
 
 SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_CMD) $(CFILES_UTILS)
 OFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.o))
