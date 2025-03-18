@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 08:53:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 14:30:29 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/18 10:15:20 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	double_quote(int i, char **input, char **copy_env)
 				i++;
 				continue ;
 			}
+			
 			*input = dollar_found(i, *input, copy_env);
 			if (!(*input))
 				return (-1);

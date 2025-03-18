@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 15:13:38 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/18 15:04:35 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,23 @@ t_list	*init_stream(t_list *stream_one)
 
 int	count_pipe(char *input)
 {
-	int	i;
-	int	num_pipe;
+	int		i;
+	int		num_pipe;
+	char	cha;
 
 	i = 0;
 	num_pipe = 0;
 	while (input[i])
 	{
-		if (input[i] == '|')
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			cha = input[i];
+			i = skip_until_char(i, input, cha);
+		}
+		if (input[i] && input[i] == '|')
 			num_pipe++;
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (num_pipe);
 }
@@ -101,27 +108,29 @@ char	check_syntax(char *input)
 	syn_char = '\0';
 	while (input[i])
 	{
-		if(input[i] == '\'' || input[i] == '\"')
-			i = skip_until_char(i, input, input[i]);
-		if (input[i] == '>')
-		{
-			i++;
-			while (input[i] && wh_space(input[i]))
-				i++;
-			if (input[i] == '>')
-				syn_char = input[i];
-			return (syn_char);
-		}
+		// if (input[i] == '\'' || input[i] == '\"')
+		// 	i = skip_until_char(i, input, input[i]);
+		// if (input[i] == '>')
+		// {
+		// 	i++;
+		// 	while (input[i] && wh_space(input[i]))
+		// 		i++;
+		// 	if (input[i] == '>')
+		// 		syn_char = input[i];
+		// 	return (syn_char);
+		// }
+		// if (input[i])
 		i++;
 	}
 	return (syn_char);
 }
 
-int	stream_handle(char *input, char **copy_env, t_list *stream)
+int	stream_handle(char *input, char ***copy_env, t_list *stream)
 {
 	int	u;
+	int	fd;
 
-	if (input_handle(input, stream, copy_env))
+	if (input_handle(input, stream, *copy_env))
 		return (1);
 	if (stream)
 	{
@@ -130,28 +139,40 @@ int	stream_handle(char *input, char **copy_env, t_list *stream)
 		ft_printf("stream_num:%d\nfd_in:%d\nfd_out:%d\ninfile:%s\noutfile:%s\nhd_file:%s\n",
 			TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out, TOKEN->in_file,
 			TOKEN->out_file, TOKEN->hd_file);
-		if (TOKEN->arg[u])
-			while (TOKEN->arg[u])
-			{
-				ft_printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
-				u++;
-			}
+		if (TOKEN->arg)
+			if (TOKEN->arg[u])
+				while (TOKEN->arg[u])
+				{
+					ft_printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
+					u++;
+				}
 		ft_printf("\n");
 	}
-	ft_execute_command(stream, &copy_env);
+	if (TOKEN->fd_in != STDIN_FILENO)
+	{
+		if (TOKEN->fd_in == 3)
+			fd = open(TOKEN->in_file, O_RDONLY);
+		if (TOKEN->fd_in == 4)
+			fd = open(TOKEN->hd_file, O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+	}
+	ft_execute_command(stream, copy_env);
 	return (0);
 }
 
-int	find_pipe(char *input)
+int	search_pipe(char *input)
 {
 	int	i;
 
 	i = 0;
 	while (input[i])
 	{
+		if (input[i] == '\'' || input[i] == '\"')
+			i = skip_until_char(i, input, input[i]);
 		if (input[i] == '|')
 			return (1);
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (0);
 }
@@ -165,18 +186,19 @@ int	main(void)
 	int		num_pipe;
 	char	syn_char;
 	int		pipes;
+	int		pipe_error;
 	int		i;
 	int		u;
 	int		fds[2];
 	int		pid;
 	int		error_num;
+	int		std_in;
 
 	setup_signals();
 	copy_env = ft_strarrdup(environ);
 	if (!copy_env)
 		return (ft_error_cmd("malloc failed!", "minishell"), 1);
 	stream_one = NULL;
-	stream = stream_one;
 	while (1)
 	{
 		input = readline("\033[0;34mminishell> \033[0m");
@@ -200,7 +222,7 @@ int	main(void)
 		i = 0;
 		u = 0;
 		pipes = 0;
-		if (find_pipe(input))
+		if (search_pipe(input))
 		{
 			pid = fork();
 			if (pid == -1)
@@ -215,8 +237,10 @@ int	main(void)
 				{
 					if (pid == 0 && i != num_pipe)
 					{
-						pipe(fds);
+						pipe_error = pipe(fds);
 						pid = fork();
+						if (pipe_error == -1 || pid == -1)
+							return (write(1, "error\n", 6));
 						if (pid == 0)
 						{
 							close(fds[WR_IN]);
@@ -237,9 +261,10 @@ int	main(void)
 								u++;
 							}
 							input = stream_input(input, u);
-							error_num = stream_handle(input, copy_env, stream);
+							error_num = stream_handle(input, &copy_env, stream);
 							if (error_num == 1)
 								return (1);
+							// free_stream(stream_one);
 							return (0);
 						}
 						waitpid(pid, 0, 0);
@@ -253,9 +278,10 @@ int	main(void)
 							u++;
 						}
 						input = stream_input(input, u);
-						error_num = stream_handle(input, copy_env, stream);
+						error_num = stream_handle(input, &copy_env, stream);
 						if (error_num == 1)
 							return (1);
+						// free_stream(stream_one);
 						return (0);
 					}
 					i++;
@@ -265,16 +291,17 @@ int	main(void)
 		}
 		else
 		{
+			std_in = dup(STDIN_FILENO);
 			stream_one = init_stream(NULL);
 			if (stream_one == NULL)
 				return (free(input), write(1, "error\n", 6), 1);
 			stream = stream_one;
-			input = stream_input(input, u);
-			error_num = stream_handle(input, copy_env, stream);
-			if (error_num == 1)
-				return (1);
+			error_num = stream_handle(input, &copy_env, stream);
+			dup2(std_in, STDIN_FILENO);
+			// if (error_num == 1)
+			// 	return (1);
+			// free_stream(stream_one);
 		}
-		// free_stream(stream_one);
 	}
 	free_strarr(copy_env);
 	rl_clear_history();

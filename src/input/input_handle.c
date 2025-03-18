@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 14:55:16 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/18 10:10:55 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	handle_redir(int i, char *input, t_list *stream, char **copy_env)
 int	input_handle(char *input, t_list *stream, char	**copy_env)
 {
 	int		i;
+	
 	
 	input = dollar_handle(input, copy_env);
 	if (!input)

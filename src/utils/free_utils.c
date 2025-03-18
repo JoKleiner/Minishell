@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 12:11:02 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/18 13:35:26 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,18 @@ void	free_stream(t_list *stream)
 {
 	t_list	*stream_next;
 
+	
 	while (stream->next)
 	{
 		stream_next = stream->next;
+		
 		free_content(stream);
+		
 		free(stream->cont);
 		free(stream);
 		stream = stream_next;
 	}
+	ft_printf("ja\n");
 	free_content(stream);
 	free(stream->cont);
 	free(stream);

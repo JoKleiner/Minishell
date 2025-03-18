@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/13 13:06:17 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/18 15:04:53 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ char	*create_hd_file(t_list *stream)
 	}
 	else
 		here_doc = TOKEN->hd_file;
-	fd = open(here_doc, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(here_doc, O_RDONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (NULL);
-	return (close(fd), here_doc);
+	return (here_doc);
 }
 
 int	append_in_file(char *input, char *str)
