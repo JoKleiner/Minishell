@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 15:04:35 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:08:42 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,6 @@ int	main(void)
 		num_pipe = count_pipe(input);
 		i = 0;
 		u = 0;
-		pipes = 0;
 		if (search_pipe(input))
 		{
 			pid = fork();
@@ -254,6 +253,7 @@ int	main(void)
 						{
 							close(fds[RD_OUT]);
 							TOKEN->fd_out = fds[WR_IN];
+							pipes = 0;
 							while (pipes < i)
 							{
 								if (input[u] == '|')
@@ -264,13 +264,14 @@ int	main(void)
 							error_num = stream_handle(input, &copy_env, stream);
 							if (error_num == 1)
 								return (1);
-							// free_stream(stream_one);
+							close(fds[WR_IN]);
+							waitpid(pid, 0, 0);
 							return (0);
 						}
-						waitpid(pid, 0, 0);
 					}
 					else
 					{
+						pipes = 0;
 						while (pipes < i)
 						{
 							if (input[u] == '|')
@@ -281,7 +282,6 @@ int	main(void)
 						error_num = stream_handle(input, &copy_env, stream);
 						if (error_num == 1)
 							return (1);
-						// free_stream(stream_one);
 						return (0);
 					}
 					i++;
