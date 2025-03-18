@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/15 16:55:26 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/18 14:47:14 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,32 +56,61 @@ static void	ft_change_oldpwd(char *cwd, char ***copy_env)
 	free(cwd);
 }
 
-void	ft_exe_cd(t_list *stream, char ***copy_env)
+static bool	ft_cd_home(char *cwd, char ***copy_env)
 {
 	int		env_pos;
 	char	*temp;
+
+	if (ft_env_exists("HOME", *copy_env) == false)
+		return (free(cwd), ft_error_cmd("HOME not set.", "cd"), 0);
+	env_pos = find_envp("HOME", *copy_env);
+	temp = ft_strnstr((*copy_env)[env_pos], "=",
+			ft_strlen((*copy_env)[env_pos]));
+	if (!temp || !temp[1])
+		return (free(cwd), ft_error_cmd("HOME not set.", "cd"), 0);
+	temp++;
+	if (chdir(temp) == -1)
+		return (free(cwd), ft_error_cmd("No valid directory.", "cd"), 0);
+	return (true);
+}
+
+static bool	ft_cd_minus(char *cwd, char ***copy_env)
+{
+	int		env_pos;
+	char	*temp;
+
+	if (ft_env_exists("OLDPWD", *copy_env) == false)
+		return (free(cwd), ft_error_cmd("OLDPWD not set.", "cd"), 0);
+	env_pos = find_envp("OLDPWD", *copy_env);
+	temp = ft_strnstr((*copy_env)[env_pos], "=",
+			ft_strlen((*copy_env)[env_pos]));
+	if (!temp || !temp[1])
+		return (free(cwd), ft_error_cmd("OLDPWD not set.", "cd"), 0);
+	temp++;
+	if (chdir(temp) == -1)
+		return (free(cwd), ft_error_cmd("No valid directory.", "cd"), 0);
+	printf("%s\n", temp);
+	return (true);
+}
+
+void	ft_exe_cd(t_list *stream, char ***copy_env)
+{
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (ft_error_cmd("Malloc failed.", "cd"));
+	return (ft_error_cmd("Malloc failed.", "cd"));
 	if (TOKEN->arg[1] != NULL && TOKEN->arg[2] != NULL)
 		return (free(cwd), ft_error_cmd("Too many arguments!", "cd"));
 	if (!TOKEN->arg[1])
-	{
-		if (ft_env_exists("HOME", *copy_env) == false)
-			return (free(cwd), ft_error_cmd("HOME not set.", "cd"));
-		env_pos = find_envp("HOME", *copy_env);
-		temp = ft_strnstr((*copy_env)[env_pos], "=",
-				ft_strlen((*copy_env)[env_pos]));
-		if (!temp || !temp[1])
-			return (free(cwd), ft_error_cmd("HOME not set.", "cd"));
-		temp++;
-		if (chdir(temp) == -1)
-			return (free(cwd), ft_error_cmd("No valid directory.", "cd"));
-	}
-	else if (chdir(TOKEN->arg[1]) == -1)
-		return (free(cwd), ft_error_cmd("Couldn't change directory.", "cd"));
+		if (ft_cd_home(cwd, copy_env) == false)
+			return ;
+	if (TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0')
+		if (ft_cd_minus(cwd, copy_env) == false)
+			return ;
+	if (chdir(TOKEN->arg[1]) == -1)
+		return (free(cwd),
+				ft_error_cmd("Couldn't change directory.", "cd"));
 	ft_change_currentpwd(copy_env);
 	ft_change_oldpwd(cwd, copy_env);
 }
