@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/18 14:53:00 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/18 15:48:05 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,24 @@ static char	*ft_str_tolower(char *str)
 	return (str);
 }
 
+static void	ft_execute_cmd_fork(char *path, char **arg, char ***copy_env)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
+		execve(path, arg, *copy_env);
+	waitpid(pid, 0, 0);
+}
+
 void	ft_execute_command(t_list *stream, char ***copy_env)
 {
 	char	*path;
 
+	if (!TOKEN || !TOKEN->arg)
+		return ;
 	path = ft_strdup(TOKEN->arg[0]);
 	if (!path)
 		return (ft_error_cmd("Malloc failed.", "Error"));
@@ -96,9 +110,8 @@ void	ft_execute_command(t_list *stream, char ***copy_env)
 		if (!path)
 			ft_error_cmd("Command not found\n", TOKEN->arg[0]);
 		else
-			execve(path, TOKEN->arg, *copy_env);
+			ft_execute_cmd_fork(path, TOKEN->arg, copy_env);
 	}
 	if (TOKEN->fd_out != 1)
 		close(TOKEN->fd_out);
-	return ;
 }

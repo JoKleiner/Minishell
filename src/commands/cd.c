@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/18 14:47:14 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:06:41 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,20 @@ void	ft_exe_cd(t_list *stream, char ***copy_env)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-	return (ft_error_cmd("Malloc failed.", "cd"));
+		return (ft_error_cmd("Malloc failed.", "cd"));
 	if (TOKEN->arg[1] != NULL && TOKEN->arg[2] != NULL)
 		return (free(cwd), ft_error_cmd("Too many arguments!", "cd"));
-	if (!TOKEN->arg[1])
+	else if (!TOKEN->arg[1])
+	{
 		if (ft_cd_home(cwd, copy_env) == false)
 			return ;
-	if (TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0')
+	}
+	else if (TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0')
+	{
 		if (ft_cd_minus(cwd, copy_env) == false)
 			return ;
-	if (chdir(TOKEN->arg[1]) == -1)
+	}
+	else if (chdir(TOKEN->arg[1]) == -1)
 		return (free(cwd),
 				ft_error_cmd("Couldn't change directory.", "cd"));
 	ft_change_currentpwd(copy_env);
