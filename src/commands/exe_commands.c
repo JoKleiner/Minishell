@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/18 16:41:38 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:58:12 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,18 @@ static bool	ft_builtin_cmd(char *name, t_list *stream, char ***copy_env)
 	return (false);
 }
 
+static bool	ft_cmd_helper(char **try_paths, char **path, t_list *stream, int i)
+{
+	*path = ft_strjoin_delimit(try_paths[i], '/', TOKEN->arg[0]);
+	if (!(*path))
+		exit(1);
+	if (access(*path, F_OK) == 0)
+		return (true);
+	free(*path);
+	*path = NULL;
+	return (false);
+}
+
 // Checks if the command is in the evnp PATH.
 static char	*ft_cmd_exists(t_list *stream, char **copy_env)
 {
@@ -49,29 +61,11 @@ static char	*ft_cmd_exists(t_list *stream, char **copy_env)
 	i = 0;
 	while (try_paths[i])
 	{
-		path = ft_strjoin_delimit(try_paths[i], '/', TOKEN->arg[0]);
-		if (!path)
-			exit(1);
-		if (access(path, F_OK) == 0)
+		if (ft_cmd_helper(try_paths, &path, stream, i) == true)
 			break ;
-		free(path);
-		path = NULL;
 		i++;
 	}
 	return (path);
-}
-
-static char	*ft_str_tolower(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		str[i] = ft_tolower(str[i]);
-		i++;
-	}
-	return (str);
 }
 
 static void	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
@@ -83,7 +77,7 @@ static void	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 		return ;
 	if (pid == 0)
 	{
-		if(TOKEN->fd_out != STDOUT_FILENO)
+		if (TOKEN->fd_out != STDOUT_FILENO)
 			dup2(TOKEN->fd_out, STDOUT_FILENO);
 		execve(path, TOKEN->arg, *copy_env);
 	}

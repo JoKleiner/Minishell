@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp_utils.c                                       :+:      :+:    :+:   */
+/*   envp_change_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 13:33:30 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/15 16:54:47 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/18 17:46:12 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,34 +88,4 @@ char	**ft_update_envvar(char *arg, char *name, char **copy_env)
 	}
 	dest[i] = NULL;
 	return (dest);
-}
-
-// Returns true if the env is found in copy_env
-bool	ft_env_exists(char *arg, char **copy_env)
-{
-	int	i;
-
-	i = 0;
-	while (copy_env[i])
-	{
-		if (ft_str_same(arg, copy_env[i], ft_strlen(arg)) == true)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-// Returns position of the env in copy_env.
-int	find_envp(char *str, char **copy_env)
-{
-	int	u;
-
-	u = 0;
-	while (copy_env[u])
-	{
-		if (ft_strncmp(str, copy_env[u], ft_strlen(str)) == 0)
-			break ;
-		u++;
-	}
-	return (u);
 }

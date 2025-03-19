@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:29 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/15 13:47:13 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:23:54 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	ft_exe_unset(t_list *stream, char ***copy_env)
 	while (TOKEN->arg[i])
 	{
 		if (ft_strchr(TOKEN->arg[i], '=') != 0)
-			printf("Error: unset: %s: not a valid identifier\n", TOKEN->arg[i]);
+			return (ft_error_cmd("not a valid identifier", "unset"));
 		else
 		{
 			if (ft_env_exists(TOKEN->arg[i], *copy_env) == true)
 			{
 				temp = ft_rm_envvar(TOKEN->arg[i], *copy_env);
 				if (!(temp))
-					return (ft_error_cmd("Malloc failed.", "unset"));
+					return (ft_errmal("Error: unset:"));
 				free_strarr(*copy_env);
 				*copy_env = temp;
 			}

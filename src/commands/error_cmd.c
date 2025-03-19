@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:08:01 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/14 13:06:41 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:45:38 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,16 @@
 
 void	ft_error_cmd(char *message, char *name)
 {
-	write(2, "Error: ", 7);
-	write(2, name, ft_strlen(name));
-	write(2, ": ", 2);
-	write(2, message, ft_strlen(message));
-	write(2, "\n", 1);
+	write(STDERR_FILENO, "Error: ", 7);
+	write(STDERR_FILENO, name, ft_strlen(name));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, message, ft_strlen(message));
+	write(STDERR_FILENO, "\n", 1);
+}
+
+void	ft_errmal(char *name)
+{
+	write(STDERR_FILENO, "Error: ", 7);
+	perror(name);
+	write(STDERR_FILENO, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 12:46:31 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:58:34 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,7 @@ int	spec_char_wo_dol(char input)
 	return (0);
 }
 
-char	*check_syntax(char *input)
-{
-	int		i;
-	char	*syn_str;
-
-	i = 0;
-	syn_str = NULL;
-	while (input[i])
-	{
-		// if (input[i] == '\'' || input[i] == '\"')
-		// 	i = skip_until_char(i, input, input[i]);
-		// if (input[i] == '>')
-		// {
-		// 	i++;
-		// 	while (input[i] && wh_space(input[i]))
-		// 		i++;
-		// 	if (input[i] == '>')
-		// 		syn_char = input[i];
-		// 	return (syn_char);
-		// }
-		// if (input[i])
-		i++;
-	}
-	return (syn_str);
-}
-
-int return_value(int num)
+int	return_value(int num)
 {
 	static int	return_num = 0;
 	int			return_num_temp;
@@ -85,7 +59,7 @@ int	main(void)
 	setup_signals();
 	copy_env = ft_strarrdup(environ);
 	if (!copy_env)
-		return (ft_error_cmd("malloc failed!", "minishell"), 1);
+		return (ft_errmal("Error: minishell: "), 1);
 	stream_one = NULL;
 	while (1)
 	{

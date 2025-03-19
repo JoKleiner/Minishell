@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/18 16:06:41 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:58:09 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ static void	ft_change_currentpwd(char ***copy_env)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (ft_error_cmd("Malloc failed.", "cd"));
+		return (ft_errmal("Error: cd:"));
 	pwd_envvar = ft_strjoin("PWD=", cwd);
 	if (!pwd_envvar)
-		return (free(cwd), ft_error_cmd("Malloc failed.", "cd"));
+		return (free(cwd), ft_errmal("Error: cd:"));
 	if (ft_env_exists("PWD", *copy_env) == true)
 		temp = ft_update_envvar(pwd_envvar, "PWD", *copy_env);
 	else
 		temp = ft_add_envvar(pwd_envvar, *copy_env);
 	free(pwd_envvar);
 	if (!temp)
-		return (free(cwd), ft_error_cmd("Malloc failed.", "cd"));
+		return (free(cwd), ft_errmal("Error: cd:"));
 	free_strarr(*copy_env);
 	*copy_env = temp;
 	free(cwd);
@@ -43,14 +43,14 @@ static void	ft_change_oldpwd(char *cwd, char ***copy_env)
 
 	pwd_envvar = ft_strjoin("OLDPWD=", cwd);
 	if (!pwd_envvar)
-		return (free(cwd), ft_error_cmd("Malloc failed.", "cd"));
+		return (free(cwd), ft_errmal("Error: cd:"));
 	if (ft_env_exists("OLDPWD", *copy_env) == true)
 		temp = ft_update_envvar(pwd_envvar, "OLDPWD", *copy_env);
 	else
 		temp = ft_add_envvar(pwd_envvar, *copy_env);
 	free(pwd_envvar);
 	if (!temp)
-		return (free(cwd), ft_error_cmd("Malloc failed.", "cd"));
+		return (free(cwd), ft_errmal("Error: cd:"));
 	free_strarr(*copy_env);
 	*copy_env = temp;
 	free(cwd);
@@ -99,7 +99,7 @@ void	ft_exe_cd(t_list *stream, char ***copy_env)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (ft_error_cmd("Malloc failed.", "cd"));
+		return (ft_errmal("Error: cd:"));
 	if (TOKEN->arg[1] != NULL && TOKEN->arg[2] != NULL)
 		return (free(cwd), ft_error_cmd("Too many arguments!", "cd"));
 	else if (!TOKEN->arg[1])
@@ -113,8 +113,7 @@ void	ft_exe_cd(t_list *stream, char ***copy_env)
 			return ;
 	}
 	else if (chdir(TOKEN->arg[1]) == -1)
-		return (free(cwd),
-				ft_error_cmd("Couldn't change directory.", "cd"));
+		return (free(cwd), ft_error_cmd("Couldn't change directory.", "cd"));
 	ft_change_currentpwd(copy_env);
 	ft_change_oldpwd(cwd, copy_env);
 }

@@ -6,24 +6,11 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 16:31:02 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:58:25 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-bool	env_char(char input)
-{
-	if (input >= 'a' && input <= 'z')
-		return (true);
-	if (input >= 'A' && input <= 'Z')
-		return (true);
-	if (input >= '0' && input <= '9')
-		return (true);
-	if (input == '_' && input == '*')
-		return (true);
-	return (false);
-}
 
 int	if_heredoc(int i, char *input)
 {
@@ -54,7 +41,7 @@ int	check_env(int i, char *input, char **copy_env)
 	int		i_temp;
 	int		u;
 	char	*str;
-	char *str_temp;
+	char	*str_temp;
 
 	i_temp = i;
 	while (input[i + 1] && env_char(input[i + 1]))
@@ -68,7 +55,7 @@ int	check_env(int i, char *input, char **copy_env)
 			|| wh_space(input[i_temp - 1])))
 		if ((input[i + 1] && wh_space(input[i + 1])) || input[i + 1] == '\0')
 		{
-			str_temp = ft_strndup(&input[i_temp], ft_strlen(str)+1);
+			str_temp = ft_strndup(&input[i_temp], ft_strlen(str) + 1);
 			ft_printf("%s: ambiguous redirect\n", str_temp);
 			return (free(str), 1);
 		}

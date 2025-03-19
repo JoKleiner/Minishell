@@ -6,11 +6,39 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/17 15:35:56 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:21:53 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool	ft_valid_arg(char *str)
+{
+	int	i;
+
+	if (ft_isdigit(str[0]) == 1)
+	{
+		write(2, "Error: export: \'", 16);
+		write(2, str, ft_strlen(str));
+		write(2, "\' not a valid identifier!\n", 26);
+		return (false);
+	}
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (true);
+		if (env_char(str[i]) == false)
+		{
+			write(2, "Error: export: \'", 16);
+			write(2, str, ft_strlen(str));
+			write(2, "\' not a valid identifier!\n", 26);
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
 
 static void	ft_write_envvar(char *str, int fd_out)
 {
@@ -57,26 +85,18 @@ static void	ft_export_empty(t_list *stream, char ***copy_env)
 	free_strarr(temp);
 }
 
-static char	**ft_exp_new(char *arg, char ***copy_env)
+static char	**ft_env_change(char *arg, char *name, char ***copy_env)
 {
 	char	**temp;
 
-	temp = ft_add_envvar(arg, *copy_env);
+	if (name == NULL)
+		temp = ft_add_envvar(arg, *copy_env);
+	else
+		temp = ft_update_envvar(arg, name, *copy_env);
 	if (!(temp))
 		return (NULL);
 	free_strarr(*copy_env);
-	return(temp);
-}
-
-static char	**ft_exp_update(char *arg, char *name, char ***copy_env)
-{
-	char	**temp;
-
-	temp = ft_update_envvar(arg, name, *copy_env);
-	if (!(temp))
-		return (NULL);
-	free_strarr(*copy_env);
-	return(temp);
+	return (temp);
 }
 
 // Executes export
@@ -87,24 +107,24 @@ void	ft_exe_export(t_list *stream, char ***copy_env)
 	char	**env_name;
 
 	if (!TOKEN->arg[1])
-	{
-		ft_export_empty(stream, copy_env);
-		return ;
-	}
+		return (ft_export_empty(stream, copy_env));
 	i = 0;
 	while (TOKEN->arg[i + 1])
 	{
-		env_name = ft_split(TOKEN->arg[i + 1], '=');
-		if (!env_name)
-			return (ft_error_cmd("Malloc failed.", "export"));
-		if (ft_env_exists(env_name[0], *copy_env) == false)
-			temp = ft_exp_new(TOKEN->arg[i + 1], copy_env);
-		else
-			temp = ft_exp_update(TOKEN->arg[i + 1], env_name[0], copy_env);
-		free_strarr(env_name);
-		if (!temp)
-			return (ft_error_cmd("Malloc failed.", "export"));
+		if (ft_valid_arg(TOKEN->arg[i + 1]) == true)
+		{
+			env_name = ft_split(TOKEN->arg[i + 1], '=');
+			if (!env_name)
+				return (ft_error_cmd("Malloc failed.", "export"));
+			if (ft_env_exists(env_name[0], *copy_env) == false)
+				temp = ft_env_change(TOKEN->arg[i + 1], NULL, copy_env);
+			else
+				temp = ft_env_change(TOKEN->arg[i + 1], env_name[0], copy_env);
+			free_strarr(env_name);
+			if (!temp)
+				return (ft_error_cmd("Malloc failed.", "export"));
+			*copy_env = temp;
+		}
 		i++;
-		*copy_env = temp;
 	}
 }
