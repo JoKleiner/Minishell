@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 12:40:30 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:54 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*dollar_found(int i, char *input, char **copy_env)
 
 int	skip_heredoc(int i, char *input)
 {
-	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
+	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			i = skip_until_char(i, input, input[i]);

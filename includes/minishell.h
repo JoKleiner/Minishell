@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 12:59:43 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:14:48 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_token
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
 	char *hd_file;  // heredoc file
 	char **arg;     // die argumente
+	int error;		// return bei error 1, kein error 0
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -56,7 +57,6 @@ typedef struct s_token
 t_list					*init_stream(t_list *stream_one);
 int						wh_space(char input);
 int						spec_char(char input);
-int						spec_char_wo_dol(char input);
 int						return_value(int num);
 
 // ---  Pipe        --- //

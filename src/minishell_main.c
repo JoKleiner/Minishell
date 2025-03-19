@@ -6,36 +6,11 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 12:58:34 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:16:38 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	wh_space(char input)
-{
-	if (input == ' ' || input == '\t' || input == '\n')
-		return (1);
-	return (0);
-}
-
-int	spec_char(char input)
-{
-	if (input == '<' || input == '>')
-		return (1);
-	if (input == '|' || input == '$')
-		return (1);
-	return (0);
-}
-
-int	spec_char_wo_dol(char input)
-{
-	if (input == '<' || input == '>')
-		return (1);
-	if (input == '|')
-		return (1);
-	return (0);
-}
 
 int	return_value(int num)
 {

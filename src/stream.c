@@ -6,25 +6,16 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:04:01 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 11:04:17 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:01:03 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_list	*init_stream(t_list *stream_one)
+void	set_init_stream(t_list *stream_one, t_list *stream)
 {
-	t_list	*stream;
-	t_token	*stream_info;
-	int		i;
+	int	i;
 
-	stream_info = (t_token *)malloc(sizeof(t_token));
-	if (!stream_info)
-		return (NULL);
-	stream = ft_lstnew(stream_info);
-	if (!stream)
-		return (free(stream_info), (NULL));
-	ft_lstadd_back(&stream_one, stream);
 	i = 0;
 	while (stream_one->next)
 	{
@@ -38,6 +29,22 @@ t_list	*init_stream(t_list *stream_one)
 	TOKEN->out_file = NULL;
 	TOKEN->arg = NULL;
 	TOKEN->hd_file = NULL;
+	TOKEN->error = 0;
+}
+
+t_list	*init_stream(t_list *stream_one)
+{
+	t_list	*stream;
+	t_token	*stream_info;
+
+	stream_info = (t_token *)malloc(sizeof(t_token));
+	if (!stream_info)
+		return (NULL);
+	stream = ft_lstnew(stream_info);
+	if (!stream)
+		return (free(stream_info), (NULL));
+	ft_lstadd_back(&stream_one, stream);
+	set_init_stream(stream_one, stream);
 	return (stream);
 }
 

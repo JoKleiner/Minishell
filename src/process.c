@@ -6,19 +6,16 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 12:44:54 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:03:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	stream_handle(char *input, char ***copy_env, t_list *stream)
+void	ft_print_stream(t_list *stream)
 {
-	int	fd;
 	int	u;
 
-	if (input_handle(input, stream, *copy_env))
-		return (1);
 	if (stream)
 	{
 		printf("\n");
@@ -35,6 +32,15 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 				}
 		printf("\n");
 	}
+}
+
+int	stream_handle(char *input, char ***copy_env, t_list *stream)
+{
+	int	fd;
+
+	if (input_handle(input, stream, *copy_env))
+		return (1);
+	//ft_print_stream(stream);
 	if (TOKEN->fd_in == -3)
 	{
 		fd = open(TOKEN->in_file, O_RDONLY);
@@ -50,6 +56,8 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 		dup2(fd, STDIN_FILENO);
 	}
 	ft_execute_command(stream, copy_env);
+	if (TOKEN->error == 1)
+		return (1);
 	return (0);
 }
 
@@ -123,7 +131,11 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 		{
 			stream_one = init_stream(NULL);
 			if (stream_one == NULL)
-				return (free(input), write(1, "error\n", 6), 1);
+			{
+				free(input);
+				write(1, "error\n", 6);
+				exit(1);
+			}
 			stream = stream_one;
 			while (i <= num_pipe)
 			{
@@ -132,7 +144,11 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 					pipe_error = pipe(fds);
 					pid = fork();
 					if (pipe_error == -1 || pid == -1)
-						return (write(1, "error\n", 6));
+					{
+						free(input);
+						write(1, "error\n", 6);
+						exit(1);
+					}
 					if (pid == 0)
 					{
 						close(fds[WR_IN]);
@@ -140,7 +156,11 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 						close(fds[RD_OUT]);
 						stream = init_stream(stream_one);
 						if (stream == NULL)
-							return (free(input), write(1, "errorasd\n", 16), 1);
+						{
+							free(input);
+							write(1, "error\n", 6);
+							exit(1);
+						}
 						TOKEN->fd_in = fds[RD_OUT];
 					}
 					else
@@ -157,10 +177,10 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 						input = stream_input(input, u);
 						error_num = stream_handle(input, &copy_env, stream);
 						if (error_num == 1)
-							return (1);
+							exit(1);
 						close(fds[WR_IN]);
 						waitpid(pid, &status, 0);
-						exit(status);
+						exit(WEXITSTATUS(status));
 					}
 				}
 				else
@@ -175,7 +195,7 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 					input = stream_input(input, u);
 					error_num = stream_handle(input, &copy_env, stream);
 					if (error_num == 1)
-						return (1);
+						exit(1);
 					exit(0);
 				}
 				i++;
@@ -188,7 +208,11 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 		std_in = dup(STDIN_FILENO);
 		stream_one = init_stream(NULL);
 		if (stream_one == NULL)
-			return (free(input), write(1, "error\n", 6), 1);
+		{
+			free(input);
+			write(1, "error\n", 6);
+			return (1);
+		}
 		stream = stream_one;
 		error_num = stream_handle(input, &copy_env, stream);
 		if (error_num == 1)
@@ -198,5 +222,5 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 		// 	return (1);
 		// free_stream(stream_one);
 	}
-	return (status);
+	return (WEXITSTATUS(status));
 }
