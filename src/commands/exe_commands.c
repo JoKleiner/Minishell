@@ -6,31 +6,15 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/19 16:03:52 by joklein          ###   ########.fr       */
+=======
+/*   Updated: 2025/03/19 16:04:18 by mpoplow          ###   ########.fr       */
+>>>>>>> fa84e4286f24369606d5fda34c3a1e92ce01ea75
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// Checks if the command is a self-made command
-static bool	ft_builtin_cmd(char *name, t_list *stream, char ***copy_env)
-{
-	if (ft_strncmp(name, "echo", 5) == 0)
-		return (ft_exe_echo(stream), true);
-	else if (ft_strncmp(name, "cd", 3) == 0)
-		return (ft_exe_cd(stream, copy_env), true);
-	else if (ft_strncmp(name, "pwd", 4) == 0)
-		return (ft_exe_pwd(stream), true);
-	else if (ft_strncmp(name, "export", 8) == 0)
-		return (ft_exe_export(stream, copy_env), true);
-	else if (ft_strncmp(name, "unset", 6) == 0)
-		return (ft_exe_unset(stream, copy_env), true);
-	else if (ft_strncmp(name, "env", 4) == 0)
-		return (ft_exe_env(stream, *copy_env), true);
-	else if (ft_strncmp(name, "exit", 5) == 0)
-		return (ft_exe_exit(stream), true);
-	return (false);
-}
 
 static char	*ft_cmd_helper(char **try_paths, t_list *stream)
 {
