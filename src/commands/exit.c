@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/09 14:41:23 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:32:30 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_isdigit_str(char *str)
 	return (1);
 }
 
-void	ft_exe_exit(t_list *stream)
+int	ft_exe_exit(t_list *stream)
 {
 	printf("exit\n");
 	if (TOKEN->arg[1])
@@ -38,7 +38,7 @@ void	ft_exe_exit(t_list *stream)
 		}
 		else
 		{
-			if (ft_isdigit_str(TOKEN->arg[1]) == 1)
+			if (ft_isdigit_str(TOKEN->arg[1]) == 1 && ft_strlen(TOKEN->arg[1]) <= 19)
 				exit(atoi(TOKEN->arg[1]));
 			else
 				printf("Error: %s: numeric argument required\n", TOKEN->arg[1]);

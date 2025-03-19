@@ -6,14 +6,14 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:40 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/11 14:50:13 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:19:12 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Prints the environment.
-void	ft_exe_env(t_list *stream, char **copy_env)
+int	ft_exe_env(t_list *stream, char **copy_env)
 {
 	int	i;
 
@@ -39,4 +39,5 @@ void	ft_exe_env(t_list *stream, char **copy_env)
 	{
 		printf("env: %s: Invalid argument\n", TOKEN->arg[1]);
 	}
+	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:41 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/07 14:28:11 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:04:44 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	ft_flag_n(t_list *stream, int *i)
 	return (isflag_n);
 }
 
-void	ft_exe_echo(t_list *stream)
+int	ft_exe_echo(t_list *stream)
 {
 	int		i;
 	bool	isflag_n;
@@ -52,5 +52,5 @@ void	ft_exe_echo(t_list *stream)
 	}
 	if (isflag_n == false)
 		write(TOKEN->fd_out, "\n", 1);
-	(void)stream;
+	return(0);
 }

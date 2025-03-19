@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 15:14:48 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:35:54 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_token
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
 	char *hd_file;  // heredoc file
 	char **arg;     // die argumente
-	int error;		// return bei error 1, kein error 0
+	int error;      // return bei error 1, kein error 0
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -94,13 +94,15 @@ char					*ft_str_tolower(char *str);
 // ---  Commands    --- //
 
 void					ft_execute_command(t_list *stream, char ***copy_env);
-void					ft_exe_cd(t_list *stream, char ***copy_env);
-void					ft_exe_echo(t_list *stream);
-void					ft_exe_env(t_list *stream, char **copy_env);
-void					ft_exe_exit(t_list *stream);
-void					ft_exe_export(t_list *stream, char ***copy_env);
-void					ft_exe_pwd(t_list *stream);
-void					ft_exe_unset(t_list *stream, char ***copy_env);
+bool					ft_builtin_cmd(char *name, t_list *stream,
+							char ***copy_env);
+int						ft_exe_cd(t_list *stream, char ***copy_env);
+int						ft_exe_echo(t_list *stream);
+int						ft_exe_env(t_list *stream, char **copy_env);
+int						ft_exe_exit(t_list *stream);
+int						ft_exe_export(t_list *stream, char ***copy_env);
+int						ft_exe_pwd(t_list *stream);
+int						ft_exe_unset(t_list *stream, char ***copy_env);
 
 // ---  Inputhandle --- //
 
