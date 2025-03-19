@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 12:31:32 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:18:51 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,36 @@ static bool	ft_builtin_cmd(char *name, t_list *stream, char ***copy_env)
 	return (false);
 }
 
-static bool	ft_cmd_helper(char **try_paths, char **path, t_list *stream, int i)
+static char	*ft_cmd_helper(char **try_paths, t_list *stream)
 {
-	*path = ft_strjoin_delimit(try_paths[i], '/', TOKEN->arg[0]);
-	if (!(*path))
-		exit(1);
-	if (access(*path, F_OK) == 0)
-		return (true);
-	free(*path);
-	*path = NULL;
-	return (false);
+	char	*path;
+	int		i;
+
+	i = 0;
+	if (access(TOKEN->arg[0], 0) == 0)
+	{
+		path = ft_strdup(TOKEN->arg[0]);
+		if (!path)
+			return (NULL);
+		return (path);
+	}
+	while (try_paths[i])
+	{
+		path = ft_strjoin_delimit(try_paths[i], '/', TOKEN->arg[0]);
+		if (!(path))
+			return (NULL);
+		if (access(path, 0) == 0)
+			break ;
+		free(path);
+		path = NULL;
+		i++;
+	}
+	return (path);
 }
 
 // Checks if the command is in the evnp PATH.
 static char	*ft_cmd_exists(t_list *stream, char **copy_env)
 {
-	int		i;
 	char	*path;
 	char	**try_paths;
 	int		env_pos;
@@ -58,13 +72,8 @@ static char	*ft_cmd_exists(t_list *stream, char **copy_env)
 	try_paths = ft_split(&(copy_env[env_pos])[5], ':');
 	if (!try_paths)
 		return (NULL);
-	i = 0;
-	while (try_paths[i])
-	{
-		if (ft_cmd_helper(try_paths, &path, stream, i) == true)
-			break ;
-		i++;
-	}
+	path = ft_cmd_helper(try_paths, stream);
+	free_strarr(try_paths);
 	return (path);
 }
 
@@ -87,7 +96,7 @@ static void	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 void	ft_execute_command(t_list *stream, char ***copy_env)
 {
 	char	*path;
-	
+
 	if (!TOKEN || !TOKEN->arg)
 		return ;
 	path = ft_strdup(TOKEN->arg[0]);
