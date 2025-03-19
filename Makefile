@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
+#    By: joklein <joklein@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
-#    Updated: 2025/03/17 12:13:54 by mpoplow          ###   ########.fr        #
+#    Updated: 2025/03/19 11:08:38 by joklein          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= minishell
 CC		:= cc
-CFLAGS	:= -Wall -Wextra -Werror
+CFLAGS	:= -Wall -Wextra -Werror -g
 # -fsanitize=address -g
 
 
@@ -32,7 +32,7 @@ OBJ_D_DIR		:= obj_d
 # 	FILES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
-CFILES_SRCS		:= $(addprefix $(SRC_DIR)/, minishell_main.c signal.c)
+CFILES_SRCS		:= $(addprefix $(SRC_DIR)/, minishell_main.c signal.c process.c stream.c)
 CFILES_INPUT	:= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c create_args.c dollar_quote.c)
 CFILES_CMD		:= $(addprefix $(COMMANDS_DIR)/, exe_commands.c error_cmd.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
 CFILES_UTILS	:= $(addprefix $(UTILS_DIR)/, dollar_utils.c envp_utils.c free_utils.c str_array_utils.c)

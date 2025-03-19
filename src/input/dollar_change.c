@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 12:36:52 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:40:30 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ char	*creat_str(int i, int i_temp, char *input)
 	return (str);
 }
 
+char	*doll_quest(char *input, int i)
+{
+	int		num;
+	char	*input_temp;
+
+	num = return_value(0);
+	input_temp = ft_strndup(input, i);
+	input_temp = ft_strjoin_free(input_temp, ft_itoa(num));
+	input_temp = ft_strjoin_free(input_temp, &input[i + 2]);
+	free(input);
+	input = input_temp;
+	return (input);
+}
+
 char	*dollar_found(int i, char *input, char **copy_env)
 {
 	int		i_temp;
@@ -55,13 +69,17 @@ char	*dollar_found(int i, char *input, char **copy_env)
 	i_temp = i;
 	env_arg = NULL;
 	while (input[i + 1] && env_char(input[i + 1]))
-		i++;
+	i++;
+	if (input[i_temp + 1] == '?')
+	{
+		input = doll_quest(input, i_temp);
+		return (input);
+	}
 	if (i == i_temp)
-			return (input);
+		return (input);
 	str = creat_str(i, i_temp, input);
 	if (!str)
 		return (free(input), NULL);
-	
 	u = find_envp(str, copy_env);
 	if (copy_env[u])
 	{
@@ -105,7 +123,7 @@ char	*dollar_handle(char *input, char **copy_env)
 				i = skip_heredoc(i, input);
 			else if (if_redir_empty_file(i, input, copy_env))
 				return (NULL);
-			else if (env_char(input[i + 1]) || input[i+1] == '?')
+			else if (env_char(input[i + 1]) || input[i + 1] == '?')
 			{
 				input = dollar_found(i, input, copy_env);
 				continue ;

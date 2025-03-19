@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 15:04:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 10:49:16 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	create_heredoc(char *str, t_list *stream, char **copy_env)
 	}
 	free(here_input);
 	TOKEN->hd_file = here_doc;
-	TOKEN->fd_in = 4;
+	TOKEN->fd_in = -4;
 	free(str);
 	return (0);
 }

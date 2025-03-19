@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 15:04:45 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 10:49:13 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	file_in(char *input, int i, t_list *stream)
 {
 	int		i_temp;
 	char	*str;
+	int		fd;
 
 	i_temp = i;
 	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
@@ -32,7 +33,11 @@ int	file_in(char *input, int i, t_list *stream)
 	if (TOKEN->in_file)
 		free(TOKEN->in_file);
 	TOKEN->in_file = str;
-	TOKEN->fd_in = 3;
+	fd = open(str, O_RDONLY);
+	if (fd == -1)
+		return (printf("%s: No such file or directory\n", str), -1);
+	close(fd);
+	TOKEN->fd_in = -3;
 	return (i);
 }
 
@@ -51,6 +56,8 @@ int	redirect_in(char *input, int i, t_list *stream, char **copy_env)
 		while (wh_space(input[i]))
 			i++;
 		i = file_in(input, i, stream);
+		if(i == -1)
+			return(-1);
 	}
 	if (input[i] == '\0')
 		i--;

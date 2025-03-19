@@ -6,23 +6,23 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 12:08:54 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:31:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	env_char(char input)
+bool	env_char(char input)
 {
 	if (input >= 'a' && input <= 'z')
-		return (1);
+		return (true);
 	if (input >= 'A' && input <= 'Z')
-		return (1);
+		return (true);
 	if (input >= '0' && input <= '9')
-		return (1);
-	if (input == '_')
-		return (1);
-	return (0);
+		return (true);
+	if (input == '_' && input == '*')
+		return (true);
+	return (false);
 }
 
 int	if_heredoc(int i, char *input)

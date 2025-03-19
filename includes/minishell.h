@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 16:19:28 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:30:20 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ volatile int	g_sig;
 typedef struct s_token
 {
 	int stream_num; // stream_num
-	int fd_in;      // 0 für std_input, 2 für Pipe, 3 für File, 4 for heredoc
+	int fd_in;      // 0 für std_input, x für Pipe, -3 für File, -4 for heredoc
 	int fd_out;     // fd output, 1 für std_output
 	char *in_file;  // input File
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
@@ -57,10 +57,20 @@ t_list			*init_stream(t_list *stream_one);
 int				wh_space(char input);
 int				spec_char(char input);
 int				spec_char_wo_dol(char input);
+int 			return_value(int num);
+
+// ---  Pipe        --- //
+
+int				start_process(char *input, t_list *stream_one, char **copy_env);
+
+// ---  Stream        --- //
+
+t_list			*init_stream(t_list *stream_one);
+char			*stream_input(char *input, int u);
 
 // ---  Signal        --- //
-void            handle_cmd_c(int sig);
-void            setup_signals(void);
+void			handle_cmd_c(int sig);
+void			setup_signals(void);
 
 // ---  Environment    --- //
 
@@ -98,8 +108,7 @@ int				creat_args(char *input, int i, t_list *stream);
 int				skip_until_char(int i, char *input, char cha);
 char			*str_quote_less(char *input, int len);
 int				heredoc(int i, char *input, t_list *stream, char **copy_env);
-int				env_char(char input);
-;
+bool			env_char(char input);
 int				if_heredoc(int i, char *input);
 int				found_quote(int i, char **input, char **copy_env);
 char			*dollar_found(int i, char *input, char **copy_env);
