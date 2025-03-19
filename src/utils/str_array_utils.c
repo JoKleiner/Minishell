@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:29:49 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/15 17:43:48 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 11:25:34 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ int	ft_strarrlen(char **sstr)
 	while (sstr[sstrlen] != NULL)
 		sstrlen++;
 	return (sstrlen);
+}
+
+char	*ft_str_tolower(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_tolower(str[i]);
+		i++;
+	}
+	return (str);
 }
 
 // Copies a char **sstr and return it.

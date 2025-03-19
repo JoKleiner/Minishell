@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 16:08:42 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:20:48 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,33 +98,6 @@ char	*stream_input(char *input, int u)
 	return (input_new);
 }
 
-char	check_syntax(char *input)
-{
-	int		i;
-	char	syn_char;
-
-	// mus erweitert werden
-	i = 0;
-	syn_char = '\0';
-	while (input[i])
-	{
-		// if (input[i] == '\'' || input[i] == '\"')
-		// 	i = skip_until_char(i, input, input[i]);
-		// if (input[i] == '>')
-		// {
-		// 	i++;
-		// 	while (input[i] && wh_space(input[i]))
-		// 		i++;
-		// 	if (input[i] == '>')
-		// 		syn_char = input[i];
-		// 	return (syn_char);
-		// }
-		// if (input[i])
-		i++;
-	}
-	return (syn_char);
-}
-
 int	stream_handle(char *input, char ***copy_env, t_list *stream)
 {
 	int	u;
@@ -137,8 +110,12 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 		ft_printf("\n");
 		u = 0;
 		ft_printf("stream_num:%d\nfd_in:%d\nfd_out:%d\ninfile:%s\noutfile:%s\nhd_file:%s\n",
-			TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out, TOKEN->in_file,
-			TOKEN->out_file, TOKEN->hd_file);
+					TOKEN->stream_num,
+					TOKEN->fd_in,
+					TOKEN->fd_out,
+					TOKEN->in_file,
+					TOKEN->out_file,
+					TOKEN->hd_file);
 		if (TOKEN->arg)
 			if (TOKEN->arg[u])
 				while (TOKEN->arg[u])
@@ -197,7 +174,7 @@ int	main(void)
 	setup_signals();
 	copy_env = ft_strarrdup(environ);
 	if (!copy_env)
-		return (ft_error_cmd("malloc failed!", "minishell"), 1);
+		return (ft_errmal("Error: minishell: "), 1);
 	stream_one = NULL;
 	while (1)
 	{

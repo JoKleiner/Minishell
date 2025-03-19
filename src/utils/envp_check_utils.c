@@ -6,39 +6,11 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 17:45:41 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/18 17:46:40 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:21:50 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static bool	ft_valid_arg(char *str)
-{
-	int	i;
-
-	if (ft_isdigit(str[0]) == 1)
-	{
-		write(2, "Error: export: \'", 16);
-		write(2, str, ft_strlen(str));
-		write(2, "\' not a valid identifier!\n", 26);
-		return (false);
-	}
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (true);
-		if (env_char(str[i]) == false)
-		{
-			write(2, "Error: export: \'", 16);
-			write(2, str, ft_strlen(str));
-			write(2, "\' not a valid identifier!\n", 26);
-			return (false);
-		}
-		i++;
-	}
-	return (true);
-}
 
 // Returns true if the env is found in copy_env
 bool	ft_env_exists(char *arg, char **copy_env)
