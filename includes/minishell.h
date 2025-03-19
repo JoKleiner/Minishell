@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 15:14:48 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:54:28 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ int						return_value(int num);
 
 // ---  Pipe        --- //
 
-int						start_process(char *input, t_list *stream_one,
-							char **copy_env);
+int						start_process(char *input, char **copy_env);
 
 // ---  Stream        --- //
 
@@ -123,7 +122,7 @@ char					*dollar_found(int i, char *input, char **copy_env);
 int						if_redir_empty_file(int i, char *input,
 							char **copy_env);
 char					*creat_str(int i, int i_temp, char *input);
-char					*check_syntax(char *input);
+int						check_syntax(char *input);
 
 // ---	Errors			--- //
 

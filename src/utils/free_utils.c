@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 13:35:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:14:14 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	free_stream(t_list *stream)
 		free(stream);
 		stream = stream_next;
 	}
-	ft_printf("ja\n");
 	free_content(stream);
 	free(stream->cont);
 	free(stream);

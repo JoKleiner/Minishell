@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 12:59:17 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:46:12 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*check_syntax(char *input)
+int	check_syntax(char *input)
 {
 	int		i;
 	char	*syn_str;
@@ -25,7 +25,13 @@ char	*check_syntax(char *input)
 			i = skip_until_char(i, input, input[i]);
 		i++;
 	}
-	return (syn_str);
+	if (syn_str != NULL)
+		{
+			ft_printf("syntax error near unexpected token `%s'", syn_str);
+			free(input);
+			return(1);
+		}
+	return (0);
 }
 
 // if (input[i] == '>')

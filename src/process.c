@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 15:03:50 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 17:06:06 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,29 @@ void	ft_print_stream(t_list *stream)
 	}
 }
 
-int	stream_handle(char *input, char ***copy_env, t_list *stream)
+void	stream_handle(char *input, char ***copy_env, t_list *stream)
 {
 	int	fd;
 
 	if (input_handle(input, stream, *copy_env))
-		return (1);
-	//ft_print_stream(stream);
-	if (TOKEN->fd_in == -3)
 	{
-		fd = open(TOKEN->in_file, O_RDONLY);
-		if (fd == -1)
-			return (1);
-		dup2(fd, STDIN_FILENO);
+		TOKEN->error = 1;
+		return ;
 	}
-	if (TOKEN->fd_in == -4)
+	// ft_print_stream(stream);
+	if (TOKEN->fd_in == -3 || TOKEN->fd_in == -4)
 	{
-		fd = open(TOKEN->hd_file, O_RDONLY);
-		if (fd == -1)
-			return (1);
-		dup2(fd, STDIN_FILENO);
+		if (TOKEN->fd_in == -3)
+			fd = open(TOKEN->in_file, O_RDONLY);
+		if (TOKEN->fd_in == -4)
+			fd = open(TOKEN->hd_file, O_RDONLY);
+		if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
+		{
+			TOKEN->error = 1;
+			return ;
+		}
 	}
 	ft_execute_command(stream, copy_env);
-	if (TOKEN->error == 1)
-		return (1);
-	return (0);
 }
 
 int	count_pipe(char *input)
@@ -101,18 +99,15 @@ int	search_pipe(char *input)
 	return (0);
 }
 
-// return:
-// 0 everything correct
-// 1 error
-int	start_process(char *input, t_list *stream_one, char **copy_env)
+int	start_process(char *input, char **copy_env)
 {
+	t_list	*stream_one;
 	t_list	*stream;
 	int		num_pipe;
 	int		i;
 	int		u;
 	int		fds[2];
 	int		pid;
-	int		error_num;
 	int		std_in;
 	int		pipes;
 	int		pipe_error;
@@ -122,11 +117,12 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 	i = 0;
 	u = 0;
 	status = 0;
+	stream_one = NULL;
 	if (search_pipe(input))
 	{
 		pid = fork();
 		if (pid == -1)
-			return (write(1, "error\n", 6), 1);
+			return (ft_errmal("fork"), 1);
 		if (pid == 0)
 		{
 			stream_one = init_stream(NULL);
@@ -175,8 +171,8 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 							u++;
 						}
 						input = stream_input(input, u);
-						error_num = stream_handle(input, &copy_env, stream);
-						if (error_num == 1)
+						stream_handle(input, &copy_env, stream);
+						if (TOKEN->error == 1)
 							exit(1);
 						close(fds[WR_IN]);
 						waitpid(pid, &status, 0);
@@ -193,9 +189,9 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 						u++;
 					}
 					input = stream_input(input, u);
-					error_num = stream_handle(input, &copy_env, stream);
-					if (error_num == 1)
-						exit(1);
+					stream_handle(input, &copy_env, stream);
+					if (TOKEN->error == 1)
+							exit(1);
 					exit(0);
 				}
 				i++;
@@ -208,19 +204,12 @@ int	start_process(char *input, t_list *stream_one, char **copy_env)
 		std_in = dup(STDIN_FILENO);
 		stream_one = init_stream(NULL);
 		if (stream_one == NULL)
-		{
-			free(input);
-			write(1, "error\n", 6);
-			return (1);
-		}
+			return (free(input), ft_errmal("malloc"), 1);
 		stream = stream_one;
-		error_num = stream_handle(input, &copy_env, stream);
-		if (error_num == 1)
-			return (1);
+		stream_handle(input, &copy_env, stream);
+		if (TOKEN->error == 1)
+			exit(1);
 		dup2(std_in, STDIN_FILENO);
-		// if (error_num == 1)
-		// 	return (1);
-		// free_stream(stream_one);
 	}
 	return (WEXITSTATUS(status));
 }

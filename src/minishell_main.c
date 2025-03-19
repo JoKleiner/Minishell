@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 15:16:38 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:02:40 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,37 @@ int	return_value(int num)
 	return (return_num_temp);
 }
 
+char	*get_input()
+{
+	char	*line;
+	char	*input;
+
+	if (isatty(STDIN_FILENO))
+		input = readline("\033[0;34mminishell> \033[0m");
+	else
+	{
+		line = get_next_line(STDIN_FILENO);
+		input = ft_strtrim(line, "\n");
+		free(line);
+	}
+	return (input);
+}
+
 int	main(void)
 {
-	t_list	*stream_one;
 	char	**copy_env;
 	char	*input;
-	char	*syn_str;
-	char	*line;
-	int		return_num;
 
 	setup_signals();
 	copy_env = ft_strarrdup(environ);
 	if (!copy_env)
 		return (ft_errmal("Error: minishell: "), 1);
-	stream_one = NULL;
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			input = readline("\033[0;34mminishell> \033[0m");
-		else
-		{
-			line = get_next_line(STDIN_FILENO);
-			input = ft_strtrim(line, "\n");
-			free(line);
-		}
+		input = get_input();
 		if (!input && isatty(STDIN_FILENO))
-			return (free_strarr(copy_env), rl_clear_history(), write(1,
-					"exit\n", 5), 1);
+			return (free_strarr(copy_env), rl_clear_history(), \
+			write(1,"exit\n", 5), 0);
 		else if (!input)
 			return (free_strarr(copy_env), rl_clear_history(), 1);
 		if (ft_strlen(input) == 0)
@@ -57,17 +61,8 @@ int	main(void)
 			continue ;
 		}
 		add_history(input);
-		syn_str = check_syntax(input);
-		if (syn_str != NULL)
-		{
-			ft_printf("syntax error near unexpected token `%s'", syn_str);
-			free(input);
+		if (check_syntax(input) == 1)
 			continue ;
-		}
-		return_num = start_process(input, stream_one, copy_env);
-		return_value(return_num);
+		return_value(start_process(input, copy_env));
 	}
-	free_strarr(copy_env);
-	rl_clear_history();
-	return (0);
 }

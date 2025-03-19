@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 15:22:55 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:03:52 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	ft_execute_command(t_list *stream, char ***copy_env)
 		free(path);
 		path = ft_cmd_exists(stream, *copy_env);
 		if (!path)
-			ft_error_cmd("Command not found\n", TOKEN->arg[0]);
+			ft_error_cmd("Command not found", TOKEN->arg[0]);
 		else
 			ft_execute_cmd_fork(path, stream, copy_env);
 	}
