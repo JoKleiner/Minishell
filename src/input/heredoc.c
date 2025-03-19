@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 15:04:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:54 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	create_heredoc(char *str, t_list *stream, char **copy_env)
 	here_input = readline("> ");
 	if (!here_input)
 		return (free(str), free(here_doc), -1);
-	while (ft_strncmp(here_input, str, ft_strlen(str)) != 0)
+	while (ft_strncmp(here_input, str, ft_strlen(str)+1) != 0)
 	{
 		here_input = dollar_handle(here_input, copy_env);
 		if (append_in_file(here_input, here_doc) == -1)
@@ -77,7 +77,7 @@ int	create_heredoc(char *str, t_list *stream, char **copy_env)
 	}
 	free(here_input);
 	TOKEN->hd_file = here_doc;
-	TOKEN->fd_in = 4;
+	TOKEN->fd_in = -4;
 	free(str);
 	return (0);
 }
@@ -88,7 +88,7 @@ int	heredoc(int i, char *input, t_list *stream, char **copy_env)
 	char	*str;
 
 	i_temp = i;
-	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
+	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
 	{
 		if (input[i] == '\'')
 			i = skip_until_char(i, input, '\'');

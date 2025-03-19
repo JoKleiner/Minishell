@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 12:25:24 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:58:09 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,7 @@ void	ft_exe_cd(t_list *stream, char ***copy_env)
 			return ;
 	}
 	else if (chdir(TOKEN->arg[1]) == -1)
-		return (free(cwd),
-				ft_error_cmd("Couldn't change directory.", "cd"));
+		return (free(cwd), ft_error_cmd("Couldn't change directory.", "cd"));
 	ft_change_currentpwd(copy_env);
 	ft_change_oldpwd(cwd, copy_env);
 }

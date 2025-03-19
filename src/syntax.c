@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 12:11:35 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 12:59:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	check_syntax(char *input)
+char	*check_syntax(char *input)
 {
 	int		i;
-	char	syn_char;
+	char	*syn_str;
 
 	i = 0;
-	syn_char = '\0';
+	syn_str = NULL;
 	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			i = skip_until_char(i, input, input[i]);
 		i++;
 	}
-	return (syn_char);
+	return (syn_str);
 }
 
 // if (input[i] == '>')

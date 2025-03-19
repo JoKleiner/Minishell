@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 12:11:01 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:14:48 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ volatile sig_atomic_t	g_sig;
 typedef struct s_token
 {
 	int stream_num; // stream_num
-	int fd_in;      // 0 für std_input, 2 für Pipe, 3 für File, 4 for heredoc
+	int fd_in;      // 0 für std_input, x für Pipe, -3 für File, -4 for heredoc
 	int fd_out;     // fd output, 1 für std_output
 	char *in_file;  // input File
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
 	char *hd_file;  // heredoc file
 	char **arg;     // die argumente
+	int error;		// return bei error 1, kein error 0
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -56,7 +57,17 @@ typedef struct s_token
 t_list					*init_stream(t_list *stream_one);
 int						wh_space(char input);
 int						spec_char(char input);
-int						spec_char_wo_dol(char input);
+int						return_value(int num);
+
+// ---  Pipe        --- //
+
+int						start_process(char *input, t_list *stream_one,
+							char **copy_env);
+
+// ---  Stream        --- //
+
+t_list					*init_stream(t_list *stream_one);
+char					*stream_input(char *input, int u);
 
 // ---  Signal        --- //
 
@@ -112,7 +123,7 @@ char					*dollar_found(int i, char *input, char **copy_env);
 int						if_redir_empty_file(int i, char *input,
 							char **copy_env);
 char					*creat_str(int i, int i_temp, char *input);
-char					check_syntax(char *input);
+char					*check_syntax(char *input);
 
 // ---	Errors			--- //
 

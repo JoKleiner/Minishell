@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:59:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 12:36:08 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:54 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	add_arg(char *str, t_list *stream)
 
 int	count_arg_len(char *input, int i, int *q_count)
 {
-	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
+	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
 	{
 		if (input[i] == '\'')
 		{
@@ -111,7 +111,7 @@ int	creat_args(char *input, int i, t_list *stream)
 	str = fill_str(str, i, i_temp, input);
 	if (add_arg(str, stream) == -1)
 		return (free(str), -1);
-	if (input[i] == '\0')
+	if (!wh_space(input[i]))
 		i--;
 	return (i);
 }

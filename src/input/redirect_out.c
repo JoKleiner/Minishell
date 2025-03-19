@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 12:45:05 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/19 15:11:54 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	creat_file(char *str, t_list *stream, bool add)
 		fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	fd = -1;
 	if (fd == -1)
-		return (ft_errmal(str), free(str), -1);
+		return (ft_printf("%s: No such file or directory\n", str), free(str),
+			-1);
 	TOKEN->fd_out = fd;
 	return (0);
 }
@@ -61,7 +61,7 @@ int	file_out(char *input, int i, t_list *stream, bool add)
 	char	*str;
 
 	i_temp = i;
-	while (input[i] && !wh_space(input[i]) && !spec_char_wo_dol(input[i]))
+	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
 	{
 		if (input[i] == '\'')
 			i = skip_until_char(i, input, '\'');
@@ -93,7 +93,7 @@ int	redirect_out(char *input, int i, t_list *stream)
 	while (wh_space(input[i]))
 		i++;
 	i = file_out(input, i, stream, add);
-	if (input[i] == '\0')
+	if (!wh_space(input[i]))
 		i--;
 	return (i);
 }
