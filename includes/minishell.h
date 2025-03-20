@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 17:09:14 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/20 12:12:42 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // // ~-~-~-~-~-~-~-~-~    Includes    ~-~-~-~-~-~-~-~-~ // //
 
 # include "../libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -54,6 +55,7 @@ typedef struct s_token
 
 // ---  Main        --- //
 
+char					**ft_init_envvars(void);
 t_list					*init_stream(t_list *stream_one);
 int						wh_space(char input);
 int						spec_char(char input);
@@ -61,7 +63,7 @@ int						return_value(int num);
 
 // ---  Pipe        --- //
 
-int						start_process(char *input, char **copy_env);
+int						start_process(char *input, char ***copy_env);
 
 // ---  Stream        --- //
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 17:06:06 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/19 17:54:17 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	search_pipe(char *input)
 	return (0);
 }
 
-int	start_process(char *input, char **copy_env)
+int	start_process(char *input, char ***copy_env)
 {
 	t_list	*stream_one;
 	t_list	*stream;
@@ -171,7 +171,7 @@ int	start_process(char *input, char **copy_env)
 							u++;
 						}
 						input = stream_input(input, u);
-						stream_handle(input, &copy_env, stream);
+						stream_handle(input, copy_env, stream);
 						if (TOKEN->error == 1)
 							exit(1);
 						close(fds[WR_IN]);
@@ -189,7 +189,7 @@ int	start_process(char *input, char **copy_env)
 						u++;
 					}
 					input = stream_input(input, u);
-					stream_handle(input, &copy_env, stream);
+					stream_handle(input, copy_env, stream);
 					if (TOKEN->error == 1)
 							exit(1);
 					exit(0);
@@ -206,7 +206,7 @@ int	start_process(char *input, char **copy_env)
 		if (stream_one == NULL)
 			return (free(input), ft_errmal("malloc"), 1);
 		stream = stream_one;
-		stream_handle(input, &copy_env, stream);
+		stream_handle(input, copy_env, stream);
 		if (TOKEN->error == 1)
 			exit(1);
 		dup2(std_in, STDIN_FILENO);

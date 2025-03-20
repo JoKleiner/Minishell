@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 16:02:40 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/20 11:45:31 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int	return_value(int num)
 {
-	static int	return_num = 0;
+	static int	return_num;
 	int			return_num_temp;
 
+	return_num = 0;
 	return_num_temp = return_num;
 	return_num = num;
 	return (return_num_temp);
 }
 
-char	*get_input()
+char	*get_input(void)
 {
 	char	*line;
 	char	*input;
@@ -44,15 +45,15 @@ int	main(void)
 	char	*input;
 
 	setup_signals();
-	copy_env = ft_strarrdup(environ);
+	copy_env = ft_init_envvars();
 	if (!copy_env)
 		return (ft_errmal("Error: minishell: "), 1);
 	while (1)
 	{
 		input = get_input();
 		if (!input && isatty(STDIN_FILENO))
-			return (free_strarr(copy_env), rl_clear_history(), \
-			write(1,"exit\n", 5), 0);
+			return (free_strarr(copy_env), rl_clear_history(), write(1,
+					"exit\n", 5), 0);
 		else if (!input)
 			return (free_strarr(copy_env), rl_clear_history(), 1);
 		if (ft_strlen(input) == 0)
@@ -63,6 +64,6 @@ int	main(void)
 		add_history(input);
 		if (check_syntax(input) == 1)
 			continue ;
-		return_value(start_process(input, copy_env));
+		return_value(start_process(input, &copy_env));
 	}
 }
