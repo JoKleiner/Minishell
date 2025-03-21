@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 17:19:16 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/21 17:33:57 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ typedef struct s_token
 	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
 	char *hd_file;  // heredoc file
 	char **arg;     // die argumente
-	int error;      // return bei error 1, kein error 0
+	int error;      // return 0 kein error, error code bei error
+	int ori_sdtin;	//original stdinput für heredoc
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -56,7 +57,6 @@ typedef struct s_token
 // ---  Main        --- //
 
 char					**ft_init_envvars(void);
-t_list					*init_stream(t_list *stream_one);
 int						wh_space(char input);
 int						spec_char(char input);
 int						return_value(int num);
@@ -67,7 +67,7 @@ int						start_process(char *input, char ***copy_env);
 
 // ---  Stream        --- //
 
-t_list					*init_stream(t_list *stream_one);
+t_list					*init_stream(t_list *stream_one, int ori_sdtin);
 char					*stream_input(char *input, int u);
 
 // ---  Signal        --- //
@@ -119,19 +119,24 @@ int						input_handle(char *input, t_list *stream_one,
 int						redirect_out(char *input, int i, t_list *stream);
 int						redirect_in(char *input, int i, t_list *stream,
 							char **copy_env);
-char					*dollar_handle(char *input, char **copy_env);
+char					*dollar_handle(char *input, char **copy_env,
+							t_list *stream);
 int						creat_args(char *input, int i, t_list *stream);
 int						skip_until_char(int i, char *input, char cha);
+int						add_until_char(int i, char *input, char cha,
+							char **dst);
 char					*str_quote_less(char *input, int len);
 int						heredoc(int i, char *input, t_list *stream,
 							char **copy_env);
 int						env_char(char input);
-;
+void					mem_fail(t_list *stream);
 int						if_heredoc(int i, char *input);
-int						found_quote(int i, char **input, char **copy_env);
-char					*dollar_found(int i, char *input, char **copy_env);
-int						if_redir_empty_file(int i, char *input,
-							char **copy_env);
+int						found_quote(int i, char **input, char **copy_env,
+							t_list *stream);
+char					*dollar_found(int i, char *input, char **copy_env,
+							t_list *stream);
+int						if_redir_empty_file(int i, char *input, char **copy_env,
+							t_list *stream);
 char					*creat_str(int i, int i_temp, char *input);
 int						check_syntax(char *input);
 

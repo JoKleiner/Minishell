@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/21 17:19:26 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/21 18:15:28 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,7 @@ static void	ft_execute_cmd_helper(char *path, t_list *stream, char ***copy_env)
 		free(path);
 		path = ft_cmd_exists(stream, *copy_env);
 		if (!path)
-		{
-			TOKEN->error = 127;
-			ft_error_cmd("Command not found", TOKEN->arg[0]);
-		}
+			return ;
 		else
 		{
 			ft_execute_cmd_fork(path, stream, copy_env);

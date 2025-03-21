@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/20 11:39:55 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/21 17:35:16 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,7 @@ void	free_content(t_list *stream)
 
 void	free_stream(t_list *stream)
 {
-	t_list	*stream_next;
-
-	while (stream->next)
-	{
-		stream_next = stream->next;
 		free_content(stream);
 		free(stream->cont);
 		free(stream);
-		stream = stream_next;
-	}
-	free_content(stream);
-	free(stream->cont);
-	free(stream);
 }

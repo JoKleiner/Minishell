@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 15:46:12 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/20 15:46:06 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ int	check_syntax(char *input)
 		}
 	return (0);
 }
+
+// Syntax check Heredoc
+// bei input >>
+// str = str_quote_less(&input[i_temp], i - i_temp);
+// if (!str)
+// 	return (free(input), -1);
+// if (str[0] == '\0')
+// 	return (free(str), free(input), write(1, "syntax error\n", 13), -1);
+
 
 // if (input[i] == '>')
 // {

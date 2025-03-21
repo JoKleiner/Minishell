@@ -6,17 +6,17 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:40:09 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/21 17:26:59 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/21 18:32:28 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_isdir(char *path, t_list *stream)
+bool	ft_isdir(char *arg, t_list *stream)
 {
 	struct stat	file_info;
 
-	if (stat(path, &file_info) == -1)
+	if (stat(arg, &file_info) == -1)
 	{
 		TOKEN->error = errno;
 		return (true);
@@ -24,12 +24,17 @@ bool	ft_isdir(char *path, t_list *stream)
 	if (S_ISDIR(file_info.st_mode) == true)
 	{
 		TOKEN->error = 126;
-		ft_error_cmd("Is a directory", path);
+		ft_error_cmd("Is a directory", arg);
+		return (true);
+	}
+	if (S_ISREG(file_info.st_mode) == true)
+	{
+		TOKEN->error = 127;
+		ft_error_cmd("Command not found", arg);
 		return (true);
 	}
 	return (false);
 }
-
 static char	*ft_cmd_helper(char **try_paths, t_list *stream)
 {
 	char	*path;
@@ -51,23 +56,26 @@ static char	*ft_cmd_helper(char **try_paths, t_list *stream)
 		if (!(path))
 			return (NULL);
 		if (access(path, X_OK) == 0)
-			break ;
+			return(path);
 		free(path);
-		path = NULL;
 		i++;
 	}
+	ft_error_cmd("Command not found", TOKEN->arg[0]);
 	return (path);
 }
 
 // Checks if the command is in the evnp PATH.
 char	*ft_cmd_exists(t_list *stream, char **copy_env)
 {
-	char *path;
-	char **try_paths;
-	int env_pos;
+	char	*path;
+	char	**try_paths;
+	int		env_pos;
 
 	if (ft_env_exists("PATH", copy_env) == false)
-		return (NULL);
+	{
+		TOKEN->error = 127;
+		return (ft_error_cmd("Command not found", TOKEN->arg[0]), NULL);
+	}
 	env_pos = find_envp("PATH", copy_env);
 	try_paths = ft_split(&(copy_env[env_pos])[5], ':');
 	if (!try_paths)
