@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 08:53:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/18 10:15:20 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/20 12:04:18 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	double_quote(int i, char **input, char **copy_env)
+int	double_quote(int i, char **input, char **copy_env, t_list *stream)
 {
 	int	i_temp;
 
@@ -29,8 +29,7 @@ int	double_quote(int i, char **input, char **copy_env)
 				i++;
 				continue ;
 			}
-			
-			*input = dollar_found(i, *input, copy_env);
+			*input = dollar_found(i, *input, copy_env, stream);
 			if (!(*input))
 				return (-1);
 			i++;
@@ -42,11 +41,11 @@ int	double_quote(int i, char **input, char **copy_env)
 	return (i);
 }
 
-int	found_quote(int i, char **input, char **copy_env)
+int	found_quote(int i, char **input, char **copy_env, t_list *stream)
 {
 	if ((*input)[i] == '\'')
 		i = skip_until_char(i, *input, '\'');
 	if ((*input)[i] == '\"')
-		i = double_quote(i, input, copy_env);
+		i = double_quote(i, input, copy_env, stream);
 	return (i);
 }
