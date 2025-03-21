@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/20 12:12:42 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/21 17:19:16 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,7 @@ char					**ft_strarrdup_sort(char **sstr);
 int						ft_strarrlen(char **sstr);
 char					*ft_str_tolower(char *str);
 
-// ---  Commands    --- //
-
-void					ft_execute_command(t_list *stream, char ***copy_env);
-bool					ft_builtin_cmd(char *name, t_list *stream,
-							char ***copy_env);
+// ---  Builtin_cmds    --- //
 int						ft_exe_cd(t_list *stream, char ***copy_env);
 int						ft_exe_echo(t_list *stream);
 int						ft_exe_env(t_list *stream, char **copy_env);
@@ -104,6 +100,17 @@ int						ft_exe_exit(t_list *stream);
 int						ft_exe_export(t_list *stream, char ***copy_env);
 int						ft_exe_pwd(t_list *stream);
 int						ft_exe_unset(t_list *stream, char ***copy_env);
+
+// ---  Commands    --- //
+
+void					ft_execute_command(t_list *stream, char ***copy_env);
+void					ft_execute_cmd_fork(char *path, t_list *stream,
+							char ***copy_env);
+bool					ft_builtin_cmd(char *name, t_list *stream,
+							char ***copy_env);
+char					*ft_cmd_exists(t_list *stream, char **copy_env);
+bool					ft_dot_syntax(t_list *stream, char ***copy_env);
+bool					ft_isdir(char *path, t_list *stream);
 
 // ---  Inputhandle --- //
 

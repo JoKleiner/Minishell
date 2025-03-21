@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/20 12:34:23 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/21 12:40:07 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_exe_cd(t_list *stream, char ***copy_env)
 		return (ft_errmal("Error: cd:"), 12);
 	if (TOKEN->arg[1] != NULL && TOKEN->arg[2] != NULL)
 		return (free(cwd), ft_error_cmd("Too many arguments!", "cd"), errno);
-	else if (TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0'
+	else if ((TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0')
 			|| !TOKEN->arg[1])
 	{
 		if (!TOKEN)
