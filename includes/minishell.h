@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 17:33:57 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/24 12:49:54 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_token
 	char *hd_file;  // heredoc file
 	char **arg;     // die argumente
 	int error;      // return 0 kein error, error code bei error
-	int ori_sdtin;	//original stdinput für heredoc
+	int ori_sdtin;  //original stdinput für heredoc
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -83,7 +83,7 @@ char					**ft_update_envvar(char *arg, char *name,
 							char **copy_env);
 bool					ft_env_exists(char *arg, char **copy_env);
 int						find_envp(char *str, char **copy_env);
-bool					ft_valid_arg(char *str);
+int						ft_valid_arg(char *str);
 
 // --- String arrays --- //
 
@@ -98,6 +98,7 @@ int						ft_exe_echo(t_list *stream);
 int						ft_exe_env(t_list *stream, char **copy_env);
 int						ft_exe_exit(t_list *stream);
 int						ft_exe_export(t_list *stream, char ***copy_env);
+int						ft_export_empty(t_list *stream, char ***copy_env);
 int						ft_exe_pwd(t_list *stream);
 int						ft_exe_unset(t_list *stream, char ***copy_env);
 
