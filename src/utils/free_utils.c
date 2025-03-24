@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 12:44:55 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/21 17:35:16 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	free_strarr(char **sstr)
 	int	i;
 
 	i = 0;
-	while (sstr[i])
-		free(sstr[i++]);
 	if (sstr)
+	{
+		while (sstr[i])
+			free(sstr[i++]);
 		free(sstr);
+	}
 }
 
 void	free_content(t_list *stream)

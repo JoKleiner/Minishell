@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 10:40:50 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 13:06:53 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(void)
 
 	return_num = 0;
 	setup_signals();
-	copy_env = ft_strarrdup(environ);
+	copy_env = ft_init_envvars();
 	if (!copy_env)
 		return (ft_errmal("Error: minishell: "), 1);
 	while (1)

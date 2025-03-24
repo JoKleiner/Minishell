@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 13:02:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 13:05:37 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_token
 
 // ---  Main        --- //
 
-
+char					**ft_init_envvars(void);
 int						wh_space(char input);
 int						spec_char(char input);
 int						return_value(int num, bool set_num);
@@ -83,7 +83,7 @@ char					**ft_update_envvar(char *arg, char *name,
 							char **copy_env);
 bool					ft_env_exists(char *arg, char **copy_env);
 int						find_envp(char *str, char **copy_env);
-bool					ft_valid_arg(char *str);
+int						ft_valid_arg(char *str);
 
 // --- String arrays --- //
 
@@ -92,18 +92,26 @@ char					**ft_strarrdup_sort(char **sstr);
 int						ft_strarrlen(char **sstr);
 char					*ft_str_tolower(char *str);
 
-// ---  Commands    --- //
-
-void					ft_execute_command(t_list *stream, char ***copy_env);
-bool					ft_builtin_cmd(char *name, t_list *stream,
-							char ***copy_env);
+// ---  Builtin_cmds    --- //
 int						ft_exe_cd(t_list *stream, char ***copy_env);
 int						ft_exe_echo(t_list *stream);
 int						ft_exe_env(t_list *stream, char **copy_env);
 int						ft_exe_exit(t_list *stream);
 int						ft_exe_export(t_list *stream, char ***copy_env);
+int						ft_export_empty(t_list *stream, char ***copy_env);
 int						ft_exe_pwd(t_list *stream);
 int						ft_exe_unset(t_list *stream, char ***copy_env);
+
+// ---  Commands    --- //
+
+void					ft_execute_command(t_list *stream, char ***copy_env);
+void					ft_execute_cmd_fork(char *path, t_list *stream,
+							char ***copy_env);
+bool					ft_builtin_cmd(char *name, t_list *stream,
+							char ***copy_env);
+char					*ft_cmd_exists(t_list *stream, char **copy_env);
+bool					ft_dot_syntax(t_list *stream, char ***copy_env);
+bool					ft_isdir(char *path, t_list *stream);
 
 // ---  Inputhandle --- //
 

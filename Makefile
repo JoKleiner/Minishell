@@ -6,7 +6,7 @@
 #    By: joklein <joklein@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
-#    Updated: 2025/03/24 13:00:55 by joklein          ###   ########.fr        #
+#    Updated: 2025/03/24 13:08:19 by joklein          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LIBFT_DIR   	:= libft
 SRC_DIR         := src
 INPUT_DIR		:= $(SRC_DIR)/input
 COMMANDS_DIR	:= $(SRC_DIR)/commands
+BLTIN_DIR		:= $(SRC_DIR)/builtin_cmds
 UTILS_DIR		:= $(SRC_DIR)/utils
 OBJ_D_DIR		:= obj_d
 
@@ -32,12 +33,13 @@ OBJ_D_DIR		:= obj_d
 # 	FILES																		#
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
-CFILES_SRCS		:= $(addprefix $(SRC_DIR)/, minishell_main.c signal.c process.c stream.c syntax.c)
+CFILES_BLTIN	:= $(addprefix $(BLTIN_DIR)/, cd.c echo.c env.c exit.c export.c export_empty.c pwd.c unset.c)
+CFILES_SRCS		:= $(addprefix $(SRC_DIR)/, minishell_main.c signal.c process.c stream.c syntax.c init_copy_env.c)
 CFILES_INPUT	:= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c create_args.c dollar_quote.c dollar_handle.c)
-CFILES_CMD		:= $(addprefix $(COMMANDS_DIR)/, builtin.c exe_commands.c error_cmd.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
+CFILES_CMD		:= $(addprefix $(COMMANDS_DIR)/, builtin.c cmd_exists.c dot_syntax.c exe_commands.c error_cmd.c)
 CFILES_UTILS	:= $(addprefix $(UTILS_DIR)/, dollar_utils.c envp_check_utils.c envp_change_utils.c free_utils.c str_array_utils.c mini_utils.c)
 
-SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_CMD) $(CFILES_UTILS)
+SRCS    = $(CFILES_SRCS) $(CFILES_INPUT) $(CFILES_CMD) $(CFILES_UTILS) $(CFILES_BLTIN)
 OFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.o))
 DFILES	= $(addprefix $(OBJ_D_DIR)/, $(SRCS:.c=.d))
 
