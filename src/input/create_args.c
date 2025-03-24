@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:59:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 15:11:54 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:48:36 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	add_arg(char *str, t_list *stream)
+static int	add_arg(char *str, t_list *stream)
 {
 	int		i;
 	int		u;
@@ -37,7 +37,7 @@ int	add_arg(char *str, t_list *stream)
 	return (0);
 }
 
-int	count_arg_len(char *input, int i, int *q_count)
+static int	count_arg_len(char *input, int i, int *q_count)
 {
 	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
 	{
@@ -56,21 +56,19 @@ int	count_arg_len(char *input, int i, int *q_count)
 	return (i);
 }
 
-char	*fill_str(char *str, int i, int i_temp, char *input)
+static char	*fill_str(char *str, int i, int i_temp, char *input)
 {
-	int	u;
-	char cha;
+	int		u;
+	char	cha;
 
 	u = 0;
 	while (i_temp < i)
 	{
-		
 		if (input[i_temp] == '\'' || input[i_temp] == '\"')
 		{
-			
 			cha = input[i_temp];
 			i_temp++;
-			while(input[i_temp] != cha)
+			while (input[i_temp] != cha)
 			{
 				str[u] = input[i_temp];
 				i_temp++;

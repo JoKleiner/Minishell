@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:08:01 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 12:45:38 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:20:16 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,10 @@ void	ft_errmal(char *name)
 	write(STDERR_FILENO, "Error: ", 7);
 	perror(name);
 	write(STDERR_FILENO, "\n", 1);
+}
+
+void	mem_fail(t_list *stream)
+{
+	ft_errmal("Malloc failed.");
+	TOKEN->error = ENOMEM;
 }

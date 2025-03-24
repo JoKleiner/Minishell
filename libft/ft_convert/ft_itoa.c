@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:43:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/01/22 15:26:45 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/20 11:33:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	mem_fill(char **ptr, long num, int i)
 {
 	(*ptr) = (char *)malloc(i + 1);
 	if (*ptr == NULL)
-		return (0);
+		return (1);
 	(*ptr)[i] = '\0';
 	(*ptr)[0] = '-';
 	while (num > 0)
@@ -25,7 +25,7 @@ int	mem_fill(char **ptr, long num, int i)
 		num = num / 10;
 		i--;
 	}
-	return (1);
+	return (0);
 }
 
 char	*ft_itoa(int num)
@@ -51,7 +51,7 @@ char	*ft_itoa(int num)
 		temp = temp / 10;
 		i++;
 	}
-	if (mem_fill(&ptr, lng_num, i) == 0)
+	if (mem_fill(&ptr, lng_num, i))
 		return (NULL);
 	return (ptr);
 }

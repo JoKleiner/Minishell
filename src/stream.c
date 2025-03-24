@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:04:01 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 15:01:03 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/21 12:20:10 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	set_init_stream(t_list *stream_one, t_list *stream)
+void	set_init_stream(t_list *stream_one, t_list *stream, int ori_sdtin)
 {
 	int	i;
 
@@ -30,9 +30,10 @@ void	set_init_stream(t_list *stream_one, t_list *stream)
 	TOKEN->arg = NULL;
 	TOKEN->hd_file = NULL;
 	TOKEN->error = 0;
+	TOKEN->ori_sdtin = ori_sdtin;
 }
 
-t_list	*init_stream(t_list *stream_one)
+t_list	*init_stream(t_list *stream_one, int ori_sdtin)
 {
 	t_list	*stream;
 	t_token	*stream_info;
@@ -44,7 +45,7 @@ t_list	*init_stream(t_list *stream_one)
 	if (!stream)
 		return (free(stream_info), (NULL));
 	ft_lstadd_back(&stream_one, stream);
-	set_init_stream(stream_one, stream);
+	set_init_stream(stream_one, stream, ori_sdtin);
 	return (stream);
 }
 

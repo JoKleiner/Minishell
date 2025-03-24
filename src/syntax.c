@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 15:46:12 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:30:34 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ int	check_syntax(char *input)
 		}
 	return (0);
 }
+
+
+
+// Syntax check
+// >>
+// <| abc
+// | abc
+
 
 // if (input[i] == '>')
 // {

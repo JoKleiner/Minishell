@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/19 17:06:06 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:57:18 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,46 +34,42 @@ void	ft_print_stream(t_list *stream)
 	}
 }
 
-void	stream_handle(char *input, char ***copy_env, t_list *stream)
+int	stream_handle(char *input, char ***copy_env, t_list *stream)
 {
 	int	fd;
+	int	return_num;
 
-	if (input_handle(input, stream, *copy_env))
-	{
-		TOKEN->error = 1;
-		return ;
-	}
-	// ft_print_stream(stream);
+	return_num = input_handle(input, stream, *copy_env);
+	if (return_num != 0)
+		return (return_num);
+	//ft_print_stream(stream);
 	if (TOKEN->fd_in == -3 || TOKEN->fd_in == -4)
 	{
 		if (TOKEN->fd_in == -3)
 			fd = open(TOKEN->in_file, O_RDONLY);
 		if (TOKEN->fd_in == -4)
 			fd = open(TOKEN->hd_file, O_RDONLY);
-		if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
-		{
-			TOKEN->error = 1;
-			return ;
-		}
+		if (fd == -1)
+			return (ft_errmal("open failed"), errno);
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (ft_errmal("dup2 failed"), errno);
 	}
 	ft_execute_command(stream, copy_env);
+	return_num = TOKEN->error;
+	return (return_num);
 }
 
 int	count_pipe(char *input)
 {
 	int		i;
 	int		num_pipe;
-	char	cha;
 
 	i = 0;
 	num_pipe = 0;
 	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '\"')
-		{
-			cha = input[i];
-			i = skip_until_char(i, input, cha);
-		}
+			i = skip_until_char(i, input, input[i]);
 		if (input[i] && input[i] == '|')
 			num_pipe++;
 		if (input[i])
@@ -82,24 +78,27 @@ int	count_pipe(char *input)
 	return (num_pipe);
 }
 
-int	search_pipe(char *input)
+int	no_pipe_process(char *input, char ***copy_env, int ori_sdtin)
 {
-	int	i;
+	t_list	*stream;
+	int		std_in;
+	int		return_num;
 
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '\'' || input[i] == '\"')
-			i = skip_until_char(i, input, input[i]);
-		if (input[i] == '|')
-			return (1);
-		if (input[i])
-			i++;
-	}
-	return (0);
+	stream = init_stream(NULL, ori_sdtin);
+	if (stream == NULL)
+		return (free(input), ft_errmal("malloc failed"), ENOMEM);
+	std_in = dup(STDIN_FILENO);
+	if (std_in == -1)
+		return (free(input), free_stream(stream), ft_errmal("dup failed"),
+			errno);
+	return_num = stream_handle(input, copy_env, stream);
+	free_stream(stream);
+	if (dup2(std_in, STDIN_FILENO) == -1)
+		return (ft_errmal("dup2 failed"), errno);
+	return (return_num);
 }
 
-int	start_process(char *input, char **copy_env)
+int	start_process(char *input, char ***copy_env)
 {
 	t_list	*stream_one;
 	t_list	*stream;
@@ -108,24 +107,30 @@ int	start_process(char *input, char **copy_env)
 	int		u;
 	int		fds[2];
 	int		pid;
-	int		std_in;
 	int		pipes;
 	int		pipe_error;
 	int		status;
+	int		ori_sdtin;
 
+	ori_sdtin = dup(STDIN_FILENO);
+	if (ori_sdtin == -1)
+	{
+        ft_errmal("fork failed");
+        return (errno);
+    }
 	num_pipe = count_pipe(input);
 	i = 0;
 	u = 0;
 	status = 0;
 	stream_one = NULL;
-	if (search_pipe(input))
+	if (num_pipe != 0)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (ft_errmal("fork"), 1);
+			return (ft_errmal("fork failed"), 1);
 		if (pid == 0)
 		{
-			stream_one = init_stream(NULL);
+			stream_one = init_stream(NULL, ori_sdtin);
 			if (stream_one == NULL)
 			{
 				free(input);
@@ -150,7 +155,7 @@ int	start_process(char *input, char **copy_env)
 						close(fds[WR_IN]);
 						dup2(fds[RD_OUT], STDIN_FILENO);
 						close(fds[RD_OUT]);
-						stream = init_stream(stream_one);
+						stream = init_stream(NULL, ori_sdtin);
 						if (stream == NULL)
 						{
 							free(input);
@@ -171,11 +176,12 @@ int	start_process(char *input, char **copy_env)
 							u++;
 						}
 						input = stream_input(input, u);
-						stream_handle(input, &copy_env, stream);
+						stream_handle(input, copy_env, stream);
 						if (TOKEN->error == 1)
 							exit(1);
 						close(fds[WR_IN]);
 						waitpid(pid, &status, 0);
+						free_stream(stream);
 						exit(WEXITSTATUS(status));
 					}
 				}
@@ -189,9 +195,10 @@ int	start_process(char *input, char **copy_env)
 						u++;
 					}
 					input = stream_input(input, u);
-					stream_handle(input, &copy_env, stream);
+					stream_handle(input, copy_env, stream);
 					if (TOKEN->error == 1)
-							exit(1);
+						exit(1);
+					free_stream(stream);
 					exit(0);
 				}
 				i++;
@@ -200,16 +207,6 @@ int	start_process(char *input, char **copy_env)
 		waitpid(pid, &status, 0);
 	}
 	else
-	{
-		std_in = dup(STDIN_FILENO);
-		stream_one = init_stream(NULL);
-		if (stream_one == NULL)
-			return (free(input), ft_errmal("malloc"), 1);
-		stream = stream_one;
-		stream_handle(input, &copy_env, stream);
-		if (TOKEN->error == 1)
-			exit(1);
-		dup2(std_in, STDIN_FILENO);
-	}
+		return (no_pipe_process(input, copy_env, ori_sdtin));
 	return (WEXITSTATUS(status));
 }
