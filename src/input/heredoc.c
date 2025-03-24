@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 12:55:02 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 12:57:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ char	*hd_num_file(int i, t_list *stream)
 	return (here_doc);
 }
 
-int	append_in_file(char *input, char *str, t_list *stream)
+int	append_in_file(char *input, t_list *stream)
 {
 	int	fd;
 
-	fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(TOKEN->hd_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		TOKEN->error = errno;
@@ -73,65 +73,86 @@ char	*create_hd_file(t_list *stream)
 	return (close(fd), here_doc);
 }
 
-int	create_heredoc(char *str, t_list *stream, char **copy_env)
+char	*initialize_heredoc(t_list *stream)
 {
-	char	*here_input;
 	char	*here_doc;
-	int		pid;
-	int		status;
-	int		lock_fd;
 
 	here_doc = create_hd_file(stream);
 	if (!here_doc)
-		return (free(str), -1);
-	lock_fd = -1;
-	while (lock_fd == -1)
+		return (NULL);
+	TOKEN->fd_in = -1;
+	while (TOKEN->fd_in == -1)
 	{
+		TOKEN->fd_in = open("heredoc.lock", O_CREAT | O_EXCL, 0644);
 		usleep(100);
-		lock_fd = open("heredoc.lock", O_CREAT | O_EXCL, 0644);
 	}
+	return (here_doc);
+}
+
+void	handle_heredoc_input(char *str, char *here_input, t_list *stream,
+		char **copy_env)
+{
+	while (ft_strncmp(here_input, str, ft_strlen(str) + 1) != 0)
+	{
+		here_input = dollar_handle(here_input, copy_env, stream);
+		if (!here_input)
+		{
+			close(TOKEN->fd_in);
+			exit(TOKEN->error);
+		}
+		if (append_in_file(here_input, stream) != 0)
+		{
+			free(str);
+			free(here_input);
+			close(TOKEN->fd_in);
+			exit(TOKEN->error);
+		}
+		free(here_input);
+		here_input = readline("> ");
+		if (!here_input)
+			break ;
+	}
+	close(TOKEN->fd_in);
+	exit(errno);
+}
+
+void	heredoc_child_process(char *str, char *here_doc, t_list *stream,
+		char **copy_env)
+{
+	char	*here_input;
+
+	signal(SIGINT, SIG_DFL);
+	if (dup2(TOKEN->ori_sdtin, STDIN_FILENO) == -1)
+	{
+		ft_errmal("dup2 failed");
+		exit(errno);
+	}
+	here_input = readline("> ");
+	if (!here_input)
+	{
+		close(TOKEN->fd_in);
+		exit(errno);
+	}
+	TOKEN->hd_file = here_doc;
+	handle_heredoc_input(str, here_input, stream, copy_env);
+}
+
+int	create_heredoc(char *str, t_list *stream, char **copy_env)
+{
+	char	*here_doc;
+	int		pid;
+	int		status;
+
+	here_doc = initialize_heredoc(stream);
+	if (!here_doc)
+		return (free(str), -1);
 	pid = fork();
 	if (pid == -1)
 		return (ft_errmal("fork failed"), TOKEN->error = errno, -1);
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		if (dup2(TOKEN->ori_sdtin, STDIN_FILENO) == -1)
-		{
-			ft_errmal("dup2 failed");
-			exit(errno);
-		}
-		here_input = readline("> ");
-		if (!here_input)
-		{
-			close(lock_fd);
-			exit(errno);
-		}
-		while (ft_strncmp(here_input, str, ft_strlen(str) + 1) != 0)
-		{
-			here_input = dollar_handle(here_input, copy_env, stream);
-			if (!here_input)
-			{
-				close(lock_fd);
-				exit(TOKEN->error);
-			}
-			if (append_in_file(here_input, here_doc, stream) != 0)
-			{
-				free(str);
-				free(here_input);
-				close(lock_fd);
-				exit(TOKEN->error);
-			}
-			free(here_input);
-			here_input = readline("> ");
-			if (!here_input)
-				break ;
-		}
-		close(lock_fd);
-		exit(errno);
-	}
+		heredoc_child_process(str, here_doc, stream, copy_env);
 	waitpid(pid, &status, 0);
-	close(lock_fd);
+	close(TOKEN->fd_in);
 	unlink("heredoc.lock");
 	if (status != 0)
 		return (TOKEN->error = status, -1);

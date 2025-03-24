@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/20 16:56:44 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:39:05 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	creat_file(char *str, t_list *stream, bool add)
 	{
 		ft_errmal("open failed");
 		TOKEN->error = errno;
-		return (free(str), -1);
+		return (-1);
 	}
 	TOKEN->fd_out = fd;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 16:03:52 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:17:14 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	ft_execute_command(t_list *stream, char ***copy_env)
 		return ;
 	path = ft_strdup(TOKEN->arg[0]);
 	if (!path)
-		return (ft_error_cmd("Malloc failed.", "Error"));
+		return (mem_fail(stream));
 	path = ft_str_tolower(path);
 	if (ft_builtin_cmd(path, stream, copy_env) == true)
 	{

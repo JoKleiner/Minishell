@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 12:20:13 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:59:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_token
 
 int						wh_space(char input);
 int						spec_char(char input);
-int						return_value(int num);
+int						return_value(int num, bool set_num);
 
 // ---  Pipe        --- //
 
@@ -128,7 +128,7 @@ char					*dollar_found(int i, char *input, char **copy_env,
 							t_list *stream);
 int						if_redir_empty_file(int i, char *input, char **copy_env,
 							t_list *stream);
-char					*creat_str(int i, int i_temp, char *input);
+char					*creat_env_str(int i, int i_temp, char *input);
 int						check_syntax(char *input);
 
 // ---	Errors			--- //

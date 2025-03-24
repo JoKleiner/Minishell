@@ -6,23 +6,22 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 14:31:23 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 10:40:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	return_value(int num)
+int	return_value(int num, bool set_num)
 {
 	static int	return_num = 0;
-	int			return_num_temp;
 
-	return_num_temp = return_num;
-	return_num = num;
-	return (return_num_temp);
+	if (set_num == true)
+		return_num = num;
+	return (return_num);
 }
 
-char	*get_input()
+char	*get_input(void)
 {
 	char	*line;
 	char	*input;
@@ -53,8 +52,8 @@ int	main(void)
 	{
 		input = get_input();
 		if (!input && isatty(STDIN_FILENO))
-			return (free_strarr(copy_env), rl_clear_history(), \
-			write(1,"exit\n", 5), return_num);
+			return (free_strarr(copy_env), rl_clear_history(), write(1,
+					"exit\n", 5), return_num);
 		else if (!input)
 			return (free_strarr(copy_env), rl_clear_history(), return_num);
 		if (ft_strlen(input) == 0)
@@ -65,6 +64,6 @@ int	main(void)
 		add_history(input);
 		if (check_syntax(input) == 1)
 			continue ;
-		return_num = return_value(start_process(input, &copy_env));
+		return_num = return_value(start_process(input, &copy_env), true);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 14:38:20 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:59:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	check_env(int i, char *input, char **copy_env)
 	i_temp = i;
 	while (input[i + 1] && env_char(input[i + 1]))
 		i++;
-	str = creat_str(i, i_temp, input);
+	str = creat_env_str(i, i_temp, input);
 	if (!str)
 		return (free(input), ft_errmal("malloc failed"), ENOMEM);
 	u = find_envp(str, copy_env);

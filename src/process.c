@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 14:28:05 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 11:57:18 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 	return_num = input_handle(input, stream, *copy_env);
 	if (return_num != 0)
 		return (return_num);
-	// ft_print_stream(stream);
+	//ft_print_stream(stream);
 	if (TOKEN->fd_in == -3 || TOKEN->fd_in == -4)
 	{
 		if (TOKEN->fd_in == -3)

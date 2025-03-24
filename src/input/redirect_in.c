@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 15:14:15 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 10:06:26 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ int	file_in(char *input, int i, t_list *stream)
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 	{
-		write(STDOUT_FILENO, "bash: ", 6);
-		write(STDOUT_FILENO, str, ft_strlen(str));
-		write(STDOUT_FILENO, ": No such file or directory\n", 28);
+		ft_error_cmd(": No such file or directory", str);
 		return (TOKEN->error = errno, -1);
 	}
 	close(fd);

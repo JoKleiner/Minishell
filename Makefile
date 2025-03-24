@@ -6,7 +6,7 @@
 #    By: joklein <joklein@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
-#    Updated: 2025/03/19 15:14:26 by joklein          ###   ########.fr        #
+#    Updated: 2025/03/24 12:00:27 by joklein          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ_D_DIR		:= obj_d
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#
 
 CFILES_SRCS		:= $(addprefix $(SRC_DIR)/, minishell_main.c signal.c process.c stream.c syntax.c)
-CFILES_INPUT	:= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c create_args.c dollar_quote.c)
+CFILES_INPUT	:= $(addprefix $(INPUT_DIR)/, input_handle.c redirect_out.c redirect_in.c heredoc.c dollar_change.c create_args.c dollar_quote.c dollar_handle.c)
 CFILES_CMD		:= $(addprefix $(COMMANDS_DIR)/, exe_commands.c error_cmd.c cd.c echo.c env.c exit.c export.c pwd.c unset.c)
 CFILES_UTILS	:= $(addprefix $(UTILS_DIR)/, dollar_utils.c envp_check_utils.c envp_change_utils.c free_utils.c str_array_utils.c mini_utils.c)
 
