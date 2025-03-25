@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:00:32 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 12:01:46 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 11:33:04 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	skip_heredoc(int i, char *input)
+int	skip_heredoc(int i, char *input)
 {
 	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
 	{

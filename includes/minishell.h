@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 15:10:54 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:17:17 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_token
 	char *hd_file;  // heredoc file
 	char **arg;     // die argumente
 	int error;      // return 0 kein error, error code bei error
-	int ori_sdtin;  //original stdinput für heredoc
+	int ori_sdtin;  // original stdinput für heredoc
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -70,7 +70,8 @@ int						start_process(char *input, char ***copy_env);
 
 // ---  Stream        --- //
 
-t_list					*init_stream(t_list *stream_one, int ori_sdtin);
+t_list					*init_stream(t_list *stream_one, int ori_sdtin,
+							int num_pipes);
 char					*stream_input(char *input, int u);
 
 // ---  Signal        --- //
@@ -130,8 +131,7 @@ bool					ft_init_stat(char *arg, t_list *stream,
 int						input_handle(char *input, t_list *stream_one,
 							char **copy_env);
 int						redirect_out(char *input, int i, t_list *stream);
-int						redirect_in(char *input, int i, t_list *stream,
-							char **copy_env);
+int						redirect_in(char *input, int i, t_list *stream);
 char					*dollar_handle(char *input, char **copy_env,
 							t_list *stream);
 int						creat_args(char *input, int i, t_list *stream);
@@ -139,8 +139,8 @@ int						skip_until_char(int i, char *input, char cha);
 int						add_until_char(int i, char *input, char cha,
 							char **dst);
 char					*str_quote_less(char *input, int len);
-int						heredoc(int i, char *input, t_list *stream,
-							char **copy_env);
+int						heredoc(int *i, char *input, char **copy_env,
+							int num_pipes);
 int						env_char(char input);
 void					mem_fail(t_list *stream);
 int						if_heredoc(int i, char *input);
@@ -152,6 +152,20 @@ int						if_redir_empty_file(int i, char *input, char **copy_env,
 							t_list *stream);
 char					*creat_env_str(int i, int i_temp, char *input);
 int						check_syntax(char *input);
+void					heredoc_child_process(char *str, char *here_doc,
+							char **copy_env);
+int						stream_handle(char *input, char ***copy_env,
+							t_list *stream);
+int						skip_heredoc(int i, char *input);
+
+// ---  Pipe --- //
+int						pipe_handle(int num_pipe, int ori_sdtin, char *input,
+							char ***copy_env);
+t_list					*setup_child(int *fds, char *input, t_list *stream, int num_pipes);
+int						mother_pipe(int i, char *input, t_list *stream,
+							char ***copy_env);
+void					end_mother_pipe(int *fds, int pid, t_list *stream,
+							int return_num);
 
 // ---	Errors			--- //
 

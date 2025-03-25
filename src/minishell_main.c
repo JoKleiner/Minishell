@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 13:06:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 14:18:55 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,72 @@ char	*get_input(void)
 	return (input);
 }
 
+int	heredoc_handle(char *input, char **copy_env)
+{
+	int	i;
+	int	num_pipes;
+	int	num_ret;
+
+	i = 0;
+	num_pipes = 0;
+	num_ret = 0;
+	while (input[i])
+	{
+		if (input[i] == '|')
+			num_pipes++;
+		if (input[i] == '\'' || input[i] == '\"')
+			i = skip_until_char(i, input, input[i]);
+		if (input[i] == '<' && input[i + 1] == '<')
+		{
+			i += 2;
+			num_ret = (heredoc(&i, input, copy_env, num_pipes));
+		}
+		if (num_ret != 0)
+			return (num_ret);
+		i++;
+	}
+	return (0);
+}
+
+int	syn_hered_process(char *input, char ***copy_env)
+{
+	int	num_ret;
+
+	num_ret = check_syntax(input);
+	if (num_ret != 0)
+		return (num_ret);
+	num_ret = heredoc_handle(input, *copy_env);
+	if (num_ret != 0)
+		return (num_ret);
+	num_ret = start_process(input, copy_env);
+	return (num_ret);
+}
+
 int	main(void)
 {
 	char	**copy_env;
 	char	*input;
-	int		return_num;
+	int		num_ret;
 
-	return_num = 0;
-	setup_signals();
+	num_ret = 0;
 	copy_env = ft_init_envvars();
 	if (!copy_env)
 		return (ft_errmal("Error: minishell: "), 1);
+	setup_signals();
 	while (1)
 	{
 		input = get_input();
 		if (!input && isatty(STDIN_FILENO))
 			return (free_strarr(copy_env), rl_clear_history(), write(1,
-					"exit\n", 5), return_num);
+					"exit\n", 5), num_ret);
 		else if (!input)
-			return (free_strarr(copy_env), rl_clear_history(), return_num);
+			return (free_strarr(copy_env), rl_clear_history(), num_ret);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
 			continue ;
 		}
 		add_history(input);
-		if (check_syntax(input) == 1)
-			continue ;
-		return_num = return_value(start_process(input, &copy_env), true);
+		num_ret = (return_value(syn_hered_process(input, &copy_env), true));
 	}
 }

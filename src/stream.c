@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:04:01 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 12:20:10 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 11:26:15 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	set_init_stream(t_list *stream_one, t_list *stream, int ori_sdtin)
+static void	set_init_stream(t_list *stream_one, t_list *stream, int ori_sdtin, int num_pipes)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ void	set_init_stream(t_list *stream_one, t_list *stream, int ori_sdtin)
 		i++;
 		stream_one = stream_one->next;
 	}
-	TOKEN->stream_num = i;
+	TOKEN->stream_num = num_pipes;
 	TOKEN->fd_in = STDIN_FILENO;
 	TOKEN->fd_out = STDOUT_FILENO;
 	TOKEN->in_file = NULL;
@@ -33,7 +33,7 @@ void	set_init_stream(t_list *stream_one, t_list *stream, int ori_sdtin)
 	TOKEN->ori_sdtin = ori_sdtin;
 }
 
-t_list	*init_stream(t_list *stream_one, int ori_sdtin)
+t_list	*init_stream(t_list *stream_one, int ori_sdtin, int num_pipes)
 {
 	t_list	*stream;
 	t_token	*stream_info;
@@ -45,7 +45,7 @@ t_list	*init_stream(t_list *stream_one, int ori_sdtin)
 	if (!stream)
 		return (free(stream_info), (NULL));
 	ft_lstadd_back(&stream_one, stream);
-	set_init_stream(stream_one, stream, ori_sdtin);
+	set_init_stream(stream_one, stream, ori_sdtin, num_pipes);
 	return (stream);
 }
 

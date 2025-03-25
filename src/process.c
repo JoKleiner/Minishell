@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 13:07:41 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 12:22:57 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 	return (return_num);
 }
 
-int	count_pipe(char *input)
+static int	count_pipe(char *input)
 {
-	int		i;
-	int		num_pipe;
+	int	i;
+	int	num_pipe;
 
 	i = 0;
 	num_pipe = 0;
@@ -84,7 +84,7 @@ int	no_pipe_process(char *input, char ***copy_env, int ori_sdtin)
 	int		std_in;
 	int		return_num;
 
-	stream = init_stream(NULL, ori_sdtin);
+	stream = init_stream(NULL, ori_sdtin, 0);
 	if (stream == NULL)
 		return (free(input), ft_errmal("malloc failed"), ENOMEM);
 	std_in = dup(STDIN_FILENO);
@@ -100,112 +100,20 @@ int	no_pipe_process(char *input, char ***copy_env, int ori_sdtin)
 
 int	start_process(char *input, char ***copy_env)
 {
-	t_list	*stream_one;
-	t_list	*stream;
-	int		num_pipe;
-	int		i;
-	int		u;
-	int		fds[2];
-	int		pid;
-	int		pipes;
-	int		pipe_error;
-	int		status;
-	int		ori_sdtin;
+	int	num_pipe;
+	int	ori_sdtin;
+	int status;
 
 	ori_sdtin = dup(STDIN_FILENO);
 	if (ori_sdtin == -1)
 	{
-        ft_errmal("fork failed");
-        return (errno);
-    }
-	num_pipe = count_pipe(input);
-	i = 0;
-	u = 0;
-	status = 0;
-	stream_one = NULL;
-	if (num_pipe != 0)
-	{
-		pid = fork();
-		if (pid == -1)
-			return (ft_errmal("fork failed"), 1);
-		if (pid == 0)
-		{
-			stream_one = init_stream(NULL, ori_sdtin);
-			if (stream_one == NULL)
-			{
-				free(input);
-				write(1, "error\n", 6);
-				exit(1);
-			}
-			stream = stream_one;
-			while (i <= num_pipe)
-			{
-				if (pid == 0 && i != num_pipe)
-				{
-					pipe_error = pipe(fds);
-					pid = fork();
-					if (pipe_error == -1 || pid == -1)
-					{
-						free(input);
-						write(1, "error\n", 6);
-						exit(1);
-					}
-					if (pid == 0)
-					{
-						close(fds[WR_IN]);
-						dup2(fds[RD_OUT], STDIN_FILENO);
-						close(fds[RD_OUT]);
-						stream = init_stream(NULL, ori_sdtin);
-						if (stream == NULL)
-						{
-							free(input);
-							write(1, "error\n", 6);
-							exit(1);
-						}
-						TOKEN->fd_in = fds[RD_OUT];
-					}
-					else
-					{
-						close(fds[RD_OUT]);
-						TOKEN->fd_out = fds[WR_IN];
-						pipes = 0;
-						while (pipes < i)
-						{
-							if (input[u] == '|')
-								pipes++;
-							u++;
-						}
-						input = stream_input(input, u);
-						stream_handle(input, copy_env, stream);
-						if (TOKEN->error == 1)
-							exit(1);
-						close(fds[WR_IN]);
-						waitpid(pid, &status, 0);
-						free_stream(stream);
-						exit(WEXITSTATUS(status));
-					}
-				}
-				else
-				{
-					pipes = 0;
-					while (pipes < i)
-					{
-						if (input[u] == '|')
-							pipes++;
-						u++;
-					}
-					input = stream_input(input, u);
-					stream_handle(input, copy_env, stream);
-					if (TOKEN->error == 1)
-						exit(1);
-					free_stream(stream);
-					exit(0);
-				}
-				i++;
-			}
-		}
-		waitpid(pid, &status, 0);
+		ft_errmal("fork failed");
+		return (errno);
 	}
+	num_pipe = count_pipe(input);
+	status = 0;
+	if (num_pipe != 0)
+		status = pipe_handle(num_pipe, ori_sdtin, input, copy_env);
 	else
 		return (no_pipe_process(input, copy_env, ori_sdtin));
 	return (WEXITSTATUS(status));
