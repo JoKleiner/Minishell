@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 11:39:05 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/24 14:31:11 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	creat_file(char *str, t_list *stream, bool add)
+static int	creat_file(char *str, t_list *stream, bool add)
 {
 	int	fd;
 
@@ -32,36 +32,7 @@ int	creat_file(char *str, t_list *stream, bool add)
 	return (0);
 }
 
-char	*str_quote_less(char *input, int len)
-{
-	char	*dst;
-	int		i;
-	int		u;
-	char	cha;
-
-	i = 0;
-	u = 0;
-	dst = (char *)malloc(len + 1);
-	if (!dst)
-		return (NULL);
-	while (i < len)
-	{
-		if (input[i] == '\"' || input[i] == '\'')
-		{
-			cha = input[i];
-			i++;
-			while (input[i] != cha)
-				dst[u++] = input[i++];
-			i++;
-		}
-		else
-			dst[u++] = input[i++];
-	}
-	dst[u] = '\0';
-	return (dst);
-}
-
-int	file_out(char *input, int i, t_list *stream, bool add)
+static int	file_out(char *input, int i, t_list *stream, bool add)
 {
 	int		i_temp;
 	char	*str;

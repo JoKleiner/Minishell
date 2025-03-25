@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 13:06:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 12:18:42 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,39 @@ char	*get_input(void)
 	return (input);
 }
 
+int heredoc_handle(char *input, char **copy_env)
+{
+	int i;
+	int num_pipes;
+	int num_return;
+	
+	i = 0;
+	num_pipes = 0;
+	while(input[i])
+	{
+		if(input[i] == '|')
+			num_pipes++;
+		if(input[i] == '\'' || input[i] == '\"')
+			i = skip_until_char(i, input, input[i]);
+		if(input[i] == '<' && input[i+1] == '<')
+		{
+			i += 2;
+			num_return = heredoc(&i, input, copy_env, num_pipes);
+		}
+		if(num_return != 0)
+			return(num_return);
+		i++;
+	}
+	return(0);
+}
+
 int	main(void)
 {
 	char	**copy_env;
 	char	*input;
-	int		return_num;
+	int		num_return;
 
-	return_num = 0;
+	num_return = 0;
 	setup_signals();
 	copy_env = ft_init_envvars();
 	if (!copy_env)
@@ -53,9 +79,9 @@ int	main(void)
 		input = get_input();
 		if (!input && isatty(STDIN_FILENO))
 			return (free_strarr(copy_env), rl_clear_history(), write(1,
-					"exit\n", 5), return_num);
+					"exit\n", 5), num_return);
 		else if (!input)
-			return (free_strarr(copy_env), rl_clear_history(), return_num);
+			return (free_strarr(copy_env), rl_clear_history(), num_return);
 		if (ft_strlen(input) == 0)
 		{
 			free(input);
@@ -64,6 +90,12 @@ int	main(void)
 		add_history(input);
 		if (check_syntax(input) == 1)
 			continue ;
-		return_num = return_value(start_process(input, &copy_env), true);
+		num_return = heredoc_handle(input, copy_env);
+		if(num_return != 0)
+			{
+				return_value(num_return, true);
+				continue;
+			}
+		num_return = return_value(start_process(input, &copy_env), true);
 	}
 }

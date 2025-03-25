@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 10:06:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 12:22:40 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	file_in(char *input, int i, t_list *stream)
+static int	file_in(char *input, int i, t_list *stream)
 {
 	int		i_temp;
 	char	*str;
@@ -33,16 +33,32 @@ int	file_in(char *input, int i, t_list *stream)
 	TOKEN->in_file = str;
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-	{
-		ft_error_cmd(": No such file or directory", str);
-		return (TOKEN->error = errno, -1);
-	}
+		return (ft_error_cmd(": No such file or directory", str),
+			TOKEN->error = errno, -1);
 	close(fd);
 	TOKEN->fd_in = -3;
 	return (i);
 }
 
-int	redirect_in(char *input, int i, t_list *stream, char **copy_env)
+static int	set_heredoc(int i, char *input, t_list *stream)
+{
+	char	*here_doc;
+	char	*num_str;
+
+	num_str = ft_itoa(TOKEN->stream_num);
+	if (!num_str)
+		return (ft_errmal("Malloc failed."), -1);
+	here_doc = ft_strjoin(".heredoc", num_str);
+	if (!here_doc)
+		return (free(num_str), ft_errmal("Malloc failed."), -1);
+	TOKEN->hd_file = here_doc;
+	TOKEN->fd_in = -4;
+	free(num_str);
+	i = skip_heredoc(i, input);
+	return (i);
+}
+
+int	redirect_in(char *input, int i, t_list *stream)
 {
 	i++;
 	if (input[i] == '<')
@@ -50,7 +66,7 @@ int	redirect_in(char *input, int i, t_list *stream, char **copy_env)
 		i++;
 		while (wh_space(input[i]))
 			i++;
-		i = heredoc(i, input, stream, copy_env);
+		i = set_heredoc(i, input, stream);
 	}
 	else
 	{
