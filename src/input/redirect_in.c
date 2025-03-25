@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_in.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 10:06:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:12:33 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	file_in(char *input, int i, t_list *stream)
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_error_cmd(": No such file or directory", str);
+		ft_error(": No such file or directory", str);
 		return (TOKEN->error = errno, -1);
 	}
 	close(fd);

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/23 15:59:28 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:11:46 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ static int	ft_cd_home(char *cwd, char ***copy_env)
 	char	*temp;
 
 	if (ft_env_exists("HOME", *copy_env) == false)
-		return (free(cwd), ft_error_cmd("HOME not set.", "cd"), 1);
+		return (free(cwd), ft_error("HOME not set.", "cd"), 1);
 	env_pos = find_envp("HOME", *copy_env);
 	temp = ft_strnstr((*copy_env)[env_pos], "=",
 			ft_strlen((*copy_env)[env_pos]));
 	if (!temp || !temp[1])
-		return (free(cwd), ft_error_cmd("HOME not set.", "cd"), 12);
+		return (free(cwd), ft_error("HOME not set.", "cd"), 12);
 	temp++;
 	if (chdir(temp) == -1)
-		return (free(cwd), ft_error_cmd("No valid directory.", "cd"), errno);
+		return (free(cwd), ft_error("No valid directory.", "cd"), errno);
 	return (0);
 }
 
@@ -80,15 +80,15 @@ static int	ft_cd_minus(char *cwd, char ***copy_env)
 	char	*temp;
 
 	if (ft_env_exists("OLDPWD", *copy_env) == false)
-		return (free(cwd), ft_error_cmd("OLDPWD not set.", "cd"), 1);
+		return (free(cwd), ft_error("OLDPWD not set.", "cd"), 1);
 	env_pos = find_envp("OLDPWD", *copy_env);
 	temp = ft_strnstr((*copy_env)[env_pos], "=",
 			ft_strlen((*copy_env)[env_pos]));
 	if (!temp || !temp[1])
-		return (free(cwd), ft_error_cmd("OLDPWD not set.", "cd"), 12);
+		return (free(cwd), ft_error("OLDPWD not set.", "cd"), 12);
 	temp++;
 	if (chdir(temp) == -1)
-		return (free(cwd), ft_error_cmd("No valid directory.", "cd"), errno);
+		return (free(cwd), ft_error("No valid directory.", "cd"), errno);
 	printf("%s\n", temp);
 	return (0);
 }
@@ -96,18 +96,26 @@ static int	ft_cd_minus(char *cwd, char ***copy_env)
 int	ft_exe_cd(t_list *stream, char ***copy_env)
 {
 	char	*cwd;
+	int		err;
 
+	err = 0;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (ft_errmal("Error: cd:"), 12);
 	if (TOKEN->arg[1] != NULL && TOKEN->arg[2] != NULL)
-		return (free(cwd), ft_error_cmd("Too many arguments!", "cd"), errno);
-	else if (!TOKEN->arg[1])
-		return (ft_cd_home(cwd, copy_env));
-	else if ((TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0'))
-		return (ft_cd_minus(cwd, copy_env));
+		return (free(cwd), ft_error("Too many arguments!", "cd"), errno);
+	else if ((TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0')
+			|| !TOKEN->arg[1])
+	{
+		if (!TOKEN)
+			err = ft_cd_home(cwd, copy_env);
+		else
+			err = ft_cd_minus(cwd, copy_env);
+		if (err != 0)
+			return (err);
+	}
 	else if (chdir(TOKEN->arg[1]) == -1)
-		return (free(cwd), ft_error_cmd("Couldn't change dir.", "cd"), errno);
+		return (free(cwd), ft_error("Couldn't change dir.", "cd"), errno);
 	if (ft_change_currentpwd(copy_env) == 12 || ft_change_oldpwd(cwd,
 			copy_env) == 12)
 		return (12);

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:43:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/24 12:44:49 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:13:02 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_export_empty(t_list *stream, char ***copy_env)
 	i = 0;
 	temp = ft_strarrdup_sort(*copy_env);
 	if (!temp)
-		return (ft_error_cmd("Malloc failed.", "export"), 12);
+		return (ft_error("Malloc failed.", "export"), 12);
 	while (temp[i])
 	{
 		if (ft_str_same("LINES=", temp[i], 6) == false

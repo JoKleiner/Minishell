@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/24 12:44:39 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:10:05 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ int	ft_exe_export(t_list *stream, char ***copy_env)
 		{
 			env_name = ft_split(TOKEN->arg[i + 1], '=');
 			if (!env_name)
-				return (ft_error_cmd("Malloc failed.", "export"), 12);
+				return (ft_error("Malloc failed.", "export"), 12);
 			if (ft_env_exists(env_name[0], *copy_env) == false)
 				temp = ft_env_change(TOKEN->arg[i + 1], NULL, copy_env);
 			else
 				temp = ft_env_change(TOKEN->arg[i + 1], env_name[0], copy_env);
 			free_strarr(env_name);
 			if (!temp)
-				return (ft_error_cmd("Malloc failed.", "export"), 12);
+				return (ft_error("Malloc failed.", "export"), 12);
 			*copy_env = temp;
 		}
 		else

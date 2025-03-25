@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/17 14:21:16 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/24 16:32:51 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t dstlen);
 char				**ft_split(char const *str, char cha);
 int					ft_putstr_rev(char *str);
 int					ft_strstr_num(const char *src, const char *search);
+int					ft_countchar(char *str, char c);
 
 // Further Functions
 int					ft_putchar(char cha);

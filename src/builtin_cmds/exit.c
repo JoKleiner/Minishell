@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/23 17:08:16 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:12:33 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_exe_exit(t_list *stream)
 				exit(atoi(TOKEN->arg[1]));
 			else
 			{
-				ft_error_cmd("exit: numeric argument required", TOKEN->arg[1]);
+				ft_error("exit: numeric argument required", TOKEN->arg[1]);
 				exit(1);
 			}
 		}

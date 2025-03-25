@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_countchar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 12:38:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 12:30:07 by mpoplow          ###   ########.fr       */
+/*   Created: 2025/03/24 16:30:46 by mpoplow           #+#    #+#             */
+/*   Updated: 2025/03/24 16:32:55 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../libft.h"
 
-int	ft_exe_pwd(t_list *stream)
+int ft_countchar(char *str, char c)
 {
-	char	*path;
+	int i;
+	int num;
 
-	path = getcwd(NULL, 0);
-	if (!path)
+	i = 0;
+	num = 0;
+	while(str[i])
 	{
-		ft_error("Couldn't get current working directory!", "pwd");
-		return(1);
+		if(str[i] == c)
+			num++;
+		i++;
 	}
-	write(TOKEN->fd_out, path, ft_strlen(path));
-	write(TOKEN->fd_out, "\n", 1);
-	return (free(path), 0);
+	return(num);
 }

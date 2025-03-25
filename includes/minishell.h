@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 13:05:37 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:10:54 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define RD_OUT 0
 # define WR_IN 1
 # define TOKEN ((t_token *)stream->cont)
+# define CMD_NF "command not found"
+# define N_FD "so such file of directory"
+# define IS_D "Is a directory"
 
 // // ~-~-~-~-~-~-~-~-~ Variables	~-~-~-~-~-~-~-~-~ // //
 
@@ -49,7 +52,7 @@ typedef struct s_token
 	char *hd_file;  // heredoc file
 	char **arg;     // die argumente
 	int error;      // return 0 kein error, error code bei error
-	int ori_sdtin;	//original stdinput für heredoc
+	int ori_sdtin;  //original stdinput für heredoc
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -105,13 +108,22 @@ int						ft_exe_unset(t_list *stream, char ***copy_env);
 // ---  Commands    --- //
 
 void					ft_execute_command(t_list *stream, char ***copy_env);
-void					ft_execute_cmd_fork(char *path, t_list *stream,
+int						ft_execute_cmd_fork(char *path, t_list *stream,
 							char ***copy_env);
 bool					ft_builtin_cmd(char *name, t_list *stream,
 							char ***copy_env);
-char					*ft_cmd_exists(t_list *stream, char **copy_env);
-bool					ft_dot_syntax(t_list *stream, char ***copy_env);
-bool					ft_isdir(char *path, t_list *stream);
+bool					ft_cmd_in_path(t_list *stream, char ***copy_env);
+bool					ft_non_accessible(t_list *stream);
+bool					ft_is_executable(char *arg, t_list *stream,
+							char ***copy_env);
+bool					ft_dot_syntax(char **arg, t_list *stream,
+							char ***copy_env);
+bool					ft_slash_syntax(char **arg, t_list *stream,
+							char ***copy_env);
+bool					ft_isdir(struct stat file_info);
+bool					ft_isregfile(struct stat file_info);
+bool					ft_init_stat(char *arg, t_list *stream,
+							struct stat *file_info);
 
 // ---  Inputhandle --- //
 
@@ -143,9 +155,11 @@ int						check_syntax(char *input);
 
 // ---	Errors			--- //
 
-void					ft_error_cmd(char *message, char *name);
+void					ft_error(char *message, char *name);
 void					ft_errmal(char *message);
 void					free_strarr(char **sstr);
 void					free_stream(t_list *stream);
+void					ft_closefdout(t_list *stream);
+void					token_err(t_list *stream, int value);
 
 #endif
