@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:59:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 11:48:36 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 16:56:46 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,9 @@ static int	count_arg_len(char *input, int i, int *q_count)
 {
 	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
 	{
-		if (input[i] == '\'')
+		if (input[i] == '\'' || input[i] == '\"')
 		{
-			i = skip_until_char(i, input, '\'');
-			(*q_count)++;
-		}
-		if (input[i] == '\"')
-		{
-			i = skip_until_char(i, input, '\"');
+			i = skip_until_char(i, input, input[i]);
 			(*q_count)++;
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:01:47 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:58:20 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int	check_syntax(char *input)
 	}
 	if (syn_str != NULL)
 	{
-		ft_printf("syntax error near unexpected token `%s'\n", syn_str);
+		ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+		ft_putstr_fd(syn_str, STDERR_FILENO);
+		ft_putstr_fd("'\n", STDERR_FILENO);
 		free(syn_str);
 		free(input);
 		return (2);

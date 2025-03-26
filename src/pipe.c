@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:48:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 12:53:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 17:51:19 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	last_pipe(int i, char *input, t_list *stream, char ***copy_env)
 	pipes = 0;
 	while (pipes < i)
 	{
+		if(input[u] == '\'' || input[u] == '\"')
+			u = skip_until_char(u, input, input[u]);
 		if (input[u] == '|')
 			pipes++;
 		u++;

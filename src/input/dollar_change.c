@@ -3,23 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_change.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 15:17:30 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 19:10:37 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*change_input(char *input, char *str, char *env_arg, int i)
+static char	*change_input(char *input, char *str, char *env_arg, int i)
 {
 	char	*input_temp;
 
 	input_temp = ft_strndup(input, i);
 	if (!input_temp)
 		return (free(input), free(str), free(env_arg), NULL);
+	input_temp = ft_strjoin_free(input_temp, "\"");
+	if (!input_temp)
+		return (free(input), free(str), free(env_arg), NULL);
 	input_temp = ft_strjoin_free(input_temp, env_arg);
+	if (!input_temp)
+		return (free(input), free(str), free(env_arg), NULL);
+	input_temp = ft_strjoin_free(input_temp, "\"");
 	if (!input_temp)
 		return (free(input), free(str), free(env_arg), NULL);
 	input_temp = ft_strjoin_free(input_temp, &input[i + 1 + ft_strlen(str)]);
@@ -45,16 +51,20 @@ static char	*dollar_questm(char *input, int i, t_list *stream)
 	input_temp = ft_strndup(input, i);
 	if (!input_temp)
 		return (free(input), free(num_char), mem_fail(stream), NULL);
+	input_temp = ft_strjoin_free(input_temp, "\"");
+	if (!input_temp)
+		return (free(input), free(num_char), mem_fail(stream), NULL);
 	input_temp = ft_strjoin_free(input_temp, num_char);
+	if (!input_temp)
+		return (free(input), free(num_char), mem_fail(stream), NULL);
+	input_temp = ft_strjoin_free(input_temp, "\"");
 	if (!input_temp)
 		return (free(input), free(num_char), mem_fail(stream), NULL);
 	input_temp = ft_strjoin_free(input_temp, &input[i + 2]);
 	if (!input_temp)
 		return (free(input), free(num_char), mem_fail(stream), NULL);
 	free(input);
-	free(num_char);
-	input = input_temp;
-	return (input);
+	return (free(num_char), input_temp);
 }
 
 static char	*creat_env_arg(int u, char **copy_env, char *str, t_list *stream)
@@ -74,6 +84,15 @@ static char	*creat_env_arg(int u, char **copy_env, char *str, t_list *stream)
 			return (mem_fail(stream), NULL);
 	}
 	return (env_arg);
+}
+
+static char	*new_input(char *input, char *str, char *env_arg, int i_temp)
+{
+	if (env_arg[0] == '\0')
+		input = change_input_noarg(input, str, env_arg, i_temp);
+	else
+		input = change_input(input, str, env_arg, i_temp);
+	return (input);
 }
 
 char	*dollar_found(int i, char *input, char **copy_env, t_list *stream)
@@ -99,7 +118,7 @@ char	*dollar_found(int i, char *input, char **copy_env, t_list *stream)
 	if (!env_arg)
 		return (free(str), free(input), NULL);
 	str[ft_strlen(str) - 1] = '\0';
-	input = change_input(input, str, env_arg, i_temp);
+	input = new_input(input, str, env_arg, i_temp);
 	if (!input)
 		mem_fail(stream);
 	return (input);

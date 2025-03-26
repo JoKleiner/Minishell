@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 12:26:33 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:32:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	heredoc(int *i, char *input, char **copy_env, int num_pipes)
 	char	*str;
 
 	i_temp = (*i);
+	while(input[i_temp] && wh_space(input[i_temp]))
+		i_temp++;
 	i_temp2 = i_temp;
 	while (input[i_temp] && !wh_space(input[i_temp])
 		&& !spec_char(input[i_temp]))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 16:32:51 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:57:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ char				*ft_strjoin_delimit(char *str1, char middle, char *str2);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstlen);
 char				**ft_split(char const *str, char cha);
 int					ft_putstr_rev(char *str);
+long				ft_putstr_fd(char *str, int fd);
 int					ft_strstr_num(const char *src, const char *search);
 int					ft_countchar(char *str, char c);
 

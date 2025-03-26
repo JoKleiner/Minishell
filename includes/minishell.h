@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 15:17:17 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/25 18:49:57 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,11 +157,14 @@ void					heredoc_child_process(char *str, char *here_doc,
 int						stream_handle(char *input, char ***copy_env,
 							t_list *stream);
 int						skip_heredoc(int i, char *input);
+char					*change_input_noarg(char *input, char *str,
+							char *env_arg, int i);
 
 // ---  Pipe --- //
 int						pipe_handle(int num_pipe, int ori_sdtin, char *input,
 							char ***copy_env);
-t_list					*setup_child(int *fds, char *input, t_list *stream, int num_pipes);
+t_list					*setup_child(int *fds, char *input, t_list *stream,
+							int num_pipes);
 int						mother_pipe(int i, char *input, t_list *stream,
 							char ***copy_env);
 void					end_mother_pipe(int *fds, int pid, t_list *stream,
