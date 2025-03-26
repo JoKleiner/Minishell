@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:12:33 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:43:12 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	ft_isdigit_str(char *str)
 
 int	ft_exe_exit(t_list *stream)
 {
-	printf("exit\n");
+	if(isatty(STDOUT_FILENO))
+		write(STDOUT_FILENO, "exit\n", 5);
 	if (TOKEN->arg[1])
 	{
 		if (TOKEN->arg[2])

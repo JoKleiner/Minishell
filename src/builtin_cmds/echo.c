@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:41 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 16:04:44 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:48:53 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ bool	ft_flag_n(t_list *stream, int *i)
 	{
 		char_num = 0;
 		if (TOKEN->arg[*i][char_num] != '-')
-			return (isflag_n);
+			return (false);
+		if (TOKEN->arg[*i][char_num + 1] == '\0')
+			return (false);
 		char_num++;
 		while (TOKEN->arg[*i][char_num])
 		{

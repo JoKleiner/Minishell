@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:11:46 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:47:35 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,24 +96,16 @@ static int	ft_cd_minus(char *cwd, char ***copy_env)
 int	ft_exe_cd(t_list *stream, char ***copy_env)
 {
 	char	*cwd;
-	int		err;
 
-	err = 0;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (ft_errmal("Error: cd:"), 12);
 	if (TOKEN->arg[1] != NULL && TOKEN->arg[2] != NULL)
 		return (free(cwd), ft_error("Too many arguments!", "cd"), errno);
-	else if ((TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0')
-			|| !TOKEN->arg[1])
-	{
-		if (!TOKEN)
-			err = ft_cd_home(cwd, copy_env);
-		else
-			err = ft_cd_minus(cwd, copy_env);
-		if (err != 0)
-			return (err);
-	}
+	else if (!TOKEN->arg[1])
+		return (ft_cd_home(cwd, copy_env));
+	else if ((TOKEN->arg[1][0] == '-' && TOKEN->arg[1][1] == '\0'))
+		return (ft_cd_minus(cwd, copy_env));
 	else if (chdir(TOKEN->arg[1]) == -1)
 		return (free(cwd), ft_error("Couldn't change dir.", "cd"), errno);
 	if (ft_change_currentpwd(copy_env) == 12 || ft_change_oldpwd(cwd,

@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:08:47 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:00:33 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 void	ft_execute_command(t_list *stream, char ***copy_env)
 {
 	if (!TOKEN->arg)
-		return ;
+		return(printf("Schnöte\n"), (void)0);
+	if(TOKEN->arg[0][0] == '\0')
+	 	return(token_err(stream, 127), ft_error(CMD_NF, ""));
 	if (ft_dot_syntax(TOKEN->arg, stream, copy_env) == true)
 		return ;
 	if (ft_builtin_cmd(TOKEN->arg[0], stream, copy_env) == true)
