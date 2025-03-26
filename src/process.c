@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 09:30:30 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:26:26 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_print_stream(t_list *stream)
 			if (TOKEN->arg[u])
 				while (TOKEN->arg[u])
 				{
-					ft_printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
+					printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
 					u++;
 				}
 		printf("\n");
@@ -70,6 +70,8 @@ static int	count_pipe(char *input)
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			i = skip_until_char(i, input, input[i]);
+		if(input[i] == '>'&& input[i+1] == '|')
+			i+=2;
 		if (input[i] && input[i] == '|')
 			num_pipe++;
 		if (input[i])

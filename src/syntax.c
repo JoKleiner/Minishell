@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:58:20 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 10:44:12 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*syncheck_redir(int i, char *input)
 	cha[2] = '\0';
 	cha[1] = '\0';
 	if (input[i + 1] == input[i])
+		i++;
+	if(input[i] == '>' && input[i+1] == '|')
 		i++;
 	i++;
 	while (wh_space(input[i]))

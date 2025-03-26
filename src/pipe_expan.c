@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:51:14 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 12:54:49 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 10:55:20 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	mother_pipe(int i, char *input, t_list *stream, char ***copy_env)
 	pipes = 0;
 	while (pipes < i)
 	{
-		if (input[u] == '|')
+		if (input[u] == '|' && input[u - 1] != '>')
 			pipes++;
 		u++;
 	}

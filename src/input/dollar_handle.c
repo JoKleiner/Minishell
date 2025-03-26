@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:00:32 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 18:03:31 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 10:32:24 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,24 @@ static char	*dollar_sign(int *i, char *input, char **copy_env, t_list *stream)
 		*i = skip_heredoc(*i, input);
 	else if (if_redir_empty_file(*i, input, copy_env, stream) != 0)
 		return (NULL);
-	else if (env_char(input[*i + 1]) || input[*i + 1] == '?')
-	{
-		input = dollar_found(*i, input, copy_env, stream);
-		if (!input)
-			return (NULL);
-		return (input);
-	}
 	else if (input[*i + 1] == '\0')
 		return ((*i)++, input);
-	input_temp = ft_strndup(input, *i);
-	input_temp = ft_strjoin_free(input_temp, &input[(*i) + 1]);
-	free(input);
-	input = input_temp;
+	else if (input[*i + 1] == '\"' || input[*i + 1] == '\'')
+	{
+		input_temp = ft_strndup(input, *i);
+		input_temp = ft_strjoin_free(input_temp, &input[(*i) + 1]);
+		free(input);
+		input = input_temp;
+		return (input);
+	}
+	if(!env_char(input[*i+1]) && input[*i+1] != '?')
+	{
+		(*i)++;
+		return(input);
+	}
+	input = dollar_found(*i, input, copy_env, stream);
+	if (!input)
+		return (NULL);
 	return (input);
 }
 

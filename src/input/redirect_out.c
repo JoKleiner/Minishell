@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 18:57:13 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 10:43:00 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	redirect_out(char *input, int i, t_list *stream)
 		add = true;
 		i++;
 	}
+	if(input[i] == '|')
+		i++;
 	while (wh_space(input[i]))
 		i++;
 	i = file_out(input, i, stream, add);
