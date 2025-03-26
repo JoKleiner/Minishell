@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 18:49:57 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 11:30:36 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char					**ft_update_envvar(char *arg, char *name,
 							char **copy_env);
 bool					ft_env_exists(char *arg, char **copy_env);
 int						find_envp(char *str, char **copy_env);
-int						ft_valid_arg(char *str);
+int						ft_valid_arg(char *arg, bool *plus);
 
 // --- String arrays --- //
 
@@ -103,6 +103,7 @@ int						ft_exe_env(t_list *stream, char **copy_env);
 int						ft_exe_exit(t_list *stream);
 int						ft_exe_export(t_list *stream, char ***copy_env);
 int						ft_export_empty(t_list *stream, char ***copy_env);
+int						ft_export_plus(char ***copy_env, char **arg);
 int						ft_exe_pwd(t_list *stream);
 int						ft_exe_unset(t_list *stream, char ***copy_env);
 
