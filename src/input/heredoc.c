@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 09:51:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 11:13:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 17:56:24 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,14 @@ static char	*init_heredoc(int num_pipes)
 static int	create_heredoc(char *str, char **copy_env, int num_pipes)
 {
 	char	*here_doc;
-	int		pid;
-	int		status;
+	int		num_ret;
 
 	here_doc = init_heredoc(num_pipes);
 	if (!here_doc)
 		return (free(str), errno);
-	pid = fork();
-	if (pid == -1)
-		return (free(str), ft_errmal("fork failed"), errno);
-	if (pid == 0)
-		heredoc_child_process(str, here_doc, copy_env);
-	waitpid(pid, &status, 0);
-	if (status != 0)
-		return (free(str), WEXITSTATUS(status));
-	free(str);
-	return (0);
+	num_ret = heredoc_child_process(str, here_doc, copy_env);
+	setup_signals();
+	return (num_ret);
 }
 
 int	heredoc(int *i, char *input, char **copy_env, int num_pipes)
@@ -60,7 +52,7 @@ int	heredoc(int *i, char *input, char **copy_env, int num_pipes)
 	char	*str;
 
 	i_temp = (*i);
-	while(input[i_temp] && wh_space(input[i_temp]))
+	while (input[i_temp] && wh_space(input[i_temp]))
 		i_temp++;
 	i_temp2 = i_temp;
 	while (input[i_temp] && !wh_space(input[i_temp])

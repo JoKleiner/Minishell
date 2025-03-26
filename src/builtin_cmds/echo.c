@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:41 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 11:48:53 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/26 12:23:04 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ bool	ft_flag_n(t_list *stream, int *i)
 	{
 		char_num = 0;
 		if (TOKEN->arg[*i][char_num] != '-')
-			return (false);
+			return (isflag_n);
 		if (TOKEN->arg[*i][char_num + 1] == '\0')
-			return (false);
+			return (isflag_n);
 		char_num++;
 		while (TOKEN->arg[*i][char_num])
 		{

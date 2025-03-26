@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_in_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:40:09 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 14:31:57 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:31:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static bool	ft_cmd_helper(char **try_paths, t_list *stream, char ***copy_env)
 		if (!(path))
 			return (mem_fail(stream), true);
 		if (access(path, X_OK) == 0)
-			return (ft_execute_cmd_fork(path, stream, copy_env), true);
+			return (TOKEN->error = ft_execute_cmd_fork(path, stream, copy_env),
+				true);
 		free(path);
 		i++;
 	}
@@ -37,8 +38,8 @@ bool	ft_cmd_in_path(t_list *stream, char ***copy_env)
 	int		env_pos;
 	bool	retval;
 
-	if(TOKEN->arg[0][0] == '.' || TOKEN->arg[0][0] == '/')
-		return(false);
+	if (TOKEN->arg[0][0] == '.' || TOKEN->arg[0][0] == '/')
+		return (false);
 	if (ft_env_exists("PATH", *copy_env) == false)
 		return (false);
 	env_pos = find_envp("PATH", *copy_env);

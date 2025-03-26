@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 10:44:12 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 16:24:11 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*syncheck_redir(int i, char *input)
 	cha[1] = '\0';
 	if (input[i + 1] == input[i])
 		i++;
-	if(input[i] == '>' && input[i+1] == '|')
+	if (input[i] == '>' && input[i + 1] == '|')
 		i++;
 	i++;
 	while (wh_space(input[i]))
@@ -55,25 +55,39 @@ int	check_syntax(char *input)
 
 	i = 0;
 	syn_str = NULL;
+	while (wh_space(input[i]))
+		i++;
+	if (input[i] == '|')
+	{
+			ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+			ft_putstr_fd("|", STDERR_FILENO);
+			ft_putstr_fd("'\n", STDERR_FILENO);
+			free(input);
+			return (2);
+	}
 	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '\"')
+		{
 			i = skip_until_char(i, input, input[i]);
+			if (input[i] == '\0')
+				return (free(input), 2);
+		}
 		if (input[i] == '>' || input[i] == '<')
 		{
 			syn_str = syncheck_redir(i, input);
-			break ;
+			if (syn_str != NULL)
+			{
+				ft_putstr_fd("syntax error near unexpected token `",
+					STDERR_FILENO);
+				ft_putstr_fd(syn_str, STDERR_FILENO);
+				ft_putstr_fd("'\n", STDERR_FILENO);
+				free(syn_str);
+				free(input);
+				return (2);
+			}
 		}
 		i++;
-	}
-	if (syn_str != NULL)
-	{
-		ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
-		ft_putstr_fd(syn_str, STDERR_FILENO);
-		ft_putstr_fd("'\n", STDERR_FILENO);
-		free(syn_str);
-		free(input);
-		return (2);
 	}
 	return (0);
 }

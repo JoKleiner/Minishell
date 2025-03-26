@@ -6,29 +6,26 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:51:14 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 10:55:20 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 15:52:53 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	end_mother_pipe(int *fds, int pid, t_list *stream, int return_num)
+void	end_mother_pipe(int *fds, int pid, t_list *stream)
 {
 	int	status;
 
 	close(fds[WR_IN]);
 	waitpid(pid, &status, 0);
 	free_stream(stream);
-	if (WEXITSTATUS(status) != 0)
-		exit(WEXITSTATUS(status));
-	exit(return_num);
+	exit(WEXITSTATUS(status));
 }
 
-int	mother_pipe(int i, char *input, t_list *stream, char ***copy_env)
+void	mother_pipe(int i, char *input, t_list *stream, char ***copy_env)
 {
 	int	pipes;
 	int	u;
-	int	return_num;
 
 	u = 0;
 	pipes = 0;
@@ -39,8 +36,7 @@ int	mother_pipe(int i, char *input, t_list *stream, char ***copy_env)
 		u++;
 	}
 	input = stream_input(input, u);
-	return_num = stream_handle(input, copy_env, stream);
-	return (return_num);
+	stream_handle(input, copy_env, stream);
 }
 
 t_list	*setup_child(int *fds, char *input, t_list *stream, int num_pipes)

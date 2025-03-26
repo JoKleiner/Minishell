@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 11:26:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 17:07:20 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,5 @@ int	start_process(char *input, char ***copy_env)
 		status = pipe_handle(num_pipe, ori_sdtin, input, copy_env);
 	else
 		return (no_pipe_process(input, copy_env, ori_sdtin));
-	return (WEXITSTATUS(status));
+	return (status);
 }

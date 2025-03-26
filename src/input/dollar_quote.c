@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 08:53:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 18:50:49 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:00:08 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	found_quote(int i, char **input, char **copy_env, t_list *stream)
 {
 	if ((*input)[i] == '\'')
 		i = skip_until_char(i, *input, '\'');
-	if ((*input)[i] == '\"')
+	else if ((*input)[i] == '\"')
 	{
 		if((*input)[i+2] == '\"')
 			return(i+2);

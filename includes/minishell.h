@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 11:30:36 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 18:04:34 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char					**ft_init_envvars(void);
 int						wh_space(char input);
 int						spec_char(char input);
 int						return_value(int num, bool set_num);
+char					*get_input(void);
 
 // ---  Pipe        --- //
 
@@ -153,7 +154,7 @@ int						if_redir_empty_file(int i, char *input, char **copy_env,
 							t_list *stream);
 char					*creat_env_str(int i, int i_temp, char *input);
 int						check_syntax(char *input);
-void					heredoc_child_process(char *str, char *here_doc,
+int						heredoc_child_process(char *str, char *here_doc,
 							char **copy_env);
 int						stream_handle(char *input, char ***copy_env,
 							t_list *stream);
@@ -166,10 +167,9 @@ int						pipe_handle(int num_pipe, int ori_sdtin, char *input,
 							char ***copy_env);
 t_list					*setup_child(int *fds, char *input, t_list *stream,
 							int num_pipes);
-int						mother_pipe(int i, char *input, t_list *stream,
+void					mother_pipe(int i, char *input, t_list *stream,
 							char ***copy_env);
-void					end_mother_pipe(int *fds, int pid, t_list *stream,
-							int return_num);
+void					end_mother_pipe(int *fds, int pid, t_list *stream);
 
 // ---	Errors			--- //
 

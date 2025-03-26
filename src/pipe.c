@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:48:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 10:59:32 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 15:52:18 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static void	execute_pipes(int num_pipe, char *input, char ***copy_env,
 	int	fds[2];
 	int	i;
 	int	pid;
-	int	return_num;
 
 	i = -1;
 	pid = 0;
@@ -71,8 +70,8 @@ static void	execute_pipes(int num_pipe, char *input, char ***copy_env,
 			{
 				close(fds[RD_OUT]);
 				TOKEN->fd_out = fds[WR_IN];
-				return_num = mother_pipe(i, input, stream, copy_env);
-				end_mother_pipe(fds, pid, stream, return_num);
+				mother_pipe(i, input, stream, copy_env);
+				end_mother_pipe(fds, pid, stream);
 			}
 		}
 		else

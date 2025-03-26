@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 11:43:12 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/26 15:35:16 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	ft_exe_exit(t_list *stream)
 		{
 			if (ft_isdigit_str(TOKEN->arg[1]) == 1
 				&& ft_strlen(TOKEN->arg[1]) <= 19)
-				exit(atoi(TOKEN->arg[1]));
+				exit((unsigned char)atoi(TOKEN->arg[1]));
 			else
 			{
 				ft_error("exit: numeric argument required", TOKEN->arg[1]);
-				exit(1);
+				exit(2);
 			}
 		}
 	}
 	else
-		exit(0);
+		exit(return_value(0, false));
 }

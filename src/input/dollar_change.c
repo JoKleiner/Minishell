@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 10:30:44 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/26 14:07:05 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 static char	*change_input(char *input, char *str, char *env_arg, int i)
 {
 	char	*input_temp;
+	// char	**env_arg_split;
 
+	// env_arg_split = ft_split(env_arg, " ");
 	input_temp = ft_strndup(input, i);
 	if (!input_temp)
 		return (free(input), free(str), free(env_arg), NULL);
