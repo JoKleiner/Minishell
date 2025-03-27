@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 10:44:31 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 21:43:52 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,7 @@ char				*ft_strtrim(char const *str, char const *set);
 char				*ft_strmapi(char const *str, char (*f)(unsigned int, char));
 void				ft_striteri(char *str, void (*f)(unsigned int, char *));
 bool				ft_str_same(char *s1, char *s2, int len);
+int					ft_isdigit_str_plusmin(char *str);
+int					ft_isdigit_str(char *str);
 
 #endif

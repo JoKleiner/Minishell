@@ -6,16 +6,25 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 11:15:38 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/27 19:53:54 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static void ft_not_valid(char *arg)
+{
+	write(2, "Error: export: \'", 16);
+	write(2, arg, ft_strlen(arg));
+	write(2, "\' not a valid identifier!\n", 26);
+}
+
 int	ft_valid_arg(char *arg, bool *plus)
 {
 	int	i;
 
+	if (arg[0] == '=' || ft_isdigit(arg[0]) == 1)
+		return (ft_not_valid(arg), 1);
 	i = 0;
 	(*plus) = false;
 	while (arg[i])
@@ -29,10 +38,7 @@ int	ft_valid_arg(char *arg, bool *plus)
 				(*plus) = true;
 				return (0);
 			}
-			write(2, "Error: export: \'", 16);
-			write(2, arg, ft_strlen(arg));
-			write(2, "\' not a valid identifier!\n", 26);
-			return (1);
+			return (ft_not_valid(arg), 1);
 		}
 		i++;
 	}
