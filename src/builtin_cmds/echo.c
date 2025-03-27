@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:41 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 12:23:04 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:41:43 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ int	ft_exe_echo(t_list *stream)
 	}
 	if (isflag_n == false)
 		write(TOKEN->fd_out, "\n", 1);
-	return(0);
+	return (0);
 }
