@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 17:07:20 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:39:25 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,27 @@ void	ft_print_stream(t_list *stream)
 
 int	stream_handle(char *input, char ***copy_env, t_list *stream)
 {
-	int	fd;
-	int	return_num;
+	int		fd;
+	int		return_num;
+	int		i;
+	char	*input_new;
 
-	return_num = input_handle(input, stream, *copy_env);
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '|' && i > 1 && input[i - 1] != '>')
+			break ;
+		if (input[i] == '\'' || input[i] == '\"')
+			i = skip_until_char(i, input, input[i]);
+		i++;
+	}
+	if (input[i] == '|')
+		i--;
+	input_new = ft_strndup(input, i);
+	return_num = input_handle(input_new, stream, *copy_env);
 	if (return_num != 0)
 		return (return_num);
-	//ft_print_stream(stream);
+	// ft_print_stream(stream);
 	if (TOKEN->fd_in == -3 || TOKEN->fd_in == -4)
 	{
 		if (TOKEN->fd_in == -3)
@@ -70,8 +84,8 @@ static int	count_pipe(char *input)
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			i = skip_until_char(i, input, input[i]);
-		if(input[i] == '>'&& input[i+1] == '|')
-			i+=2;
+		if (input[i] == '>' && input[i + 1] == '|')
+			i += 2;
 		if (input[i] && input[i] == '|')
 			num_pipe++;
 		if (input[i])
@@ -104,7 +118,7 @@ int	start_process(char *input, char ***copy_env)
 {
 	int	num_pipe;
 	int	ori_sdtin;
-	int status;
+	int	status;
 
 	ori_sdtin = dup(STDIN_FILENO);
 	if (ori_sdtin == -1)

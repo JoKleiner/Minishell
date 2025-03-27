@@ -6,11 +6,27 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:25:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 18:04:13 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 12:44:03 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static char	*get_input_heredoc(void)
+{
+	char	*line;
+	char	*input;
+
+	if (isatty(STDIN_FILENO))
+		input = readline("> ");
+	else
+	{
+		line = get_next_line(STDIN_FILENO);
+		input = ft_strtrim(line, "\n");
+		free(line);
+	}
+	return (input);
+}
 
 static int	append_in_file(char *input, char *here_doc)
 {
@@ -44,7 +60,7 @@ static int	handle_heredoc_input(char *str, char *here_input, char *here_doc,
 		if (append_in_file(here_input, here_doc) != 0)
 			return (free(str), free(here_input), errno);
 		free(here_input);
-		here_input = get_input();
+		here_input = get_input_heredoc();
 		if (!here_input)
 			return (free(str), 1);
 	}

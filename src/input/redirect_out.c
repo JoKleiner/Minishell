@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 10:43:00 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:37:12 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ static int	creat_file(char *str, t_list *stream, bool add)
 	return (0);
 }
 
-static int	file_out(char *input, int i, t_list *stream, bool add)
+static int	file_out(char *input, int i, t_list *stream, bool add, char **copy_env)
 {
 	int		i_temp;
 	char	*str;
+	char *input_temp;
 
 	i_temp = i;
 	while (input[i] && !wh_space(input[i]) && !spec_char(input[i]))
@@ -44,7 +45,10 @@ static int	file_out(char *input, int i, t_list *stream, bool add)
 			i = skip_until_char(i, input, input[i]);
 		i++;
 	}
-	str = str_quote_less(&input[i_temp], i - i_temp);
+	input_temp = ft_strndup(&input[i_temp], i - i_temp);
+	input = dollar_handle(input_temp, copy_env, stream);
+	
+	str = str_quote_less(input, i - i_temp);
 	if (!str)
 		return (free(input), mem_fail(stream), -1);
 	if (TOKEN->out_file)
@@ -55,7 +59,7 @@ static int	file_out(char *input, int i, t_list *stream, bool add)
 	return (i);
 }
 
-int	redirect_out(char *input, int i, t_list *stream)
+int	redirect_out(char *input, int i, t_list *stream, char **copy_env)
 {
 	bool	add;
 
@@ -65,11 +69,11 @@ int	redirect_out(char *input, int i, t_list *stream)
 		add = true;
 		i++;
 	}
-	if(input[i] == '|')
+	if (input[i] == '|')
 		i++;
 	while (wh_space(input[i]))
 		i++;
-	i = file_out(input, i, stream, add);
+	i = file_out(input, i, stream, add, copy_env);
 	if (i == -1)
 		return (-1);
 	if (!wh_space(input[i]))

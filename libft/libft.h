@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/25 15:57:29 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 10:44:31 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void				*ft_memchr(const void *str, int cha, size_t num);
 int					ft_memcmp(const void *str1, const void *str2, size_t num);
 void				*ft_memcpy(void *dst, const void *src, size_t num);
 void				*ft_memmove(void *dst, const void *src, size_t len);
-void				ft_memfree(char **wordptr, size_t i);
+void				ft_memfree(char **wordptr);
 
 // Linked List
 t_list				*ft_lstnew(void *content);
@@ -80,6 +80,7 @@ char				*ft_strjoin(char const *str1, char const *str2);
 char				*ft_strjoin_delimit(char *str1, char middle, char *str2);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstlen);
 char				**ft_split(char const *str, char cha);
+char				**ft_split_whspace(char const *str);
 int					ft_putstr_rev(char *str);
 long				ft_putstr_fd(char *str, int fd);
 int					ft_strstr_num(const char *src, const char *search);

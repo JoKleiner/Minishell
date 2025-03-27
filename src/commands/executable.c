@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:42:26 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 14:58:56 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/27 11:47:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	ft_is_executable(char *arg, t_list *stream, char ***copy_env)
 		return (token_err(stream, 127), ft_error(CMD_NF, arg), true);
 	if (ft_isregfile(file_info) == true)
 	{
-		ft_execute_cmd_fork(arg, stream, copy_env);
+		TOKEN->error = ft_execute_cmd_fork(arg, stream, copy_env);
 		return (true);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 08:53:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 14:00:08 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 13:01:03 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ static int	double_quote(int i, char **input, char **copy_env, t_list *stream)
 			*input = dollar_found(i, *input, copy_env, stream);
 			if (!(*input))
 				return (-1);
-			i++;
-			while ((*input)[i] != '\"')
-				i++;
 		}
 		i++;
 	}
@@ -67,8 +64,8 @@ int	found_quote(int i, char **input, char **copy_env, t_list *stream)
 		i = skip_until_char(i, *input, '\'');
 	else if ((*input)[i] == '\"')
 	{
-		if((*input)[i+2] == '\"')
-			return(i+2);
+		if ((*input)[i + 2] == '\"')
+			return (i + 2);
 		i = double_quote(i, input, copy_env, stream);
 		if ((*input)[i] == '\0')
 			i--;

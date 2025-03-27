@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 12:09:38 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/27 15:34:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 {
 	int	pid;
 	int	status;
+	int exe_num;
 
 	pid = fork();
 	if (pid == -1)
@@ -27,8 +28,8 @@ int	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 	{
 		if (TOKEN->fd_out != STDOUT_FILENO)
 			dup2(TOKEN->fd_out, STDOUT_FILENO);
-		execve(path, TOKEN->arg, *copy_env);
-		exit(errno);
+		exe_num = execve(path, TOKEN->arg, *copy_env);
+		exit(exe_num);
 	}
 	waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));
@@ -36,7 +37,7 @@ int	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 
 void	ft_execute_command(t_list *stream, char ***copy_env)
 {
-	if (!TOKEN->arg)
+	if (!TOKEN->arg || !TOKEN->arg[0])
 		return;
 	if(TOKEN->arg[0][0] == '\0')
 	 	return(token_err(stream, 127), ft_error(CMD_NF, ""));

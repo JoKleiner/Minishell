@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_wh_space.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:58:22 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 10:44:19 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 12:24:35 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-static size_t	count_word(char const *str, char cha)
+static int	wh_space(char input)
+{
+	if (input == ' ' || input == '\t' || input == '\n')
+		return (1);
+	return (0);
+}
+
+static size_t	count_word(char const *str)
 {
 	size_t	wordnum;
 	size_t	i;
@@ -21,10 +28,10 @@ static size_t	count_word(char const *str, char cha)
 	wordnum = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != cha)
+		if (!wh_space(str[i]))
 		{
 			wordnum++;
-			while (str[i] != cha && str[i] != '\0')
+			while (str[i] != '\0' && !wh_space(str[i]))
 				i++;
 			continue ;
 		}
@@ -33,7 +40,7 @@ static size_t	count_word(char const *str, char cha)
 	return (wordnum);
 }
 
-static size_t	word_alloc(char const *str, char cha, char **wordptr)
+static size_t	word_alloc(char const *str, char **wordptr)
 {
 	size_t	i;
 	size_t	j;
@@ -43,10 +50,10 @@ static size_t	word_alloc(char const *str, char cha, char **wordptr)
 	j = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != cha)
+		if (!wh_space(str[i]))
 		{
 			u = 0;
-			while (str[i + u] != cha && str[i + u] != '\0')
+			while (str[i + u] != '\0' && !wh_space(str[i + u]))
 				u++;
 			wordptr[j] = (char *)malloc((u + 1) * sizeof(char));
 			if (wordptr[j] == NULL)
@@ -60,7 +67,7 @@ static size_t	word_alloc(char const *str, char cha, char **wordptr)
 	return (1);
 }
 
-static void	word_cpy(char const *str, char cha, char **wordptr)
+static void	word_cpy(char const *str, char **wordptr)
 {
 	size_t	i;
 	size_t	j;
@@ -70,10 +77,10 @@ static void	word_cpy(char const *str, char cha, char **wordptr)
 	j = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != cha)
+		if (!wh_space(str[i]))
 		{
 			u = 0;
-			while (str[i] != cha && str[i] != '\0')
+			while (str[i] != '\0' && !wh_space(str[i]))
 			{
 				wordptr[j][u] = str[i];
 				i++;
@@ -88,17 +95,17 @@ static void	word_cpy(char const *str, char cha, char **wordptr)
 	wordptr[j] = NULL;
 }
 
-char	**ft_split(char const *str, char cha)
+char	**ft_split_whspace(char const *str)
 {
 	size_t	word_num;
 	char	**wordptr;
 
-	word_num = count_word(str, cha);
+	word_num = count_word(str);
 	wordptr = (char **)malloc((word_num + 1) * sizeof(char *));
 	if (wordptr == NULL)
 		return (NULL);
-	if (word_alloc(str, cha, wordptr) == 0)
+	if (word_alloc(str, wordptr) == 0)
 		return (NULL);
-	word_cpy(str, cha, wordptr);
+	word_cpy(str, wordptr);
 	return (wordptr);
 }

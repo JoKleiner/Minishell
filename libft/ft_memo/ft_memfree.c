@@ -6,18 +6,21 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:02:39 by joklein           #+#    #+#             */
-/*   Updated: 2025/01/29 15:06:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 10:01:00 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-void	ft_memfree(char **wordptr, size_t i)
+void	ft_memfree(char **wordptr)
 {
-	while (i > 0)
+	int i;
+
+	i = 0;
+	while (wordptr[i])
 	{
-		free(wordptr[i - 1]);
-		i--;
+		free(wordptr[i]);
+		i++;
 	}
 	free(wordptr);
 }

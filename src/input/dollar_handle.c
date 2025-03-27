@@ -6,11 +6,33 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:00:32 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 14:04:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 16:03:59 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+// char	*change_input_split(char *input, char *str, char **env_arg_split,
+// 		char *input_temp)
+// {
+// 	int	u;
+
+// 	u = 0;
+// 	while (env_arg_split[u])
+// 	{
+// 		input_temp = ft_strjoin_free(input_temp, env_arg_split[u]);
+// 		if (!input_temp)
+// 			return (free(input), free(str), NULL);
+// 		if (env_arg_split[u + 1] != NULL)
+// 		{
+// 			input_temp = ft_strjoin_free(input_temp, " ");
+// 			if (!input_temp)
+// 				return (free(input), free(str), NULL);
+// 		}
+// 		u++;
+// 	}
+// 	return (input_temp);
+// }
 
 int	skip_heredoc(int i, char *input)
 {
@@ -41,10 +63,10 @@ static char	*dollar_sign(int *i, char *input, char **copy_env, t_list *stream)
 		input = input_temp;
 		return (input);
 	}
-	if(!env_char(input[*i+1]) && input[*i+1] != '?')
+	if (!env_char(input[*i + 1]) && input[*i + 1] != '?')
 	{
 		(*i)++;
-		return(input);
+		return (input);
 	}
 	input = dollar_found(*i, input, copy_env, stream);
 	if (!input)

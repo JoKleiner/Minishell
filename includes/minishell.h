@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 18:04:34 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 15:21:24 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,13 @@ bool					ft_init_stat(char *arg, t_list *stream,
 
 int						input_handle(char *input, t_list *stream_one,
 							char **copy_env);
-int						redirect_out(char *input, int i, t_list *stream);
+int						redirect_out(char *input, int i, t_list *stream,
+							char **copy_env);
 int						redirect_in(char *input, int i, t_list *stream);
 char					*dollar_handle(char *input, char **copy_env,
 							t_list *stream);
-int						creat_args(char *input, int i, t_list *stream);
+int						creat_args(char *input, int i, t_list *stream,
+							char **copy_env);
 int						skip_until_char(int i, char *input, char cha);
 int						add_until_char(int i, char *input, char cha,
 							char **dst);
@@ -161,6 +163,8 @@ int						stream_handle(char *input, char ***copy_env,
 int						skip_heredoc(int i, char *input);
 char					*change_input_noarg(char *input, char *str,
 							char *env_arg, int i);
+char					*change_input_split(char *input, char *str,
+							char **env_arg_split, char *input_temp);
 
 // ---  Pipe --- //
 int						pipe_handle(int num_pipe, int ori_sdtin, char *input,
