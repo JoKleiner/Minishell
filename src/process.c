@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 16:39:25 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:13:53 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,11 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 			i = skip_until_char(i, input, input[i]);
 		i++;
 	}
-	if (input[i] == '|')
-		i--;
 	input_new = ft_strndup(input, i);
 	return_num = input_handle(input_new, stream, *copy_env);
 	if (return_num != 0)
 		return (return_num);
-	// ft_print_stream(stream);
+	//ft_print_stream(stream);
 	if (TOKEN->fd_in == -3 || TOKEN->fd_in == -4)
 	{
 		if (TOKEN->fd_in == -3)
