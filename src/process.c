@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 17:13:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/27 17:34:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 		i++;
 	}
 	input_new = ft_strndup(input, i);
+	if(!input_new)
+		return(mem_fail(stream), TOKEN->error);
 	return_num = input_handle(input_new, stream, *copy_env);
 	if (return_num != 0)
 		return (return_num);
