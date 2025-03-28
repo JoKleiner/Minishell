@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 12:42:42 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:42:10 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	return_value(int num, bool set_num)
 {
-	static int	return_num = 0;
+	static int	return_num;
 
+	return_num = 0;
 	if (set_num == true)
 		return_num = num;
 	return (return_num);
@@ -27,7 +28,7 @@ char	*get_input(void)
 	char	*input;
 
 	if (isatty(STDIN_FILENO))
-		input = readline("\033[0;34mminishell> \033[0m");
+		input = readline("minishell> ");
 	else
 	{
 		line = get_next_line(STDIN_FILENO);
