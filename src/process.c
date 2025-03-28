@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 15:55:52 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// void	ft_print_stream(t_list *stream)
+// void	ft_debug_print_stream(t_token *stream)
 // {
 // 	int	u;
 
@@ -20,15 +20,15 @@
 // 	{
 // 		printf("\n");
 // 		u = 0;
-// 		printf("stream_num:%d\nfd_in:%d\nfd_out:%d\n", TOKEN->stream_num,
-// 			TOKEN->fd_in, TOKEN->fd_out);
-// 		printf("infile:%s\noutfile:%s\nhd_file:%s\n", TOKEN->in_file,
-// 			TOKEN->out_file, TOKEN->hd_file);
-// 		if (TOKEN->arg)
-// 			if (TOKEN->arg[u])
-// 				while (TOKEN->arg[u])
+// 		printf("stream_num:%d\nfd_in:%d\nfd_out:%d\n", stream->stream_num,
+// 			stream->fd_in, stream->fd_out);
+// 		printf("infile:%s\noutfile:%s\nhd_file:%s\n", stream->in_file,
+// 			stream->out_file, stream->hd_file);
+// 		if (stream->arg)
+// 			if (stream->arg[u])
+// 				while (stream->arg[u])
 // 				{
-// 					printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
+// 					printf("arg[%d]:%s\n", u, stream->arg[u]);
 // 					u++;
 // 				}
 // 		printf("\n");
@@ -58,6 +58,7 @@ int	stream_handle(char *input, char ***copy_env, t_token *stream)
 		return (return_num);
 	if (set_fd_in(stream) != 0)
 		return (1);
+	//ft_debug_print_stream(stream);
 	ft_execute_command(stream, copy_env);
 	return_num = stream->error;
 	return (return_num);

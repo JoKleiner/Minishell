@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 14:21:15 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 15:26:31 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	ft_execute_command(t_token *stream, char ***copy_env)
 		return ;
 	if (ft_cmd_in_path(stream, copy_env) == true)
 		return ;
-	return ;
 	if (ft_non_accessible(stream) == true)
 		return ;
 	if (ft_is_executable(stream->arg[0], stream, copy_env) == true)
