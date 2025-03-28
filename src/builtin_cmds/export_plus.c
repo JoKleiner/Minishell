@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 19:37:07 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 11:13:50 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:13:15 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static char	*ft_expplus_change(char **arg, char *name, char ***copy_env)
 	char	*temp;
 
 	temp = ft_strchr(*arg, '=');
-	if(!temp)
-		return(NULL);
+	if (!temp)
+		return (NULL);
 	temp++;
 	dest = ft_strjoin((*copy_env)[find_envp(name, *copy_env)], temp);
 	if (!dest)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 15:21:24 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:16:29 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ bool					ft_non_accessible(t_list *stream);
 bool					ft_is_executable(char *arg, t_list *stream,
 							char ***copy_env);
 bool					ft_dot_syntax(char **arg, t_list *stream,
-							char ***copy_env);
-bool					ft_slash_syntax(char **arg, t_list *stream,
 							char ***copy_env);
 bool					ft_isdir(struct stat file_info);
 bool					ft_isregfile(struct stat file_info);

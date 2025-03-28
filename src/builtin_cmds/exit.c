@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/27 22:12:38 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:04:33 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_exe_exit(t_list *stream)
 	{
 		if ((ft_isdigit_str_plusmin(TOKEN->arg[1]) == 1
 				&& TOKEN->arg[1][0] != '\0'))
+		{
 			if (TOKEN->arg[2])
 			{
 				write(2, "Error: exit: too many arguments!\n", 33);
@@ -27,6 +28,7 @@ int	ft_exe_exit(t_list *stream)
 			}
 			else
 				exit((unsigned char)atoi(TOKEN->arg[1]));
+		}
 		else
 		{
 			ft_error("exit: numeric argument required", TOKEN->arg[1]);

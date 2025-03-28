@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:29 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 16:26:03 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:13:24 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_exe_unset(t_list *stream, char ***copy_env)
 	char	**temp;
 
 	if (!TOKEN->arg[1])
-		return(0);
+		return (0);
 	i = 1;
 	while (TOKEN->arg[i])
 	{
@@ -34,5 +34,5 @@ int	ft_exe_unset(t_list *stream, char ***copy_env)
 		}
 		i++;
 	}
-	return(0);
+	return (0);
 }

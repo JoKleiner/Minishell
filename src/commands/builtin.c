@@ -6,13 +6,11 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:29:00 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:09:29 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:14:38 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// Checks if the command is a self-made command
 
 static bool	ft_builtin_helper(char *name, t_list *stream, char ***copy_env)
 {
@@ -39,13 +37,14 @@ static bool	ft_builtin_helper(char *name, t_list *stream, char ***copy_env)
 	return (false);
 }
 
+// Checks if the command is a self-made command
 bool	ft_builtin_cmd(char *name, t_list *stream, char ***copy_env)
 {
 	char	*path;
 
 	path = ft_strdup(TOKEN->arg[0]);
 	if (!path)
-		return(mem_fail(stream), true);
+		return (mem_fail(stream), true);
 	path = ft_str_tolower(path);
 	if (ft_strncmp(name, "cd", 3) == 0)
 	{

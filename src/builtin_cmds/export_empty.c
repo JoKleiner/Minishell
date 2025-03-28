@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:43:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:13:02 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:13:56 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ int	ft_export_empty(t_list *stream, char ***copy_env)
 		i++;
 	}
 	free_strarr(temp);
-	return(0);
+	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/27 19:53:54 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:12:58 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void ft_not_valid(char *arg)
+static void	ft_not_valid(char *arg)
 {
 	write(2, "Error: export: \'", 16);
 	write(2, arg, ft_strlen(arg));

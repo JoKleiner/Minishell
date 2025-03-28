@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:08:01 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/27 15:27:00 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:15:27 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	ft_errmal(char *name)
 {
 	write(STDERR_FILENO, "Error: ", 7);
 	perror(name);
-	// write(STDERR_FILENO, "\n", 1);
 }
 
 void	mem_fail(t_list *stream)

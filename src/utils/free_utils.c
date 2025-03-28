@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 17:35:16 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:17:39 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_content(t_list *stream)
 
 void	free_stream(t_list *stream)
 {
-		free_content(stream);
-		free(stream->cont);
-		free(stream);
+	free_content(stream);
+	free(stream->cont);
+	free(stream);
 }

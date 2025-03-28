@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:37:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/27 19:20:18 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:03:21 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	ft_exe_cd(t_list *stream, char ***copy_env)
 {
 	char	*cwd;
 	int		retval;
-	
+
 	retval = 0;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
