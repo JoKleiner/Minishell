@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:40 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 12:30:07 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Prints the environment.
-int	ft_exe_env(t_list *stream, char **copy_env)
+int	ft_exe_env(t_token *stream, char **copy_env)
 {
 	int	i;
 
 	(void)copy_env;
-	if (TOKEN->arg[1] == NULL)
+	if (stream->arg[1] == NULL)
 	{
 		i = 0;
 		while (copy_env[i])
@@ -28,8 +28,8 @@ int	ft_exe_env(t_list *stream, char **copy_env)
 			{
 				if (ft_strstr_num(copy_env[i], "="))
 				{
-					write(TOKEN->fd_out, copy_env[i], ft_strlen(copy_env[i]));
-					write(TOKEN->fd_out, "\n", 1);
+					write(stream->fd_out, copy_env[i], ft_strlen(copy_env[i]));
+					write(stream->fd_out, "\n", 1);
 				}
 			}
 			i++;
@@ -37,7 +37,7 @@ int	ft_exe_env(t_list *stream, char **copy_env)
 	}
 	else
 	{
-		return (ft_error("env: Invalid argument\n", TOKEN->arg[1]), 127);
+		return (ft_error("env: Invalid argument\n", stream->arg[1]), 127);
 	}
 	return (0);
 }

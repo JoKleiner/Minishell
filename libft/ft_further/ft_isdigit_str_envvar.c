@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit_str_plusmin.c                            :+:      :+:    :+:   */
+/*   ft_isdigit_str_envvar.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 19:30:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/27 19:32:41 by mpoplow          ###   ########.fr       */
+/*   Created: 2025/03/28 10:56:10 by joklein           #+#    #+#             */
+/*   Updated: 2025/03/28 10:56:15 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	ft_isdigit_str_plusmin(char *str)
 	while (str[i])
 	{
 		if (0 == ft_isdigit(str[i]))
-			if ((str[i] != '-' && str[i] != '+') || i != 0 || ft_strlen(str) < 2)
+			if ((str[i] != '-' && str[i] != '+') || i != 0
+				|| ft_strlen(str) < 2)
 				return (0);
 		i++;
 	}

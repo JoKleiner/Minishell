@@ -6,37 +6,37 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 17:34:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_print_stream(t_list *stream)
-{
-	int	u;
+// void	ft_print_stream(t_list *stream)
+// {
+// 	int	u;
 
-	if (stream)
-	{
-		printf("\n");
-		u = 0;
-		printf("stream_num:%d\nfd_in:%d\nfd_out:%d\ninfile:%s\noutfile:%s\nhd_file:%s\n",
-			TOKEN->stream_num, TOKEN->fd_in, TOKEN->fd_out, TOKEN->in_file,
-			TOKEN->out_file, TOKEN->hd_file);
-		if (TOKEN->arg)
-			if (TOKEN->arg[u])
-				while (TOKEN->arg[u])
-				{
-					printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
-					u++;
-				}
-		printf("\n");
-	}
-}
+// 	if (stream)
+// 	{
+// 		printf("\n");
+// 		u = 0;
+// 		printf("stream_num:%d\nfd_in:%d\nfd_out:%d\n", TOKEN->stream_num,
+// 			TOKEN->fd_in, TOKEN->fd_out);
+// 		printf("infile:%s\noutfile:%s\nhd_file:%s\n", TOKEN->in_file,
+// 			TOKEN->out_file, TOKEN->hd_file);
+// 		if (TOKEN->arg)
+// 			if (TOKEN->arg[u])
+// 				while (TOKEN->arg[u])
+// 				{
+// 					printf("arg[%d]:%s\n", u, TOKEN->arg[u]);
+// 					u++;
+// 				}
+// 		printf("\n");
+// 	}
+// }
 
-int	stream_handle(char *input, char ***copy_env, t_list *stream)
+int	stream_handle(char *input, char ***copy_env, t_token *stream)
 {
-	int		fd;
 	int		return_num;
 	int		i;
 	char	*input_new;
@@ -51,25 +51,15 @@ int	stream_handle(char *input, char ***copy_env, t_list *stream)
 		i++;
 	}
 	input_new = ft_strndup(input, i);
-	if(!input_new)
-		return(mem_fail(stream), TOKEN->error);
+	if (!input_new)
+		return (mem_fail(stream), stream->error);
 	return_num = input_handle(input_new, stream, *copy_env);
 	if (return_num != 0)
 		return (return_num);
-	//ft_print_stream(stream);
-	if (TOKEN->fd_in == -3 || TOKEN->fd_in == -4)
-	{
-		if (TOKEN->fd_in == -3)
-			fd = open(TOKEN->in_file, O_RDONLY);
-		if (TOKEN->fd_in == -4)
-			fd = open(TOKEN->hd_file, O_RDONLY);
-		if (fd == -1)
-			return (ft_errmal("open failed"), errno);
-		if (dup2(fd, STDIN_FILENO) == -1)
-			return (ft_errmal("dup2 failed"), errno);
-	}
+	if (set_fd_in(stream) != 0)
+		return (1);
 	ft_execute_command(stream, copy_env);
-	return_num = TOKEN->error;
+	return_num = stream->error;
 	return (return_num);
 }
 
@@ -96,7 +86,7 @@ static int	count_pipe(char *input)
 
 int	no_pipe_process(char *input, char ***copy_env, int ori_sdtin)
 {
-	t_list	*stream;
+	t_token	*stream;
 	int		std_in;
 	int		return_num;
 

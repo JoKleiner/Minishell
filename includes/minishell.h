@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 12:16:29 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:25:30 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include <readline/readline.h>
 # define RD_OUT 0
 # define WR_IN 1
-# define TOKEN ((t_token *)stream->cont)
 # define CMD_NF "command not found"
 # define N_FD "so such file of directory"
 # define IS_D "Is a directory"
@@ -44,15 +43,16 @@ volatile sig_atomic_t	g_sig;
 
 typedef struct s_token
 {
-	int stream_num; // stream_num
-	int fd_in;      // 0 für std_input, x für Pipe, -3 für File, -4 for heredoc
-	int fd_out;     // fd output, 1 für std_output
-	char *in_file;  // input File
-	char *out_file; // File in das der Comand schreibt/ausgeführt wird.
-	char *hd_file;  // heredoc file
-	char **arg;     // die argumente
-	int error;      // return 0 kein error, error code bei error
-	int ori_sdtin;  // original stdinput für heredoc
+	int					stream_num;
+	int					fd_in;
+	int					fd_out;
+	char				*in_file;
+	char				*out_file;
+	char				*hd_file;
+	char				**arg;
+	int					error;
+	int					ori_sdtin;
+	char				**copy_env;
 }						t_token;
 
 // ~-~-~-~-~-~-~-~-~    Functions   ~-~-~-~-~-~-~-~-~ //
@@ -71,7 +71,7 @@ int						start_process(char *input, char ***copy_env);
 
 // ---  Stream        --- //
 
-t_list					*init_stream(t_list *stream_one, int ori_sdtin,
+t_token					*init_stream(t_token *stream, int ori_sdtin,
 							int num_pipes);
 char					*stream_input(char *input, int u);
 
@@ -98,44 +98,44 @@ int						ft_strarrlen(char **sstr);
 char					*ft_str_tolower(char *str);
 
 // ---  Builtin_cmds    --- //
-int						ft_exe_cd(t_list *stream, char ***copy_env);
-int						ft_exe_echo(t_list *stream);
-int						ft_exe_env(t_list *stream, char **copy_env);
-int						ft_exe_exit(t_list *stream);
-int						ft_exe_export(t_list *stream, char ***copy_env);
-int						ft_export_empty(t_list *stream, char ***copy_env);
+int						ft_exe_cd(t_token *stream, char ***copy_env);
+int						ft_exe_echo(t_token *stream);
+int						ft_exe_env(t_token *stream, char **copy_env);
+int						ft_exe_exit(t_token *stream);
+int						ft_exe_export(t_token *stream, char ***copy_env);
+int						ft_export_empty(t_token *stream, char ***copy_env);
 int						ft_export_plus(char ***copy_env, char **arg);
-int						ft_exe_pwd(t_list *stream);
-int						ft_exe_unset(t_list *stream, char ***copy_env);
+int						ft_exe_pwd(t_token *stream);
+int						ft_exe_unset(t_token *stream, char ***copy_env);
 
 // ---  Commands    --- //
 
-void					ft_execute_command(t_list *stream, char ***copy_env);
-int						ft_execute_cmd_fork(char *path, t_list *stream,
+void					ft_execute_command(t_token *stream, char ***copy_env);
+int						ft_execute_cmd_fork(char *path, t_token *stream,
 							char ***copy_env);
-bool					ft_builtin_cmd(char *name, t_list *stream,
+bool					ft_builtin_cmd(char *name, t_token *stream,
 							char ***copy_env);
-bool					ft_cmd_in_path(t_list *stream, char ***copy_env);
-bool					ft_non_accessible(t_list *stream);
-bool					ft_is_executable(char *arg, t_list *stream,
+bool					ft_cmd_in_path(t_token *stream, char ***copy_env);
+bool					ft_non_accessible(t_token *stream);
+bool					ft_is_executable(char *arg, t_token *stream,
 							char ***copy_env);
-bool					ft_dot_syntax(char **arg, t_list *stream,
+bool					ft_dot_syntax(char **arg, t_token *stream,
 							char ***copy_env);
 bool					ft_isdir(struct stat file_info);
 bool					ft_isregfile(struct stat file_info);
-bool					ft_init_stat(char *arg, t_list *stream,
+bool					ft_init_stat(char *arg, t_token *stream,
 							struct stat *file_info);
 
 // ---  Inputhandle --- //
 
-int						input_handle(char *input, t_list *stream_one,
+int						input_handle(char *input, t_token *stream_one,
 							char **copy_env);
-int						redirect_out(char *input, int i, t_list *stream,
+int						redirect_out(char *input, int i, t_token *stream,
 							char **copy_env);
-int						redirect_in(char *input, int i, t_list *stream);
+int						redirect_in(char *input, int i, t_token *stream);
 char					*dollar_handle(char *input, char **copy_env,
-							t_list *stream);
-int						creat_args(char *input, int i, t_list *stream,
+							t_token *stream);
+int						args_handle(char *input, int i, t_token *stream,
 							char **copy_env);
 int						skip_until_char(int i, char *input, char cha);
 int						add_until_char(int i, char *input, char cha,
@@ -144,42 +144,45 @@ char					*str_quote_less(char *input, int len);
 int						heredoc(int *i, char *input, char **copy_env,
 							int num_pipes);
 int						env_char(char input);
-void					mem_fail(t_list *stream);
+void					mem_fail(t_token *stream);
 int						if_heredoc(int i, char *input);
 int						found_quote(int i, char **input, char **copy_env,
-							t_list *stream);
+							t_token *stream);
 char					*dollar_found(int i, char *input, char **copy_env,
-							t_list *stream);
+							t_token *stream);
 int						if_redir_empty_file(int i, char *input, char **copy_env,
-							t_list *stream);
+							t_token *stream);
 char					*creat_env_str(int i, int i_temp, char *input);
 int						check_syntax(char *input);
 int						heredoc_child_process(char *str, char *here_doc,
 							char **copy_env);
 int						stream_handle(char *input, char ***copy_env,
-							t_list *stream);
+							t_token *stream);
 int						skip_heredoc(int i, char *input);
 char					*change_input_noarg(char *input, char *str,
 							char *env_arg, int i);
 char					*change_input_split(char *input, char *str,
 							char **env_arg_split, char *input_temp);
+int						set_fd_in(t_token *stream);
+int						redir_char(char input);
+void					am_rd(char *str_temp);
 
 // ---  Pipe --- //
 int						pipe_handle(int num_pipe, int ori_sdtin, char *input,
 							char ***copy_env);
-t_list					*setup_child(int *fds, char *input, t_list *stream,
+t_token					*setup_child(int *fds, char *input, t_token *stream,
 							int num_pipes);
-void					mother_pipe(int i, char *input, t_list *stream,
+void					mother_pipe(int i, char *input, t_token *stream,
 							char ***copy_env);
-void					end_mother_pipe(int *fds, int pid, t_list *stream);
+void					end_mother_pipe(int *fds, int pid, t_token *stream);
 
 // ---	Errors			--- //
 
 void					ft_error(char *message, char *name);
 void					ft_errmal(char *message);
 void					free_strarr(char **sstr);
-void					free_stream(t_list *stream);
-void					ft_closefdout(t_list *stream);
-void					token_err(t_list *stream, int value);
+void					free_stream(t_token *stream);
+void					ft_closefdout(t_token *stream);
+void					token_err(t_token *stream, int value);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:54:26 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 12:16:16 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:22:23 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	ft_dot_syntax(char **arg, t_list *stream, char ***copy_env)
+bool	ft_dot_syntax(char **arg, t_token *stream, char ***copy_env)
 {
 	if (arg[0][0] != '.')
 		return (false);

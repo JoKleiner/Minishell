@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:08:01 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 12:15:27 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:16:47 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,19 @@ void	ft_errmal(char *name)
 	perror(name);
 }
 
-void	mem_fail(t_list *stream)
+void	mem_fail(t_token *stream)
 {
 	ft_errmal("malloc failed");
-	TOKEN->error = ENOMEM;
+	stream->error = ENOMEM;
 }
 
-void	ft_closefdout(t_list *stream)
+void	ft_closefdout(t_token *stream)
 {
-	if (TOKEN->fd_out != 1)
-		close(TOKEN->fd_out);
+	if (stream->fd_out != 1)
+		close(stream->fd_out);
 }
 
-void	token_err(t_list *stream, int value)
+void	token_err(t_token *stream, int value)
 {
-	TOKEN->error = value;
+	stream->error = value;
 }

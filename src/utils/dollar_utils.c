@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 15:59:24 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ int	if_heredoc(int i, char *input)
 
 int	add_until_char(int i, char *input, char cha, char **dst)
 {
-	int u;
-	
+	int	u;
+
 	i++;
 	u = 0;
-	while(input[i] != cha)
+	while (input[i] != cha)
 	{
 		(*dst)[u] = input[i];
 		i++;
 		u++;
 	}
 	i++;
-	return(i);
+	return (i);
 }
 
 int	skip_until_char(int i, char *input, char cha)
@@ -62,27 +62,27 @@ int	check_env(int i, char *input, char **copy_env)
 		i++;
 	str = creat_env_str(i, i_temp, input);
 	if (!str)
-		return (free(input), ft_errmal("malloc failed"), ENOMEM);
+		return (ft_errmal("malloc failed"), ENOMEM);
 	u = find_envp(str, copy_env);
 	str[ft_strlen(str) - 1] = '\0';
 	if (!copy_env[u] && str[0] != '\0' && (input[i_temp - 1] == '>'
 			|| wh_space(input[i_temp - 1])))
+	{
 		if ((input[i + 1] && wh_space(input[i + 1])) || input[i + 1] == '\0')
 		{
 			str_temp = ft_strndup(&input[i_temp], ft_strlen(str) + 1);
 			if (!str_temp)
-				return (free(input), free(str), ft_errmal("malloc failed"),
-					ENOMEM);
-			printf("%s: ambiguous redirect\n", str_temp);
-			return (free(input), free(str), free(str_temp), 1);
+				return (free(str), ft_errmal("malloc failed"), ENOMEM);
+			return (am_rd(str_temp), free(str), free(str_temp), 1);
 		}
+	}
 	return (free(str), 0);
 }
 
-int	if_redir_empty_file(int i, char *input, char **copy_env, t_list *stream)
+int	if_redir_empty_file(int i, char *input, char **copy_env, t_token *stream)
 {
 	int	i_temp;
-	
+
 	i_temp = i;
 	if (i >= 1)
 	{
@@ -92,8 +92,10 @@ int	if_redir_empty_file(int i, char *input, char **copy_env, t_list *stream)
 			i--;
 		if (input[i] == '>')
 		{
-			TOKEN->error = check_env(i_temp, input, copy_env);
-			return (TOKEN->error);
+			stream->error = check_env(i_temp, input, copy_env);
+			if (stream->error != 0)
+				return (free(input), stream->error);
+			return (stream->error);
 		}
 	}
 	return (0);

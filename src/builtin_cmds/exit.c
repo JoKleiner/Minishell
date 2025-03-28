@@ -6,32 +6,32 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 12:04:33 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:15:06 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_exe_exit(t_list *stream)
+int	ft_exe_exit(t_token *stream)
 {
 	if (isatty(STDOUT_FILENO))
 		write(STDOUT_FILENO, "exit\n", 5);
-	if (TOKEN->arg[1])
+	if (stream->arg[1])
 	{
-		if ((ft_isdigit_str_plusmin(TOKEN->arg[1]) == 1
-				&& TOKEN->arg[1][0] != '\0'))
+		if ((ft_isdigit_str_plusmin(stream->arg[1]) == 1
+				&& stream->arg[1][0] != '\0'))
 		{
-			if (TOKEN->arg[2])
+			if (stream->arg[2])
 			{
 				write(2, "Error: exit: too many arguments!\n", 33);
 				exit(1);
 			}
 			else
-				exit((unsigned char)atoi(TOKEN->arg[1]));
+				exit((unsigned char)atoi(stream->arg[1]));
 		}
 		else
 		{
-			ft_error("exit: numeric argument required", TOKEN->arg[1]);
+			ft_error("exit: numeric argument required", stream->arg[1]);
 			exit(2);
 		}
 	}

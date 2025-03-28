@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:51:14 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 15:52:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	end_mother_pipe(int *fds, int pid, t_list *stream)
+void	end_mother_pipe(int *fds, int pid, t_token *stream)
 {
 	int	status;
 
@@ -22,7 +22,7 @@ void	end_mother_pipe(int *fds, int pid, t_list *stream)
 	exit(WEXITSTATUS(status));
 }
 
-void	mother_pipe(int i, char *input, t_list *stream, char ***copy_env)
+void	mother_pipe(int i, char *input, t_token *stream, char ***copy_env)
 {
 	int	pipes;
 	int	u;
@@ -39,12 +39,12 @@ void	mother_pipe(int i, char *input, t_list *stream, char ***copy_env)
 	stream_handle(input, copy_env, stream);
 }
 
-t_list	*setup_child(int *fds, char *input, t_list *stream, int num_pipes)
+t_token	*setup_child(int *fds, char *input, t_token *stream, int num_pipes)
 {
 	close(fds[WR_IN]);
 	dup2(fds[RD_OUT], STDIN_FILENO);
 	close(fds[RD_OUT]);
-	stream = init_stream(NULL, TOKEN->ori_sdtin, num_pipes);
+	stream = init_stream(NULL, stream->ori_sdtin, num_pipes);
 	if (stream == NULL)
 	{
 		free(input);

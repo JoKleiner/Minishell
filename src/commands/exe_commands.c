@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 11:16:55 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:21:15 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	sig_bs_handler(int sig)
 	write(1, "Quit: 3\n", 8);
 }
 
-int	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
+int	ft_execute_cmd_fork(char *path, t_token *stream, char ***copy_env)
 {
 	int					pid;
 	int					status;
@@ -36,9 +36,9 @@ int	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 			ft_errmal("execution fork:"), 1);
 	if (pid == 0)
 	{
-		if (TOKEN->fd_out != STDOUT_FILENO)
-			dup2(TOKEN->fd_out, STDOUT_FILENO);
-		exe_num = execve(path, TOKEN->arg, *copy_env);
+		if (stream->fd_out != STDOUT_FILENO)
+			dup2(stream->fd_out, STDOUT_FILENO);
+		exe_num = execve(path, stream->arg, *copy_env);
 		exit(exe_num);
 	}
 	waitpid(pid, &status, 0);
@@ -46,20 +46,26 @@ int	ft_execute_cmd_fork(char *path, t_list *stream, char ***copy_env)
 	return (WEXITSTATUS(status));
 }
 
-void	ft_execute_command(t_list *stream, char ***copy_env)
+void	ft_execute_command(t_token *stream, char ***copy_env)
 {
-	if (!TOKEN->arg || !TOKEN->arg[0])
+	if (!stream->arg || !stream->arg[0])
 		return ;
-	if (TOKEN->arg[0][0] == '\0')
+	if (stream->arg[0][0] == '\0')
 		return (token_err(stream, 127), ft_error(CMD_NF, ""));
-	if (ft_dot_syntax(TOKEN->arg, stream, copy_env) == true)
+	if (ft_dot_syntax(stream->arg, stream, copy_env) == true)
+		if (!stream->arg || !stream->arg[0])
+			return ;
+	if (stream->arg[0][0] == '\0')
+		return (token_err(stream, 127), ft_error(CMD_NF, ""));
+	if (ft_dot_syntax(stream->arg, stream, copy_env) == true)
 		return ;
-	if (ft_builtin_cmd(TOKEN->arg[0], stream, copy_env) == true)
+	if (ft_builtin_cmd(stream->arg[0], stream, copy_env) == true)
 		return ;
 	if (ft_cmd_in_path(stream, copy_env) == true)
 		return ;
+	return ;
 	if (ft_non_accessible(stream) == true)
 		return ;
-	if (ft_is_executable(TOKEN->arg[0], stream, copy_env) == true)
+	if (ft_is_executable(stream->arg[0], stream, copy_env) == true)
 		return ;
 }

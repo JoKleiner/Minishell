@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:02:39 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 10:01:00 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:06:11 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_memfree(char **wordptr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (wordptr[i])
