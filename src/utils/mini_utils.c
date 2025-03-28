@@ -6,11 +6,16 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:12:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/24 11:59:17 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:41:30 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	am_rd(char *str_temp)
+{
+	printf("%s: ambiguous redirect\n", str_temp);
+}
 
 int	wh_space(char input)
 {
@@ -39,4 +44,13 @@ char	*creat_env_str(int i, int i_temp, char *input)
 	if (!str)
 		return (NULL);
 	return (str);
+}
+
+int	redir_char(char input)
+{
+	if (input == '<' || input == '>')
+		return (1);
+	if (input == '|' || input == '&')
+		return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/21 17:35:16 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:09:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,25 @@ void	free_strarr(char **sstr)
 	}
 }
 
-void	free_content(t_list *stream)
+void	free_content(t_token *stream)
 {
-	if (TOKEN->arg)
-		free_strarr(TOKEN->arg);
-	if (TOKEN->in_file)
-		free(TOKEN->in_file);
-	if (TOKEN->out_file)
-		free(TOKEN->out_file);
-	if (TOKEN->fd_out != STDOUT_FILENO)
-		close(TOKEN->fd_out);
-	if (TOKEN->hd_file)
+	if (stream->arg)
+		free_strarr(stream->arg);
+	if (stream->in_file)
+		free(stream->in_file);
+	if (stream->out_file)
+		free(stream->out_file);
+	if (stream->fd_out != STDOUT_FILENO)
+		close(stream->fd_out);
+	if (stream->hd_file)
 	{
-		unlink(TOKEN->hd_file);
-		free(TOKEN->hd_file);
+		unlink(stream->hd_file);
+		free(stream->hd_file);
 	}
 }
 
-void	free_stream(t_list *stream)
+void	free_stream(t_token *stream)
 {
-		free_content(stream);
-		free(stream->cont);
-		free(stream);
+	free_content(stream);
+	free(stream);
 }

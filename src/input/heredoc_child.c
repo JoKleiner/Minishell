@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:25:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 12:44:03 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	append_in_file(char *input, char *here_doc)
 static int	handle_heredoc_input(char *str, char *here_input, char *here_doc,
 		char **copy_env)
 {
-	t_list	*stream;
+	t_token	*stream;
 
 	stream = init_stream(NULL, 0, 0);
 	if (!stream)
@@ -56,7 +56,7 @@ static int	handle_heredoc_input(char *str, char *here_input, char *here_doc,
 	{
 		here_input = dollar_handle(here_input, copy_env, stream);
 		if (!here_input)
-			return (free(str), TOKEN->error);
+			return (free(str), stream->error);
 		if (append_in_file(here_input, here_doc) != 0)
 			return (free(str), free(here_input), errno);
 		free(here_input);

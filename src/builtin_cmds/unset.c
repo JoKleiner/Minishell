@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:29 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/19 16:26:03 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_exe_unset(t_list *stream, char ***copy_env)
+int	ft_exe_unset(t_token *stream, char ***copy_env)
 {
 	int		i;
 	char	**temp;
 
-	if (!TOKEN->arg[1])
+	if (!stream->arg[1])
 		return(0);
 	i = 1;
-	while (TOKEN->arg[i])
+	while (stream->arg[i])
 	{
 		{
-			if (ft_env_exists(TOKEN->arg[i], *copy_env) == true)
+			if (ft_env_exists(stream->arg[i], *copy_env) == true)
 			{
-				temp = ft_rm_envvar(TOKEN->arg[i], *copy_env);
+				temp = ft_rm_envvar(stream->arg[i], *copy_env);
 				if (!(temp))
 					return (ft_errmal("Error: unset:"), 1);
 				free_strarr(*copy_env);

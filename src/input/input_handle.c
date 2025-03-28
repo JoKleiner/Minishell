@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 16:30:19 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*str_quote_less(char *input, int len)
 	return (dst);
 }
 
-static int	handle_redir(int i, char *input, t_list *stream, char **copy_env)
+static int	handle_redir(int i, char *input, t_token *stream, char **copy_env)
 {
 	if (input[i] == '>')
 		i = redirect_out(input, i, stream, copy_env);
@@ -50,7 +50,7 @@ static int	handle_redir(int i, char *input, t_list *stream, char **copy_env)
 	return (i);
 }
 
-int	input_handle(char *input, t_list *stream, char **copy_env)
+int	input_handle(char *input, t_token *stream, char **copy_env)
 {
 	int	i;
 
@@ -64,9 +64,9 @@ int	input_handle(char *input, t_list *stream, char **copy_env)
 		else if (input[i] == '|')
 			return (0);
 		else
-			i = creat_args(input, i, stream, copy_env);
+			i = args_handle(input, i, stream, copy_env);
 		if (i == -1)
-			return (TOKEN->error);
+			return (stream->error);
 		i++;
 	}
 	return (0);

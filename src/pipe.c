@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:48:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/26 15:52:18 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:07:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	last_pipe(int i, char *input, t_list *stream, char ***copy_env)
+static void	last_pipe(int i, char *input, t_token *stream, char ***copy_env)
 {
 	int	pipes;
 	int	return_num;
@@ -51,7 +51,7 @@ static int	pipe_fork(int *fds, char *input)
 }
 
 static void	execute_pipes(int num_pipe, char *input, char ***copy_env,
-		t_list *stream)
+		t_token *stream)
 {
 	int	fds[2];
 	int	i;
@@ -69,7 +69,7 @@ static void	execute_pipes(int num_pipe, char *input, char ***copy_env,
 			else
 			{
 				close(fds[RD_OUT]);
-				TOKEN->fd_out = fds[WR_IN];
+				stream->fd_out = fds[WR_IN];
 				mother_pipe(i, input, stream, copy_env);
 				end_mother_pipe(fds, pid, stream);
 			}
@@ -81,7 +81,7 @@ static void	execute_pipes(int num_pipe, char *input, char ***copy_env,
 
 int	pipe_handle(int num_pipe, int ori_sdtin, char *input, char ***copy_env)
 {
-	t_list	*stream;
+	t_token	*stream;
 	int		pid;
 	int		status;
 
@@ -97,7 +97,7 @@ int	pipe_handle(int num_pipe, int ori_sdtin, char *input, char ***copy_env)
 			ft_errmal("Malloc failed.");
 			exit(ENOMEM);
 		}
-		TOKEN->ori_sdtin = ori_sdtin;
+		stream->ori_sdtin = ori_sdtin;
 		execute_pipes(num_pipe, input, copy_env, stream);
 	}
 	waitpid(pid, &status, 0);

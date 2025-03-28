@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 16:04:51 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:07:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,22 @@
 static char	*change_input(char *input, char *str, char *env_arg, int i)
 {
 	char	*input_temp;
-	// char	**env_arg_split;
 
 	input_temp = ft_strndup(input, i);
 	if (!input_temp)
 		return (free(input), free(str), free(env_arg), NULL);
-	// env_arg_split = ft_split_whspace(env_arg);
-	// if (!env_arg_split)
-	// 	return (free(input), free(str), free(env_arg), NULL);
-	// input_temp = change_input_split(input, str, env_arg, input_temp);
-	// if (!input_temp)
-	// 	return (free(env_arg), NULL); //ft_memfree(env_arg_split)
 	input_temp = ft_strjoin_free(input_temp, env_arg);
 	if (!input_temp)
-	 	return (free(env_arg), NULL); //ft_memfree(env_arg_split)
+		return (free(env_arg), NULL);
 	input_temp = ft_strjoin_free(input_temp, &input[i + 1 + ft_strlen(str)]);
 	if (!input_temp)
 		return (free(input), free(str), free(env_arg), NULL);
 	free(input);
 	input = input_temp;
-	return (free(str), free(env_arg), input); //, free(env_arg_split)
+	return (free(str), free(env_arg), input);
 }
 
-static char	*dollar_questm(char *input, int i, t_list *stream)
+static char	*dollar_questm(char *input, int i, t_token *stream)
 {
 	int		num;
 	char	*input_temp;
@@ -60,7 +53,7 @@ static char	*dollar_questm(char *input, int i, t_list *stream)
 	return (free(num_char), input_temp);
 }
 
-static char	*creat_env_arg(int u, char **copy_env, char *str, t_list *stream)
+static char	*creat_env_arg(int u, char **copy_env, char *str, t_token *stream)
 {
 	char	*env_arg;
 
@@ -88,7 +81,7 @@ static char	*new_input(char *input, char *str, char *env_arg, int i_temp)
 	return (input);
 }
 
-char	*dollar_found(int i, char *input, char **copy_env, t_list *stream)
+char	*dollar_found(int i, char *input, char **copy_env, t_token *stream)
 {
 	int		i_temp;
 	int		u;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:19 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/27 19:53:54 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,29 @@ static int	ft_export_normal(char *arg, char ***copy_env)
 }
 
 // Executes export
-int	ft_exe_export(t_list *stream, char ***copy_env)
+int	ft_exe_export(t_token *stream, char ***copy_env)
 {
 	int		i;
 	int		retval;
 	bool	plus;
 
-	if (!TOKEN->arg[1])
+	if (!stream->arg[1])
 		return (ft_export_empty(stream, copy_env));
 	i = 1;
-	while (TOKEN->arg[i])
+	while (stream->arg[i])
 	{
-		retval = ft_valid_arg(TOKEN->arg[i], &plus);
+		retval = ft_valid_arg(stream->arg[i], &plus);
 		if (retval == 0)
 		{
 			if (plus == true)
-				if (ft_export_plus(copy_env, &TOKEN->arg[i]) == 12)
+				if (ft_export_plus(copy_env, &stream->arg[i]) == 12)
 					return (12);
-			if (ft_export_normal(TOKEN->arg[i], copy_env) == 12)
+			if (ft_export_normal(stream->arg[i], copy_env) == 12)
 				return (12);
 		}
 		else
-			TOKEN->error = retval;
+			stream->error = retval;
 		i++;
 	}
-	return (TOKEN->error);
+	return (stream->error);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:38:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 11:20:43 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_exe_pwd(t_list *stream)
+int	ft_exe_pwd(t_token *stream)
 {
 	char	*path;
 
@@ -22,7 +22,7 @@ int	ft_exe_pwd(t_list *stream)
 		ft_error("Couldn't get current working directory!", "pwd");
 		return(12);
 	}
-	write(TOKEN->fd_out, path, ft_strlen(path));
-	write(TOKEN->fd_out, "\n", 1);
+	write(stream->fd_out, path, ft_strlen(path));
+	write(stream->fd_out, "\n", 1);
 	return (free(path), 0);
 }

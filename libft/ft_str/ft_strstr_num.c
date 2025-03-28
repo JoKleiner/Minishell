@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr_num.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 16:22:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/14 19:30:17 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:06:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	ft_strstr_num(const char *src, const char *search)
 		i++;
 	}
 	if (search[u] == '\0')
-			return (i);
+		return (i);
 	return (0);
-} 
+}

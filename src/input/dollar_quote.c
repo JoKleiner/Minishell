@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 08:53:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 13:01:03 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:07:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*change_input_noarg(char *input, char *str, char *env_arg, int i)
 	return (input);
 }
 
-static int	double_quote(int i, char **input, char **copy_env, t_list *stream)
+static int	double_quote(int i, char **input, char **copy_env, t_token *stream)
 {
 	int	i_temp;
 
@@ -58,7 +58,7 @@ static int	double_quote(int i, char **input, char **copy_env, t_list *stream)
 	return (i);
 }
 
-int	found_quote(int i, char **input, char **copy_env, t_list *stream)
+int	found_quote(int i, char **input, char **copy_env, t_token *stream)
 {
 	if ((*input)[i] == '\'')
 		i = skip_until_char(i, *input, '\'');

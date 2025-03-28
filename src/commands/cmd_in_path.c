@@ -6,13 +6,13 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:40:09 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/26 16:31:02 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static bool	ft_cmd_helper(char **try_paths, t_list *stream, char ***copy_env)
+static bool	ft_cmd_helper(char **try_paths, t_token *stream, char ***copy_env)
 {
 	char	*path;
 	int		i;
@@ -20,11 +20,11 @@ static bool	ft_cmd_helper(char **try_paths, t_list *stream, char ***copy_env)
 	i = 0;
 	while (try_paths[i])
 	{
-		path = ft_strjoin_delimit(try_paths[i], '/', TOKEN->arg[0]);
+		path = ft_strjoin_delimit(try_paths[i], '/', stream->arg[0]);
 		if (!(path))
 			return (mem_fail(stream), true);
 		if (access(path, X_OK) == 0)
-			return (TOKEN->error = ft_execute_cmd_fork(path, stream, copy_env),
+			return (stream->error = ft_execute_cmd_fork(path, stream, copy_env),
 				true);
 		free(path);
 		i++;
@@ -32,13 +32,13 @@ static bool	ft_cmd_helper(char **try_paths, t_list *stream, char ***copy_env)
 	return (false);
 }
 
-bool	ft_cmd_in_path(t_list *stream, char ***copy_env)
+bool	ft_cmd_in_path(t_token *stream, char ***copy_env)
 {
 	char	**try_paths;
 	int		env_pos;
 	bool	retval;
 
-	if (TOKEN->arg[0][0] == '.' || TOKEN->arg[0][0] == '/')
+	if (stream->arg[0][0] == '.' || stream->arg[0][0] == '/')
 		return (false);
 	if (ft_env_exists("PATH", *copy_env) == false)
 		return (false);

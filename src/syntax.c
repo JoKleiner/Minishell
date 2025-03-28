@@ -6,24 +6,14 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:20:06 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/27 11:23:25 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:49:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	redir_char(char input)
-{
-	if (input == '<' || input == '>')
-		return (1);
-	if (input == '|' || input == '&')
-		return (1);
-	return (0);
-}
-
 char	*syncheck_redir(int i, char *input)
 {
-	char	*syn_str;
 	char	cha[3];
 
 	cha[2] = '\0';
@@ -46,19 +36,14 @@ char	*syncheck_redir(int i, char *input)
 		cha[0] = input[i];
 		if (input[i] == input[i + 1])
 			cha[1] = input[i + 1];
-		syn_str = ft_strdup(cha);
-		return (syn_str);
+		return (ft_strdup(cha));
 	}
 	return (NULL);
 }
 
-int	check_syntax(char *input)
+int	pipe_syntax(int i, char *input)
 {
-	int		i;
-	char	*syn_str;
-
-	i = 0;
-	syn_str = NULL;
+	i++;
 	while (wh_space(input[i]))
 		i++;
 	if (input[i] == '|')
@@ -67,8 +52,46 @@ int	check_syntax(char *input)
 		ft_putstr_fd("|", STDERR_FILENO);
 		ft_putstr_fd("'\n", STDERR_FILENO);
 		free(input);
-		return (2);
+		return (-1);
 	}
+	return (i);
+}
+
+int	redir_syntax(int i, char *input)
+{
+	char	*syn_str;
+
+	syn_str = NULL;
+	syn_str = syncheck_redir(i, input);
+	if (syn_str != NULL)
+	{
+		ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+		ft_putstr_fd(syn_str, STDERR_FILENO);
+		ft_putstr_fd("'\n", STDERR_FILENO);
+		free(syn_str);
+		free(input);
+		return (-1);
+	}
+	return (i);
+}
+
+void	first_pipe_syntax(char *input)
+{
+	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+	ft_putstr_fd("|", STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
+	free(input);
+}
+
+int	check_syntax(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (wh_space(input[i]))
+		i++;
+	if (input[i] == '|')
+		return (first_pipe_syntax(input), 2);
 	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '\"')
@@ -77,52 +100,13 @@ int	check_syntax(char *input)
 			if (input[i] == '\0')
 				return (free(input), 2);
 		}
-		if (input[i] == '>' || input[i] == '<')
-		{
-			syn_str = syncheck_redir(i, input);
-			if (syn_str != NULL)
-			{
-				ft_putstr_fd("syntax error near unexpected token `",
-					STDERR_FILENO);
-				ft_putstr_fd(syn_str, STDERR_FILENO);
-				ft_putstr_fd("'\n", STDERR_FILENO);
-				free(syn_str);
-				free(input);
-				return (2);
-			}
-		}
-		if (input[i] == '|')
-		{
-			i++;
-			while (wh_space(input[i]))
-				i++;
-			if (input[i] == '|')
-			{
-				ft_putstr_fd("syntax error near unexpected token `",
-					STDERR_FILENO);
-				ft_putstr_fd("|", STDERR_FILENO);
-				ft_putstr_fd("'\n", STDERR_FILENO);
-				free(input);
-				return (2);
-			}
-		}
+		else if (input[i] == '>' || input[i] == '<')
+			i = redir_syntax(i, input);
+		else if (input[i] == '|')
+			i = pipe_syntax(i, input);
+		if (i == -1)
+			return (2);
 		i++;
 	}
 	return (0);
 }
-
-// Syntax check
-// >>
-// <| abc
-// | abc
-
-// if (input[i] == '>')
-// {
-// 	i++;
-// 	while (input[i] && wh_space(input[i]))
-// 		i++;
-// 	if (input[i] == '>')
-// 		syn_char = input[i];
-// 	return (syn_char);
-// }
-// if (input[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_empty.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:43:56 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/25 15:13:02 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ft_write_envvar(char *str, int fd_out)
 	write(fd_out, "\n", 1);
 }
 
-int	ft_export_empty(t_list *stream, char ***copy_env)
+int	ft_export_empty(t_token *stream, char ***copy_env)
 {
 	int		i;
 	char	**temp;
@@ -50,7 +50,7 @@ int	ft_export_empty(t_list *stream, char ***copy_env)
 		if (ft_str_same("LINES=", temp[i], 6) == false
 			&& ft_str_same("COLUMNS=", temp[i], 8) == false)
 		{
-			ft_write_envvar(temp[i], TOKEN->fd_out);
+			ft_write_envvar(temp[i], stream->fd_out);
 		}
 		i++;
 	}

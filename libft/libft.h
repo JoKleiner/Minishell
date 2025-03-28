@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:01:27 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/27 21:43:52 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 10:57:05 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_list
 // ft_print
 # define HEX_LOW "0123456789abcdef"
 # define HEX_UP "0123456789ABCDEF"
+
 int					ft_printf(const char *arg, ...);
 int					percent_found(va_list arg_list, char cha);
 int					case_xx(unsigned int numunsign, char cha);
@@ -40,6 +41,7 @@ int					ft_putchar_printf(char cha);
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100
 # endif
+
 char				*get_next_line(int fd);
 int					get_next_line_2(char **line, char *temp, char *buffer,
 						int bytes_num);
