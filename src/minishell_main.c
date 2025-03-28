@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 18:42:10 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 19:44:34 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	return_value(int num, bool set_num)
 {
-	static int	return_num;
+	static int	return_num = 0;
 
-	return_num = 0;
 	if (set_num == true)
 		return_num = num;
 	return (return_num);

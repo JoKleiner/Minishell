@@ -6,7 +6,7 @@
 /*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 18:55:52 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/03/28 19:50:48 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	sig_bs_exe(int sig)
 static void	sig_c_exe(int sig)
 {
 	g_sig = sig;
-	// return_value(130, true);
 	write(STDOUT_FILENO, "\n", 1);
 }
 
