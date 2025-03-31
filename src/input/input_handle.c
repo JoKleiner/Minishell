@@ -6,11 +6,25 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 15:35:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	count_arg_len2(char *input, int i, int *q_count)
+{
+	while (input[i] && !wh_space(input[i]))
+	{
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			i = skip_until_char(i, input, input[i]);
+			(*q_count)++;
+		}
+		i++;
+	}
+	return (i);
+}
 
 char	*str_quote_less(char *input, int len)
 {

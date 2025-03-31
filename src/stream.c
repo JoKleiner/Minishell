@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:04:01 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 14:04:16 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 15:42:09 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static void	set_init_stream(t_token *stream, int ori_sdtin, int num_pipes)
 {
-	int	i;
-
-	i = 0;
 	stream->stream_num = num_pipes;
 	stream->fd_in = STDIN_FILENO;
 	stream->fd_out = STDOUT_FILENO;

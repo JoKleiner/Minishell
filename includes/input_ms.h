@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 15:28:02 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 15:49:08 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 15:35:41 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int						if_redir_empty_file(int i, char *input, char **copy_env,
 // -----  Arguments  ----- //
 int						args_handle(char *input, int i, t_token *stream,
 							char **copy_env);
+int						count_arg_len2(char *input, int i, int *q_count);
 
 // -----  Heredoc  ----- //
 int						heredoc(int *i, char *input, char **copy_env,
