@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:40:09 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:35:17 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool	ft_cmd_helper(char **try_paths, t_token *stream, char ***copy_env)
 			return (mem_fail(stream), true);
 		if (access(path, X_OK) == 0)
 			return (stream->error = ft_execute_cmd_fork(path, stream, copy_env),
-				true);
+				free(path), true);
 		free(path);
 		i++;
 	}

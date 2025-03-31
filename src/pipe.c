@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:48:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 16:14:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:04:27 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	last_pipe(int i, char *input, t_token *stream, char ***copy_env)
 	input = stream_input(input, u);
 	return_num = stream_handle(input, copy_env, stream);
 	free_stream(stream);
+	free_strarr(*copy_env);
 	exit(return_num);
 }
 
@@ -57,9 +58,9 @@ static void	execute_pipes(int num_pipe, char *input, char ***copy_env,
 	int	i;
 	int	pid;
 
-	i = -1;
+	i = 0;
 	pid = 0;
-	while (++i <= num_pipe)
+	while (i <= num_pipe)
 	{
 		if (pid == 0 && i != num_pipe)
 		{
@@ -68,14 +69,19 @@ static void	execute_pipes(int num_pipe, char *input, char ***copy_env,
 				stream = setup_child(fds, input, stream, i + 1);
 			else
 			{
+				if(i == 0)
+					{
+						
+					}
 				close(fds[RD_OUT]);
 				stream->fd_out = fds[WR_IN];
 				mother_pipe(i, input, stream, copy_env);
-				end_mother_pipe(fds, pid, stream);
+				end_mother_pipe(fds, pid, stream, *copy_env);
 			}
 		}
 		else
 			last_pipe(i, input, stream, copy_env);
+		i++;
 	}
 }
 

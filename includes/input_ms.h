@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 15:28:02 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 15:35:41 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 16:50:11 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_token					*setup_child(int *fds, char *input, t_token *stream,
 							int num_pipes);
 void					mother_pipe(int i, char *input, t_token *stream,
 							char ***copy_env);
-void					end_mother_pipe(int *fds, int pid, t_token *stream);
+void					end_mother_pipe(int *fds, int pid, t_token *stream,
+							char **copy_env);
 
 #endif

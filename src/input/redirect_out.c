@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:16:25 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 16:15:51 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:18:16 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	file_out(char *input, int i, t_token *stream, bool add)
 	input_temp = ft_strndup(&input[i_temp], i - i_temp);
 	input = dollar_handle(input_temp, stream->copy_env, stream);
 	str = str_quote_less(input, i - i_temp);
+	free(input);
 	if (!str)
 		return (mem_fail(stream), -1);
 	if (stream->out_file)
@@ -63,6 +64,7 @@ int	redirect_out(char *input, int i, t_token *stream, char **copy_env)
 	bool	add;
 
 	i++;
+	add = false;
 	if (input[i] == '>')
 	{
 		add = true;

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:25:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 18:01:09 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,24 @@ static int	handle_heredoc_input(char *str, char *here_input, char *here_doc,
 
 	stream = init_stream(NULL, 0, 0);
 	if (!stream)
-		return (free(str), ENOMEM);
+		return (free(here_doc), free(str), ENOMEM);
 	while (ft_strncmp(here_input, str, ft_strlen(str) + 1) != 0)
 	{
 		here_input = dollar_handle(here_input, copy_env, stream);
 		if (!here_input)
-			return (free(str), stream->error);
+			return (free(here_doc), free(str), free(stream), stream->error);
 		if (append_in_file(here_input, here_doc) != 0)
-			return (free(str), free(here_input), errno);
+			return (free(here_doc), free(str), free(here_input), free(stream),
+				errno);
 		free(here_input);
 		here_input = get_input_heredoc();
 		if (!here_input)
-			return (free(str), 1);
+			return (free(here_doc), free(str), free(stream), 1);
 	}
+	free(stream);
 	free(here_input);
 	free(str);
+	free(here_doc);
 	return (0);
 }
 
@@ -84,6 +87,6 @@ int	heredoc_child_process(char *str, char *here_doc, char **copy_env)
 		free(line);
 	}
 	if (!here_input)
-		return (errno);
+		return (free(here_doc), errno);
 	return (handle_heredoc_input(str, here_input, here_doc, copy_env));
 }

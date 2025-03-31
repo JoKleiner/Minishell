@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 15:46:14 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:45:13 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	stream_handle(char *input, char ***copy_env, t_token *stream)
 		i++;
 	}
 	input_new = ft_strndup(input, i);
+	free(input);
 	if (!input_new)
 		return (mem_fail(stream), stream->error);
 	return_num = input_handle(input_new, stream, *copy_env);
@@ -60,8 +61,7 @@ int	stream_handle(char *input, char ***copy_env, t_token *stream)
 	if (set_fd_in(stream) != 0)
 		return (1);
 	ft_execute_command(stream, copy_env);
-	return_num = stream->error;
-	return (return_num);
+	return (stream->error);
 }
 
 static int	count_pipe(char *input)
