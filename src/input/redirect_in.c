@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 15:40:35 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 16:18:51 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	redirect_in(char *input, int i, t_token *stream)
 		i = file_in(input, i, stream);
 	}
 	if (i == -1)
-		return (free(input), -1);
+		return (-1);
 	i--;
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 15:40:58 by joklein          ###   ########.fr       */
+/*   Updated: 2025/03/31 15:46:14 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	stream_handle(char *input, char ***copy_env, t_token *stream)
 	if (!input_new)
 		return (mem_fail(stream), stream->error);
 	return_num = input_handle(input_new, stream, *copy_env);
+	free(input_new);
 	if (return_num != 0)
 		return (return_num);
 	if (set_fd_in(stream) != 0)
