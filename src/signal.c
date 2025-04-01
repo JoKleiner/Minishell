@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:49:20 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 14:52:50 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:57:08 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	setup_signals(void)
 
 void	setup_signal_child(void)
 {
-	struct sigaction sa_int;
+	struct sigaction	sa_int;
 
 	sa_int.sa_handler = SIG_IGN;
 	sa_int.sa_flags = 0;

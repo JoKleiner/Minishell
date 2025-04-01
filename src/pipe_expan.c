@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:51:14 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 17:09:47 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:21:29 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	end_mother_pipe(int *fds, int pid, t_token *stream, char **copy_env)
 	int	status;
 
 	close(fds[WR_IN]);
-	waitpid(pid, &status, 0);
+	if (waitpid(pid, &status, 0) == -1)
+		status = 0;
 	free_stream(stream);
 	free_strarr(copy_env);
 	exit(WEXITSTATUS(status));

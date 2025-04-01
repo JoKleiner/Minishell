@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 12:00:32 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 14:07:44 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:31:27 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ static char	*dollar_sign(int *i, char *input, char **copy_env, t_token *stream)
 char	*dollar_handle(char *input, char **copy_env, t_token *stream)
 {
 	int	i;
+	int	i_temp;
 
 	i = 0;
+	i_temp = ft_strlen(input);
 	while (input[i])
 	{
 		if (input[i] == '$')
@@ -73,6 +75,8 @@ char	*dollar_handle(char *input, char **copy_env, t_token *stream)
 		if (i == -1)
 			return (NULL);
 		i++;
+		if (i >= i_temp)
+			break ;
 	}
 	return (input);
 }
