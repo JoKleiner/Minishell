@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 16:00:58 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:16:32 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,12 @@ int	syn_hered_process(char *input, char ***copy_env)
 	if (num_ret != 0)
 		return (num_ret);
 	num_ret = start_process(input, copy_env);
-	if (num_ret == 130)
-		printf("^C\n");
-	if (num_ret == 131)
-		printf("^\\Quit: 3\n");
+	setup_signals();
+	if (g_sig == 1)
+		printf("\n");
+	if (g_sig == 2)
+		printf("Quit: 3\n");
+	g_sig = 0;
 	return (num_ret);
 }
 

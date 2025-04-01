@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_change.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:43:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 19:40:26 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:13:00 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,22 @@ static char	*new_input(char *input, char *str, char *env_arg, int i_temp)
 	return (input);
 }
 
-char	*dollar_found(int i, char *input, char **copy_env, t_token *stream)
+char	*dollar_found(int *i, char *input, char **copy_env, t_token *stream)
 {
 	int		i_temp;
 	int		u;
 	char	*str;
 	char	*env_arg;
 
-	i_temp = i;
+	i_temp = *i;
 	env_arg = NULL;
-	while (input[i + 1] && (env_char(input[i + 1])))
-		i++;
+	while (input[*i + 1] && (env_char(input[*i + 1])))
+		(*i)++;
 	if (input[i_temp + 1] == '?')
 		return (dollar_questm(input, i_temp, stream));
-	if (i == i_temp)
+	if (*i == i_temp)
 		return (input);
-	str = creat_env_str(i, i_temp, input);
+	str = creat_env_str(*i, i_temp, input);
 	if (!str)
 		return (free(input), mem_fail(stream), NULL);
 	u = find_envp(str, copy_env);
@@ -104,8 +104,7 @@ char	*dollar_found(int i, char *input, char **copy_env, t_token *stream)
 	if (!env_arg)
 		return (free(str), free(input), NULL);
 	str[ft_strlen(str) - 1] = '\0';
+	*i = i_temp + ft_strlen(env_arg);
 	input = new_input(input, str, env_arg, i_temp);
-	if (!input)
-		mem_fail(stream);
 	return (input);
 }

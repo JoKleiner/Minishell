@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 08:53:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 14:07:44 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:12:51 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static int	double_quote(int i, char **input, char **copy_env, t_token *stream)
 				i++;
 				continue ;
 			}
-			*input = dollar_found(i, *input, copy_env, stream);
+			*input = dollar_found(&i, *input, copy_env, stream);
 			if (!(*input))
-				return (-1);
+				return (mem_fail(stream), -1);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:29:00 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/01 14:34:32 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:15:44 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static bool	ft_builtin_helper(char *name, t_token *stream, char ***copy_env)
 	}
 	else if (ft_strncmp(name, "exit", 5) == 0)
 	{
-		free_strarr(*copy_env);
-		stream->error = ft_exe_exit(stream);
+		ft_exe_exit(stream);
 		return (true);
 	}
 	else if (ft_strncmp(name, "export", 8) == 0)

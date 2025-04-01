@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/01 14:34:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:15:09 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	exit_fun(t_token *stream, char exnum)
 
 int	ft_exe_exit(t_token *stream)
 {
-	if (isatty(STDOUT_FILENO))
+	if (isatty(STDIN_FILENO) && stream->fd_out == STDOUT_FILENO)
 		write(STDOUT_FILENO, "exit\n", 5);
 	if (stream->arg[1])
 	{

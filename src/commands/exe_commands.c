@@ -6,40 +6,40 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/01 15:06:12 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:38:58 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	sig_bs_exe(int sig)
-{
-	g_sig = sig;
-	write(1, "Quit: 3\n", 8);
-}
+// static void	sig_bs_exe(int sig)
+// {
+// 	g_sig = sig;
+// 	write(1, "Quit: 3\n", 8);
+// }
 
-static void	sig_c_exe(int sig)
-{
-	g_sig = sig;
-	write(STDOUT_FILENO, "\n", 1);
-}
+// static void	sig_c_exe(int sig)
+// {
+// 	g_sig = sig;
+// 	write(STDOUT_FILENO, "\n", 1);
+// }
 
-static void	setup_execution_signals(void)
-{
-	struct sigaction	act_bs;
-	struct sigaction	act_c;
+// static void	setup_execution_signals(void)
+// {
+// 	struct sigaction	act_bs;
+// 	struct sigaction	act_c;
 
-	ft_memset(&act_bs, 0, sizeof(act_bs));
-	act_bs.sa_handler = sig_bs_exe;
-	act_bs.sa_flags = 0;
-	sigemptyset(&act_bs.sa_mask);
-	sigaction(SIGQUIT, &act_bs, NULL);
-	ft_memset(&act_c, 0, sizeof(act_c));
-	act_c.sa_handler = sig_c_exe;
-	act_c.sa_flags = 0;
-	sigemptyset(&act_c.sa_mask);
-	sigaction(SIGINT, &act_c, NULL);
-}
+// 	ft_memset(&act_bs, 0, sizeof(act_bs));
+// 	act_bs.sa_handler = sig_bs_exe;
+// 	act_bs.sa_flags = 0;
+// 	sigemptyset(&act_bs.sa_mask);
+// 	sigaction(SIGQUIT, &act_bs, NULL);
+// 	ft_memset(&act_c, 0, sizeof(act_c));
+// 	act_c.sa_handler = sig_c_exe;
+// 	act_c.sa_flags = 0;
+// 	sigemptyset(&act_c.sa_mask);
+// 	sigaction(SIGINT, &act_c, NULL);
+// }
 
 int	ft_execute_cmd_fork(char *path, t_token *stream, char ***copy_env)
 {
@@ -47,13 +47,14 @@ int	ft_execute_cmd_fork(char *path, t_token *stream, char ***copy_env)
 	int	status;
 	int	exe_num;
 
-	setup_execution_signals();
 	pid = fork();
 	if (pid == -1)
 		return (token_err(stream, errno), setup_signals(),
 			ft_errmal("execution fork:"), 1);
 	if (pid == 0)
 	{
+		sig_default(SIGINT);
+		sig_default(SIGQUIT);
 		if (stream->fd_out != STDOUT_FILENO)
 			dup2(stream->fd_out, STDOUT_FILENO);
 		exe_num = execve(path, stream->arg, *copy_env);
@@ -63,10 +64,8 @@ int	ft_execute_cmd_fork(char *path, t_token *stream, char ***copy_env)
 		exit(exe_num);
 	}
 	waitpid(pid, &status, 0);
-	if (g_sig == SIGQUIT)
-		return (setup_signals(), 131);
-	if (g_sig == SIGINT)
-		return (setup_signals(), 130);
+	if (g_sig == SIGINT || g_sig == SIGQUIT)
+		return (setup_signals(), g_sig + 128);
 	return (setup_signals(), WEXITSTATUS(status));
 }
 

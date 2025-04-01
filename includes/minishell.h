@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 14:53:15 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:37:53 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ t_token					*init_stream(t_token *stream, int ori_sdtin,
 // -----  Signal  ----- //
 void					handle_cmd_c(int sig);
 void					setup_signals(void);
-void					setup_signal_child(void);
+// void					setup_signal_child(void);
+void					new_signal(void);
+void					sig_default(int sig);
 
 // -----  Error  ----- //
 void					ft_error(char *message, char *name);

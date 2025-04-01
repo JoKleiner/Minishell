@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:49:20 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 15:57:08 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:44:47 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_sig_c(int sig)
 {
-	g_sig = sig;
+	sig = 0;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -36,12 +36,34 @@ void	setup_signals(void)
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
-void	setup_signal_child(void)
+void	save_vari(int sig)
+{
+	if (sig == SIGINT)
+		g_sig = 1;
+	else
+		g_sig = 2;
+}
+
+void	sig_default(int sig)
 {
 	struct sigaction	sa_int;
 
-	sa_int.sa_handler = SIG_IGN;
+	sa_int.sa_handler = SIG_DFL;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	sigaction(sig, &sa_int, NULL);
+}
+
+void	new_signal(void)
+{
+	struct sigaction	sa_int;
+
+	sa_int.sa_handler = save_vari;
 	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
+	sa_int.sa_handler = save_vari;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	sigaction(SIGQUIT, &sa_int, NULL);
 }

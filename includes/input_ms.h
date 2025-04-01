@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 15:28:02 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 16:50:11 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 18:56:12 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int						add_until_char(int i, char *input, char cha,
 							char **dst);
 int						found_quote(int i, char **input, char **copy_env,
 							t_token *stream);
-char					*dollar_found(int i, char *input, char **copy_env,
+char					*dollar_found(int *i, char *input, char **copy_env,
 							t_token *stream);
 char					*creat_env_str(int i, int i_temp, char *input);
 int						skip_heredoc(int i, char *input);

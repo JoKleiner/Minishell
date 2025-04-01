@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:48:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 14:57:05 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 20:18:13 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,6 @@ int	pipe_handle(int num_pipe, int ori_sdtin, char *input, char ***copy_env)
 		execute_pipes(num_pipe, input, copy_env, stream);
 	}
 	waitpid(pid, &status, 0);
+	usleep(1000);
 	return (WEXITSTATUS(status));
 }
