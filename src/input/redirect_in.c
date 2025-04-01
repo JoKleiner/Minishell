@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 12:41:23 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 16:18:51 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 14:17:55 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static int	file_in(char *input, int i, t_token *stream)
 	stream->in_file = str;
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-		return (ft_error(": No such file or directory", str),
-			stream->error = 1, -1);
+		return (ft_error(": No such file or directory", str), stream->error = 1,
+			-1);
 	close(fd);
 	stream->fd_in = -3;
 	return (i);
@@ -69,6 +69,8 @@ static int	set_heredoc(int i, char *input, t_token *stream)
 	here_doc = ft_strjoin(".heredoc", num_str);
 	if (!here_doc)
 		return (free(num_str), ft_errmal("Malloc failed."), -1);
+	if (stream->hd_file)
+		free(stream->hd_file);
 	stream->hd_file = here_doc;
 	stream->fd_in = -4;
 	free(num_str);

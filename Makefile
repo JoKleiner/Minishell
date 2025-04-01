@@ -3,17 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+         #
+#    By: joklein <joklein@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/09 16:13:10 by mpoplow           #+#    #+#              #
-#    Updated: 2025/03/26 10:41:57 by mpoplow          ###   ########.fr        #
+#    Updated: 2025/04/01 13:59:26 by joklein          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:= minishell
 CC		:= cc
-CFLAGS	:= -Wall -Wextra -Werror -g
-# -fsanitize=address -g
+CFLAGS	:= -Wall -Wextra -Werror
+# CFLAGS 	+= -fsanitize=address 
+CFLAGS += -g -O0
 
 
 # *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*	#

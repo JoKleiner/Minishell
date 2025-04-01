@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:49:20 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 15:45:01 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 14:52:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,14 @@ void	setup_signals(void)
 	sa_quit.sa_flags = 0;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
+}
+
+void	setup_signal_child(void)
+{
+	struct sigaction sa_int;
+
+	sa_int.sa_handler = SIG_IGN;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	sigaction(SIGINT, &sa_int, NULL);
 }

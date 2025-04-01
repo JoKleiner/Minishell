@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 19:50:48 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/01 15:06:12 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,17 @@ int	ft_execute_cmd_fork(char *path, t_token *stream, char ***copy_env)
 		if (stream->fd_out != STDOUT_FILENO)
 			dup2(stream->fd_out, STDOUT_FILENO);
 		exe_num = execve(path, stream->arg, *copy_env);
+		free_stream(stream);
+		free_strarr(*copy_env);
+		ft_error("cannot execute binary file", "execve");
 		exit(exe_num);
 	}
 	waitpid(pid, &status, 0);
-	setup_signals();
 	if (g_sig == SIGQUIT)
-		return (131);
+		return (setup_signals(), 131);
 	if (g_sig == SIGINT)
-		return (130);
-	return (WEXITSTATUS(status));
+		return (setup_signals(), 130);
+	return (setup_signals(), WEXITSTATUS(status));
 }
 
 void	ft_execute_command(t_token *stream, char ***copy_env)

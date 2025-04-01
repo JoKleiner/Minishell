@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:25:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 10:06:34 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 14:11:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	heredoc_child_process(char *str, char *here_doc, char **copy_env)
 	char	*here_input;
 	char	*line;
 
-	g_sig = 0;
+	return_value(0, true);
 	signal(SIGINT, sigint_heredoc_handler);
 	if (isatty(STDIN_FILENO))
 		here_input = readline("> ");
