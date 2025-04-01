@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 17:50:38 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/01 10:31:26 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	free_content(t_token *stream)
 {
 	if (stream->arg)
 		free_strarr(stream->arg);
-	if (stream->fd_in != STDIN_FILENO)
-		close(stream->fd_in);
 	if (stream->in_file)
 		free(stream->in_file);
 	if (stream->out_file)

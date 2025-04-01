@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:20:35 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 19:44:34 by mpoplow          ###   ########.fr       */
+/*   Updated: 2025/04/01 10:16:02 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,18 @@ int	heredoc_handle(char *input, char **copy_env)
 int	syn_hered_process(char *input, char ***copy_env)
 {
 	int	num_ret;
+	int	std_in;
 
 	num_ret = check_syntax(input);
 	if (num_ret != 0)
 		return (num_ret);
+	std_in = dup(STDIN_FILENO);
+	if (std_in == -1)
+		return (ft_errmal("dup failed"), 1);
 	num_ret = heredoc_handle(input, *copy_env);
+	if (dup2(std_in, STDIN_FILENO) == -1)
+		return (close(std_in), ft_errmal("dup2 failed"), 1);
+	close(std_in);
 	if (num_ret != 0)
 		return (num_ret);
 	num_ret = start_process(input, copy_env);
