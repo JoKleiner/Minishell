@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:42:26 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:59:58 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,19 @@ bool	ft_is_executable(char *arg, t_token *stream, char ***copy_env)
 	}
 	else
 		return (token_err(stream, 127), ft_error(N_FD, arg), true);
+}
+
+void	ft_handler_signals(char *str)
+{
+	char	*temp;
+
+	temp = ft_strrchr(str, '/');
+	if (!temp)
+		return ;
+	temp++;
+	if (ft_strncmp(temp, "minishell", 10) == 0)
+	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, SIG_IGN);
+	}
 }

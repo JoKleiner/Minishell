@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mpoplow <mpoplow@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:56:18 by mpoplow          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ t_token					*init_stream(t_token *stream, int ori_sdtin,
 // -----  Signal  ----- //
 void					handle_cmd_c(int sig);
 void					setup_signals(void);
-// void					setup_signal_child(void);
 void					new_signal(void);
 void					sig_default(int sig);
+void					ft_handler_signals(char *str);
 
 // -----  Error  ----- //
 void					ft_error(char *message, char *name);
