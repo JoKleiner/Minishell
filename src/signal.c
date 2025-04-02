@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:49:20 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/02 12:11:18 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:52:07 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void	setup_signals(void)
 
 void	save_vari(int sig)
 {
-	if (sig == SIGINT)
-		g_sig = 1;
-	else
-		g_sig = 2;
+	g_sig = sig;
 }
 
 void	sig_default(int sig)

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:36:41 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/31 15:35:29 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:13:51 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*str_quote_less(char *input, int len)
 		{
 			cha = input[i];
 			i++;
-			while (input[i] != cha)
+			while (input[i] && input[i] != cha)
 				dst[u++] = input[i++];
 			i++;
 		}

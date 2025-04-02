@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 11:57:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:01:32 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	skip_until_char(int i, char *input, char cha)
 	i++;
 	while (input[i] && input[i] != cha)
 		i++;
+	if (input[i] == '\0')
+		i--;
 	return (i);
 }
 
