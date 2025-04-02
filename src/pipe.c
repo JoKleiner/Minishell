@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:48:46 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 20:18:13 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	last_pipe(int i, char *input, t_token *stream, char ***copy_env)
 	}
 	input = stream_input(input, u);
 	return_num = stream_handle(input, copy_env, stream);
-	free_stream(stream);
+	free_sm(stream);
 	free_strarr(*copy_env);
 	exit(return_num);
 }

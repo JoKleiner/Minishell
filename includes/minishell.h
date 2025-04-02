@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 11:25:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 18:37:53 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void					sig_default(int sig);
 void					ft_error(char *message, char *name);
 void					ft_errmal(char *message);
 void					free_strarr(char **sstr);
-void					free_stream(t_token *stream);
+void					free_sm(t_token *stream);
 void					ft_closefdout(t_token *stream);
 void					token_err(t_token *stream, int value);
 void					mem_fail(t_token *stream);

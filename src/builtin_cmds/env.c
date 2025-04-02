@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:40 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/03/28 14:08:21 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 14:58:22 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_exe_env(t_token *stream, char **copy_env)
 	}
 	else
 	{
-		return (ft_error("env: Invalid argument\n", stream->arg[1]), 127);
+		return (ft_error("env: Invalid argument", stream->arg[1]), 127);
 	}
 	return (0);
 }

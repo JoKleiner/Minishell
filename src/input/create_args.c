@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:59:38 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 18:43:16 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:39:01 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*fill_str(char *str, int i, int i_temp, char *input)
 		{
 			cha = input[i_temp];
 			i_temp++;
-			while (input[i_temp] != cha)
+			while (input[i_temp] && input[i_temp] != cha)
 			{
 				str[u] = input[i_temp];
 				i_temp++;

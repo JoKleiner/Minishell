@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 12:51:14 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 19:35:13 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	end_mother_pipe(int *fds, int pid, t_token *stream, char **copy_env)
 	close(fds[WR_IN]);
 	if (waitpid(pid, &status, 0) == -1)
 		status = 0;
-	free_stream(stream);
+	free_sm(stream);
 	free_strarr(copy_env);
 	exit(WEXITSTATUS(status));
 }
@@ -49,7 +49,7 @@ t_token	*setup_child(int *fds, char *input, t_token *stream, int num_pipes)
 	close(fds[WR_IN]);
 	dup2(fds[RD_OUT], STDIN_FILENO);
 	close(fds[RD_OUT]);
-	free_stream(stream);
+	free_sm(stream);
 	stream = init_stream(NULL, ori_sdtin, num_pipes);
 	if (stream == NULL)
 	{

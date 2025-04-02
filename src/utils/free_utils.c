@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:29:43 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 10:31:26 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_content(t_token *stream)
 	}
 }
 
-void	free_stream(t_token *stream)
+void	free_sm(t_token *stream)
 {
 	free_content(stream);
 	free(stream);

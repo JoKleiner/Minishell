@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:13:05 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/01 18:38:58 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_execute_cmd_fork(char *path, t_token *stream, char ***copy_env)
 		if (stream->fd_out != STDOUT_FILENO)
 			dup2(stream->fd_out, STDOUT_FILENO);
 		exe_num = execve(path, stream->arg, *copy_env);
-		free_stream(stream);
+		free_sm(stream);
 		free_strarr(*copy_env);
 		ft_error("cannot execute binary file", "execve");
 		exit(exe_num);

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:40:54 by mpoplow           #+#    #+#             */
-/*   Updated: 2025/04/01 20:15:09 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_fun(t_token *stream, char exnum)
 {
-	free_stream(stream);
+	free_sm(stream);
 	exit(exnum);
 }
 

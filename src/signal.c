@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 13:49:20 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 19:44:47 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 12:11:18 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_sig_c(int sig)
 {
-	sig = 0;
+	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

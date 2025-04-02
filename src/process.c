@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:52:48 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 17:47:49 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:24:50 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ int	no_pipe_process(char *input, char ***copy_env, int ori_sdtin)
 		return (free(input), ft_errmal("malloc failed"), ENOMEM);
 	std_in = dup(STDIN_FILENO);
 	if (std_in == -1)
-		return (free(input), free_stream(stream), ft_errmal("dup failed"),
+		return (free(input), free_sm(stream), ft_errmal("dup failed"),
 			errno);
 	return_num = stream_handle(input, copy_env, stream);
-	free_stream(stream);
+	free_sm(stream);
 	if (dup2(std_in, STDIN_FILENO) == -1)
 		return (ft_errmal("dup2 failed"), errno);
 	return (return_num);

@@ -6,7 +6,7 @@
 /*   By: joklein <joklein@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 08:53:40 by joklein           #+#    #+#             */
-/*   Updated: 2025/04/01 19:12:51 by joklein          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:47:31 by joklein          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,18 @@ int	found_quote(int i, char **input, char **copy_env, t_token *stream)
 		i = skip_until_char(i, *input, '\'');
 	else if ((*input)[i] == '\"')
 	{
-		if ((*input)[i + 2] == '\"')
-			return (i + 2);
-		i = double_quote(i, input, copy_env, stream);
-		if ((*input)[i] == '\0')
-			i--;
+		if ((*input)[i + 1])
+		{
+			if ((*input)[i + 2] && (*input)[i + 2] == '\"')
+				return (i + 2);
+			i = double_quote(i, input, copy_env, stream);
+			if ((*input)[i] == '\0')
+				i--;
+		}
 	}
 	return (i);
 }
+
+// ABC = asd"
+
+// a$ABC
