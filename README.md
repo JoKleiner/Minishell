@@ -7,18 +7,18 @@ The goal is to understand processes, file descriptors, signals, and how a shell 
 
 **Team:**<br />
 This was a team project done together with Horrjiy.<br />
-My part:
+**My part:**
 - Parsing using a linked list<br />
 - Handling of pipes (|)<br />
 - Redirects (>, <, >>)<br />
 - Here-documents (<<)<br />
 - Expanding the Environment variables<br />
 
-Horrjiy’s part:
+**Horrjiy’s part:**
 - All built-in commands<br />
 - Command execution<br />
 
-Both worked on:
+**Both worked on:**
 - Signal handling (Ctrl+D Ctrl+C, Ctrl+\\) <br />
 <br />
 
