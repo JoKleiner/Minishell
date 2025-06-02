@@ -6,7 +6,7 @@ The goal is to understand processes, file descriptors, signals, and how a shell 
 <br/><br/>
 
 **Team:**<br />
-This was a team project done together with Horrjiy.<br />
+This was a team project done together with **[Horrjiy](https://github.com/Horrjiy)**.<br />
 
 **My part:**
 - Parsing using a linked list<br />
