@@ -17,9 +17,9 @@ Support for:
 - Quotes ('single', "double")<br />
 
 Signal handling
-- Ctrl+C
-- Ctrl+\
-- Ctrl+D
+- Ctrl+C<br />
+- Ctrl+\<br />
+- Ctrl+D<br />
 <br/><br/>
 **Compile:**
 
