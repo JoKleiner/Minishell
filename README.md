@@ -5,6 +5,21 @@ It works like a basic version of bash, allowing the user to run commands, use pi
 The goal is to understand processes, file descriptors, signals, and how a shell works behind the scenes.
 <br/><br/>
 
+**Team:**<br />
+This was a team project done together with Horrjiy.<br />
+My part:
+- Parsing using a linked list<br />
+- Handling of pipes (|)<br />
+- Redirects (>, <, >>, <<)<br />
+- Expanding the Environment variables<br />
+
+Horrjiy’s part:
+- All built-in commands<br />
+- Command execution<br />
+
+Both worked on:
+- Signal handling (Ctrl+D Ctrl+C, Ctrl+\)<br />
+
 **Features:**<br />
 Built-in commands:<br />
 - cd, echo, env, exit, export, pwd, unset<br />
