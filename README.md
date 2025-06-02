@@ -28,7 +28,7 @@ Signal handling (e.g. Ctrl+C, Ctrl+\)<br />
 
 Then enter commands like:
 
-ls -l | grep .c > files.txt
+        ls -l | grep .c > files.txt
 
 **What We Learned:**<br />
     Parsing user input and handling special characters<br />
