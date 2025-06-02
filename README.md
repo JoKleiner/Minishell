@@ -18,7 +18,7 @@ Horrjiy’s part:
 - Command execution<br />
 
 Both worked on:
-- Signal handling (Ctrl+D Ctrl+C, Ctrl+\) <br />
+- Signal handling (Ctrl+D Ctrl+C, Ctrl+\\) <br />
 
 **Features:**<br />
 Built-in commands:<br />
