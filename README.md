@@ -7,6 +7,7 @@ The goal is to understand processes, file descriptors, signals, and how a shell 
 
 **Team:**<br />
 This was a team project done together with Horrjiy.<br />
+
 **My part:**
 - Parsing using a linked list<br />
 - Handling of pipes (|)<br />
