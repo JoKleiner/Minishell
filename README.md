@@ -20,11 +20,11 @@ Signal handling (e.g. Ctrl+C, Ctrl+\)<br />
 
 **Compile:**
 
-  make
+        make
 
 **Run:**
 
-  ./minishell
+        ./minishell
 
 Then enter commands like:
 
