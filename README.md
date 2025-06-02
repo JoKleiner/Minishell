@@ -10,7 +10,8 @@ This was a team project done together with Horrjiy.<br />
 My part:
 - Parsing using a linked list<br />
 - Handling of pipes (|)<br />
-- Redirects (>, <, >>, <<)<br />
+- Redirects (>, <, >>)<br />
+- Here-documents (<<)<br />
 - Expanding the Environment variables<br />
 
 Horrjiy’s part:
