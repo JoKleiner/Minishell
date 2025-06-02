@@ -16,11 +16,11 @@ Support for:
 - Environment variables ($VAR)<br />
 - Quotes ('single', "double")<br />
 
-Signal handling
+Signal handling:
 - Ctrl+C<br />
 - Ctrl+\<br />
 - Ctrl+D<br />
-<br/><br/>
+
 **Compile:**
 
         make
