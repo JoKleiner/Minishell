@@ -22,18 +22,18 @@ Both worked on:
 - Signal handling (Ctrl+D Ctrl+C, Ctrl+\\) <br />
 <br />
 
-**Features:**<br />
+**Features:**
 Built-in commands:<br />
 - cd, echo, env, exit, export, pwd, unset<br />
 
-Support for:
+**Support for:**
 - Pipes (|)<br />
 - Redirects (>, >>, <)<br />
 - Here-documents (<<)<br />
 - Environment variables ($VAR)<br />
 - Quotes ('single', "double")<br />
 
-Signal handling:
+**Signal handling:**
 - Ctrl+C<br />
 - Ctrl+\ <br />
 - Ctrl+D<br />
