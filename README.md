@@ -16,7 +16,7 @@ Support for:
 - Environment variables ($VAR)<br />
 - Quotes ('single', "double")<br />
 
-Signal handling (e.g. Ctrl+C, Ctrl+\)<br />
+Signal handling (Ctrl+C, Ctrl+\, Ctrl+D)<br />
 <br/><br/>
 **Compile:**
 
