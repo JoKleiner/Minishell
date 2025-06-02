@@ -20,6 +20,7 @@ Horrjiy’s part:
 
 Both worked on:
 - Signal handling (Ctrl+D Ctrl+C, Ctrl+\\) <br />
+<br /><br />
 
 **Features:**<br />
 Built-in commands:<br />
