@@ -18,7 +18,7 @@ Support for:
 
 Signal handling:
 - Ctrl+C<br />
-- Ctrl+\<br />
+- Ctrl+\ <br />
 - Ctrl+D<br />
 
 **Compile:**
