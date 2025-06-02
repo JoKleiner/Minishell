@@ -7,14 +7,14 @@ The goal is to understand processes, file descriptors, signals, and how a shell 
 
 **Features:**<br />
 Built-in commands:<br />
-        cd, echo, env, exit, export, pwd, unset<br />
+- cd, echo, env, exit, export, pwd, unset<br />
 
 Support for:
-        Pipes (|)<br />
-        Redirects (>, >>, <)<br />
-        Here-documents (<<)<br />
-        Environment variables ($VAR)<br />
-        Quotes ('single', "double")<br />
+- Pipes (|)<br />
+- Redirects (>, >>, <)<br />
+- Here-documents (<<)<br />
+- Environment variables ($VAR)<br />
+- Quotes ('single', "double")<br />
 
 Signal handling (e.g. Ctrl+C, Ctrl+\)<br />
 <br/><br/>
